@@ -12,6 +12,7 @@ export async function downloadWorkbookPdf(input: {
   frictionText: string;
   analysis: string;
   roi: { monthly: number; pilot: number };
+  packStatus: string;
 }) {
   const date = new Date().toISOString().split("T")[0];
   const blob = await pdf(
@@ -22,6 +23,7 @@ export async function downloadWorkbookPdf(input: {
       frictionText={input.frictionText}
       analysis={input.analysis}
       roi={input.roi}
+      packStatus={input.packStatus}
       date={date}
     />,
   ).toBlob();

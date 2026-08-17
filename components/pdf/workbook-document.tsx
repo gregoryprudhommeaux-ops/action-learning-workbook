@@ -247,6 +247,7 @@ type PdfProps = {
   frictionText: string;
   analysis: string;
   roi: { monthly: number; pilot: number };
+  packStatus: string;
   date: string;
 };
 
@@ -261,6 +262,7 @@ export function WorkbookPdfDocument({
   frictionText,
   analysis,
   roi,
+  packStatus,
   date,
 }: PdfProps) {
   const activeRegions = state.regions.filter((region) =>
@@ -270,7 +272,7 @@ export function WorkbookPdfDocument({
   return (
     <Document
       title={`${state.projectName} — ALP Workbook`}
-      author={state.companyName || "Action Learning Workbook"}
+      author={state.authorFullName || state.companyName || "Action Learning Workbook"}
     >
       <Page size="A4" style={styles.page} wrap>
         <View style={styles.headerBar} fixed>
@@ -286,7 +288,7 @@ export function WorkbookPdfDocument({
                 ? "Organization"
                 : state.companyName}
             </Text>
-            <Text style={styles.headerMeta}>Draft ready for live audit</Text>
+            <Text style={styles.headerMeta}>{packStatus}</Text>
             <Text style={styles.headerMeta}>{date}</Text>
           </View>
         </View>
@@ -295,6 +297,25 @@ export function WorkbookPdfDocument({
           Compiled executive workbook · confidential working draft
         </Text>
         <Text style={styles.h1}>{txt(state.projectName)}</Text>
+
+        <View style={[styles.metaRow, { marginBottom: 10 }]}>
+          <View style={styles.metaCard}>
+            <Text style={styles.metaLabel}>Prepared by</Text>
+            <Text style={styles.metaValue}>{txt(state.authorFullName)}</Text>
+          </View>
+          <View style={styles.metaCard}>
+            <Text style={styles.metaLabel}>Position</Text>
+            <Text style={styles.metaValue}>{txt(state.authorPosition)}</Text>
+          </View>
+          <View style={styles.metaCard}>
+            <Text style={styles.metaLabel}>Company</Text>
+            <Text style={styles.metaValue}>{txt(state.companyName)}</Text>
+          </View>
+          <View style={styles.metaCard}>
+            <Text style={styles.metaLabel}>Email</Text>
+            <Text style={styles.metaValue}>{txt(state.authorEmail)}</Text>
+          </View>
+        </View>
 
         <View style={styles.metaRow}>
           <View style={styles.metaCard}>
@@ -469,8 +490,11 @@ export function WorkbookPdfDocument({
         <SectionTitle>7. Sign-off</SectionTitle>
         <View style={styles.signRow}>
           <View style={styles.signBox}>
-            <Text style={styles.signName}>Team ALP lead</Text>
-            <Text style={styles.signHint}>Confirmed pre-work</Text>
+            <Text style={styles.signName}>{txt(state.authorFullName)}</Text>
+            <Text style={styles.signHint}>
+              {txt(state.authorPosition)}
+              {state.companyName ? ` · ${state.companyName}` : ""}
+            </Text>
           </View>
           <View style={styles.signBox}>
             <Text style={styles.signName}>Cross-regional counterpart</Text>

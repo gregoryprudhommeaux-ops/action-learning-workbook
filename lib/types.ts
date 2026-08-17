@@ -52,6 +52,9 @@ export interface Diagnostics {
 export type DiagnosticKey = keyof Diagnostics;
 
 export interface WorkbookState {
+  authorFullName: string;
+  authorEmail: string;
+  authorPosition: string;
   companyName: string;
   initiativeId: InitiativeId;
   customInitiative: string;

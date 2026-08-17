@@ -98,9 +98,19 @@ export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
 
 export function loadState(): WorkbookState | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return mergeState(JSON.parse(raw) as Partial<WorkbookState>);
+    const primary = localStorage.getItem(STORAGE_KEY);
+    if (primary) {
+      return mergeState(JSON.parse(primary) as Partial<WorkbookState>);
+    }
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index);
+      if (!key?.startsWith(`${STORAGE_KEY}:`)) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      localStorage.setItem(STORAGE_KEY, raw);
+      return mergeState(JSON.parse(raw) as Partial<WorkbookState>);
+    }
+    return null;
   } catch {
     return null;
   }

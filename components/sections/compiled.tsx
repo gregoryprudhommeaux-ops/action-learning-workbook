@@ -10,8 +10,13 @@ export function CompiledSection() {
     regionsLabel,
     friction,
     importJson,
-    exportPdf,
+    submitPack,
     exportJson,
+    packStatus,
+    readyForAudit,
+    pdfReady,
+    missingAudit,
+    setTab,
   } = useWorkbook();
   const fileRef = useRef<HTMLInputElement>(null);
   const today = new Date().toISOString().split("T")[0];
@@ -27,16 +32,18 @@ export function CompiledSection() {
             Compiled Action Learning Project workbook
           </h2>
           <p className="mt-0.5 text-xs text-slate-500">
-            Ready for peer audit, sponsor review, and live-session submission.
+            {readyForAudit && pdfReady
+              ? "Ready for the facilitator to export the live-audit PDF."
+              : "Finish the required fields below before submitting the pack."}
           </p>
         </div>
         <div className="flex items-center space-x-2">
           <button
             type="button"
-            onClick={() => void exportPdf()}
+            onClick={() => void submitPack()}
             className="rounded-lg bg-brand-blue px-4 py-2 text-xs font-medium text-white transition hover:bg-blue-700"
           >
-            Export PDF
+            Submit pack
           </button>
           <button
             type="button"
@@ -73,6 +80,29 @@ export function CompiledSection() {
         </div>
       </div>
 
+      {!readyForAudit || !pdfReady ? (
+        <div className="no-print mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-950">
+          <p className="font-semibold">Not ready to submit</p>
+          <p className="mt-1 text-amber-800">
+            Required: initiative, at least one region, SLA protocol, a named
+            DRI, plus author name, email, company, and position.
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {missingAudit.map((item) => (
+              <li key={`${item.tab}-${item.label}`}>
+                <button
+                  type="button"
+                  onClick={() => setTab(item.tab)}
+                  className="rounded-full border border-amber-300 bg-white px-2.5 py-1 font-medium text-amber-900 transition hover:bg-amber-100"
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       <div className="space-y-6 text-slate-800">
         <div className="border-b-2 border-navy-900 pb-4">
           <div className="flex items-start justify-between">
@@ -84,10 +114,18 @@ export function CompiledSection() {
               <h1 className="mt-1 text-2xl font-bold text-navy-900">
                 {state.projectName}
               </h1>
+              {state.authorFullName ? (
+                <p className="mt-1 text-xs text-slate-500">
+                  Prepared by {state.authorFullName}
+                  {state.authorPosition ? ` · ${state.authorPosition}` : ""}
+                  {state.companyName ? ` · ${state.companyName}` : ""}
+                  {state.authorEmail ? ` · ${state.authorEmail}` : ""}
+                </p>
+              ) : null}
             </div>
             <div className="text-right text-xs text-slate-500">
               <p>
-                <strong>Status:</strong> Draft ready for live audit
+                <strong>Status:</strong> {packStatus}
               </p>
               <p>
                 <strong>Date:</strong> {today}

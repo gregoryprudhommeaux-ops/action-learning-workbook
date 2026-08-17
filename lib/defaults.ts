@@ -249,6 +249,9 @@ export const DIAGNOSTIC_AXES = [
 ];
 
 export const defaultState: WorkbookState = {
+  authorFullName: "",
+  authorEmail: "",
+  authorPosition: "",
   companyName: "Acme Global",
   initiativeId: "audit",
   customInitiative: "",

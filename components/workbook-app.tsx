@@ -7,12 +7,20 @@ import { GovernanceSection } from "@/components/sections/governance";
 import { PilotSection } from "@/components/sections/pilot";
 import { PlaybookSection } from "@/components/sections/playbook";
 import { ScopeSection } from "@/components/sections/scope";
-import { AuthUser } from "@/components/auth-user";
 import { useWorkbook, WorkbookProvider } from "@/components/workbook-provider";
 import { TABS } from "@/lib/defaults";
 
 function WorkbookShell() {
-  const { tab, setTab, toast, saveManual, exportPdf, state } = useWorkbook();
+  const {
+    tab,
+    setTab,
+    toast,
+    saveManual,
+    submitPack,
+    state,
+    stepStatusFor,
+    packStatus,
+  } = useWorkbook();
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
@@ -36,7 +44,12 @@ function WorkbookShell() {
               <h1 className="text-base font-semibold tracking-tight text-slate-100 md:hidden">
                 ALP Workbook
               </h1>
-              {state.companyName ? (
+              {state.authorFullName ? (
+                <span className="hidden text-xs text-slate-400 lg:inline">
+                  · {state.authorFullName}
+                  {state.companyName ? ` · ${state.companyName}` : ""}
+                </span>
+              ) : state.companyName ? (
                 <span className="hidden text-xs text-slate-400 lg:inline">
                   · {state.companyName}
                 </span>
@@ -46,25 +59,19 @@ function WorkbookShell() {
               <button
                 type="button"
                 onClick={saveManual}
+                title="Saves in this browser only"
                 className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
               >
-                <span>Save</span>
+                <span className="sm:hidden">Save here</span>
+                <span className="hidden sm:inline">Save on this device</span>
               </button>
               <button
                 type="button"
-                onClick={() => void exportPdf()}
-                className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
-              >
-                <span>Export PDF</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTab("compiled")}
+                onClick={() => void submitPack()}
                 className="flex items-center space-x-1 rounded bg-brand-blue px-3 py-1.5 text-xs font-medium text-white transition hover:bg-blue-700"
               >
-                <span>Executive summary</span>
+                <span>Submit pack</span>
               </button>
-              <AuthUser />
             </div>
           </div>
         </div>
@@ -75,20 +82,29 @@ function WorkbookShell() {
           <div className="no-scrollbar flex space-x-1 overflow-x-auto py-2 text-xs font-medium text-slate-600 sm:text-sm">
             {TABS.map((item) => {
               const active = tab === item.id;
-              const isSummary = item.id === "compiled";
+              const status = stepStatusFor(item.id);
+              const dotClass =
+                status === "done"
+                  ? "bg-emerald-500"
+                  : status === "blocked"
+                    ? "bg-amber-500"
+                    : "bg-slate-300";
               return (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => setTab(item.id)}
-                  className={`whitespace-nowrap rounded-md px-3 py-2 transition sm:px-4 ${
+                  aria-current={active ? "step" : undefined}
+                  className={`flex items-center whitespace-nowrap rounded-md px-3 py-2 transition sm:px-4 ${
                     active
                       ? "border-b-2 border-brand-blue bg-brand-soft font-semibold text-brand-blue"
-                      : isSummary
-                        ? "border border-blue-200 bg-blue-50 text-brand-blue"
-                        : "hover:bg-slate-50"
+                      : "hover:bg-slate-50"
                   }`}
                 >
+                  <span
+                    className={`mr-2 inline-block h-1.5 w-1.5 rounded-full ${dotClass}`}
+                    aria-hidden="true"
+                  />
                   {item.label}
                 </button>
               );
@@ -116,7 +132,10 @@ function WorkbookShell() {
             — cross-border operational excellence
           </div>
           <div className="flex space-x-6">
-            <span>Progress saves in this browser. Export PDF for the live audit pack.</span>
+            <span>
+              {packStatus}. Submit the pack so the facilitator can export the
+              PDF for the live audit.
+            </span>
           </div>
         </div>
       </footer>

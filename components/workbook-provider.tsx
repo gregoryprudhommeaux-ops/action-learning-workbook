@@ -13,8 +13,18 @@ import {
 import { emptyRegion } from "@/lib/defaults";
 import type { DiagnosticKey, Region, TabId, WorkbookState } from "@/lib/types";
 import {
+  auditReady,
+  identityComplete,
+  missingAuditItems,
+  packStatusLabel,
+  pdfExportReady,
+  stepStatus,
+  type StepStatus,
+} from "@/lib/completeness";
+import {
   getWorkbookServerSnapshot,
   getWorkbookSnapshot,
+  persistWorkbook,
   setWorkbookState,
   subscribeWorkbook,
 } from "@/lib/workbook-store";
@@ -28,7 +38,6 @@ import {
   initiativeLabel,
   mergeState,
   roiHours,
-  saveState,
 } from "@/lib/workbook-state";
 
 type ToastPayload = { message: string; icon: string };
@@ -50,7 +59,7 @@ type WorkbookContextValue = {
   addRegion: () => string;
   removeRegion: (id: string) => void;
   saveManual: () => void;
-  exportPdf: () => Promise<void>;
+  submitPack: () => Promise<void>;
   exportJson: () => void;
   importJson: (file: File) => Promise<void>;
   friction: {
@@ -62,6 +71,11 @@ type WorkbookContextValue = {
   roi: { monthly: number; pilot: number };
   initiative: string;
   regionsLabel: string;
+  packStatus: string;
+  readyForAudit: boolean;
+  pdfReady: boolean;
+  missingAudit: { tab: TabId; label: string }[];
+  stepStatusFor: (tab: TabId) => StepStatus;
 };
 
 const WorkbookContext = createContext<WorkbookContextValue | null>(null);
@@ -177,28 +191,36 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const saveManual = useCallback(() => {
-    saveState(state);
-    showToast("Workbook saved to this browser.");
-  }, [showToast, state]);
+    persistWorkbook();
+    showToast("Saved on this device. It does not sync to other browsers.");
+  }, [showToast]);
 
-  const exportPdf = useCallback(async () => {
-    try {
-      showToast("Preparing PDF…", "📄");
-      const { downloadWorkbookPdf } = await import("@/lib/export-pdf");
-      await downloadWorkbookPdf({
-        state,
-        initiative: initiativeLabel(state),
-        regionsLabel: activeRegionsLabel(state),
-        frictionText: frictionBadge(frictionPercent(state.diagnostics)).text,
-        analysis: frictionAnalysis(diagnosticCounts(state.diagnostics)),
-        roi: roiHours(state.calc),
-      });
-      showToast("PDF exported.", "📄");
-    } catch (error) {
-      console.error(error);
-      showToast("PDF export failed.", "⚠️");
+  const submitPack = useCallback(async () => {
+    if (!identityComplete(state)) {
+      showToast(
+        "Add your name, email, company, and position to submit the pack.",
+        "⚠️",
+      );
+      setTab("scope");
+      return;
     }
-  }, [showToast, state]);
+    try {
+      showToast("Submitting pack…", "📤");
+      const response = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
+      const body = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        showToast(body.error ?? "Submit failed.", "⚠️");
+        return;
+      }
+      showToast("Pack submitted. The facilitator can export the PDF.", "📤");
+    } catch {
+      showToast("Submit failed.", "⚠️");
+    }
+  }, [setTab, showToast, state]);
 
   const exportJson = useCallback(() => {
     const blob = new Blob([JSON.stringify(state, null, 2)], {
@@ -243,6 +265,14 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
   const roi = useMemo(() => roiHours(state.calc), [state.calc]);
   const initiative = useMemo(() => initiativeLabel(state), [state]);
   const regionsLabel = useMemo(() => activeRegionsLabel(state), [state]);
+  const readyForAudit = useMemo(() => auditReady(state), [state]);
+  const pdfReady = useMemo(() => pdfExportReady(state), [state]);
+  const packStatus = useMemo(() => packStatusLabel(state), [state]);
+  const missingAudit = useMemo(() => missingAuditItems(state), [state]);
+  const stepStatusFor = useCallback(
+    (tabId: TabId) => stepStatus(tabId, state),
+    [state],
+  );
 
   const value = useMemo<WorkbookContextValue>(
     () => ({
@@ -259,29 +289,39 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       addRegion,
       removeRegion,
       saveManual,
-      exportPdf,
+      submitPack,
       exportJson,
       importJson,
       friction,
       roi,
       initiative,
       regionsLabel,
+      packStatus,
+      readyForAudit,
+      pdfReady,
+      missingAudit,
+      stepStatusFor,
     }),
     [
       addRegion,
       exportJson,
+      submitPack,
       friction,
       importJson,
       initiative,
+      missingAudit,
+      packStatus,
       patch,
+      pdfReady,
+      readyForAudit,
       regionsLabel,
       removeRegion,
       roi,
       saveManual,
-      exportPdf,
       setTab,
       showToast,
       state,
+      stepStatusFor,
       tab,
       toast,
       toggleDiagnostic,

@@ -77,22 +77,81 @@ export function ScopeSection() {
         </div>
 
         <div className="space-y-6">
-          <div>
-            <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              B. Organization
-            </label>
-            <input
-              type="text"
-              value={state.companyName}
-              onChange={(event) => update({ companyName: event.target.value })}
-              className="w-full rounded-lg border border-slate-300 p-3 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder="Company or business unit name"
-            />
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <span className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+              Prepared by — required to submit
+            </span>
+            <p className="mt-1 text-xs text-slate-500">
+              Full name, email, company, and position are required to submit.
+              The facilitator prints them on the PDF.
+            </p>
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Full name
+                </label>
+                <input
+                  type="text"
+                  autoComplete="name"
+                  value={state.authorFullName}
+                  onChange={(event) =>
+                    update({ authorFullName: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="Alex Chen"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={state.authorEmail}
+                  onChange={(event) =>
+                    update({ authorEmail: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="alex.chen@company.com"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Company
+                </label>
+                <input
+                  type="text"
+                  autoComplete="organization"
+                  value={state.companyName}
+                  onChange={(event) =>
+                    update({ companyName: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="Company or business unit"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Position
+                </label>
+                <input
+                  type="text"
+                  autoComplete="organization-title"
+                  value={state.authorPosition}
+                  onChange={(event) =>
+                    update({ authorPosition: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="QA Lead, Site Head, …"
+                />
+              </div>
+            </div>
           </div>
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              C. Project name
+              B. Project name
             </label>
             <input
               type="text"
@@ -105,7 +164,7 @@ export function ScopeSection() {
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              D. Participating regions
+              C. Participating regions
             </label>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {state.regions.map((region) => {
@@ -142,7 +201,7 @@ export function ScopeSection() {
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              E. Operational impact narrative
+              D. Operational impact narrative
             </label>
             <textarea
               rows={4}

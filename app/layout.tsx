@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Action Learning Workbook",
   description:
-    "Interactive 7-step Action Learning Project workbench: cultural diagnostic, SLA governance, regional playbook, and pilot KPIs.",
+    "Pre-work for a live Action Learning audit: seven steps, one PDF pack.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -30,6 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           signInUrl="/sign-in"
           signUpUrl="/sign-in"
           afterSignOutUrl="/sign-in"
+          signInFallbackRedirectUrl="/admin"
+          signUpFallbackRedirectUrl="/admin"
         >
           {children}
         </ClerkProvider>

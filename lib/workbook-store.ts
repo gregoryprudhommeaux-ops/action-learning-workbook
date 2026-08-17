@@ -6,11 +6,20 @@ let clientState: WorkbookState = defaultState;
 let initialized = false;
 const listeners = new Set<() => void>();
 
+function emit() {
+  listeners.forEach((listener) => listener());
+}
+
 function ensureInit() {
   if (initialized || typeof window === "undefined") return;
   initialized = true;
   const saved = loadState();
   if (saved) clientState = saved;
+}
+
+export function persistWorkbook() {
+  ensureInit();
+  saveState(clientState);
 }
 
 export function subscribeWorkbook(listener: () => void) {
@@ -35,6 +44,6 @@ export function setWorkbookState(
   ensureInit();
   clientState =
     typeof updater === "function" ? updater(clientState) : updater;
-  saveState(clientState);
-  listeners.forEach((listener) => listener());
+  persistWorkbook();
+  emit();
 }
