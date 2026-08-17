@@ -1,0 +1,292 @@
+# Anti-slop lexicon · triple filtre FR / EN / ES
+
+Load when humanizing or expanding bans. Prefer delete/replace with simpler concrete wording.
+**Never invent** client quotes or metrics to “humanize”.
+
+## A. Accroches / intros clichés
+
+### FR
+- *Dans un monde en constante évolution…*, *À l’ère du numérique…*, *Dans un monde où…*
+- *Pour commencer,*, *Tout d’abord,*, *Premièrement,*, *Enfin,*
+- *Je suis ravi de partager…*, *Ce post traite de…*, *Assurez-vous de…*
+
+### EN
+- *In today’s fast-paced world…*, *In the dynamic landscape of…*, *In a world where…*
+- *First and foremost,*, *To begin with,*
+- *I’m excited to share…*, *Here’s the thing…*
+
+### ES
+- *En el entorno actual en constante cambio…*, *En la era digital…*, *En el mundo actual…*
+- *Para empezar,*, *En primer lugar,*
+
+## B. Jargon vide / hyperboles
+
+### FR
+*libérer le plein potentiel*, *solution innovante*, *révolutionner*, *optimiser vos processus*, *transformation digitale*, *démarche proactive*, *tirer parti de*, *capitaliser sur*, *apporter de la valeur*, *booster votre*, *le vrai levier*
+
+### EN — loft vocabulary (instant AI tag for sharp readers)
+*testament*, *beacon*, *tapestry*, *landscape* (abstract), *pivotal*, *underscore*, *paramount*, *delve*, *journey* (metaphor), *unlock the full potential*, *empower your team*, *future-proof*, *seamless*, *cutting-edge*, *game-changing*, *revolutionary*, *thrilling*, *leverage*, *utilize*
+
+Prefer low-key: *This actually works* over *This is a game-changing strategy*.
+
+### ES
+*potenciar al máximo*, *impulsar tu negocio*, *llevar al siguiente nivel*, *experiencia sin fricciones*, *aprovechar al máximo*, *disruptivo*, *transformación digital*, *la verdadera palanca*
+
+### Obsolete networking metaphors (ban — no longer current)
+FR/EN/ES: *pile / collection de cartes de visite*, *business cards*, *colección / intercambio de tarjetas*, *tarjeta al final*.  
+Prefer 2020s reality: LinkedIn connects, WhatsApp groups, event QR, cocktail pitch rooms, “todos se venden / nadie escucha”, weak first intro, no follow-up.
+
+### Fake-luxury / community loft (ban in product + member copy)
+FR/EN/ES: *exclusif / exclusive / exclusivas*, *curated*, *selecta / sélective*, *alto valor / high-signal / forte valeur*, *cenas de alto nivel / dîners qualifiés*, *red privada de… seleccionados*, *we'd love your feedback*, *tu opinión nos importa*.  
+Prefer concrete: mesa chica, un tema, invitados cuando hay fit, Guadalajara. Footer: `LA MESA · Guadalajara` not “dîners privés exclusifs”.
+
+## C. Transitions mécaniques / scolaires
+
+- FR: *par ailleurs*, *de plus*, *ainsi*, *en outre*, *premièrement*, *deuxièmement*, *enfin* (systematic)
+- EN: *however*, *moreover*, *additionally*, *furthermore* (sentence-initial spam)
+- ES: *sin embargo*, *además*, *por lo tanto*, *en ese sentido* (mechanical)
+
+**Overlap with numbered moral lists (`numbered_moral_list`):** *Premièrement / First / Primero* as a **local school connector** (open a paragraph) = `school_opener`. A full **“3 lessons / 1-2-3 moral arc”** for the whole post = `numbered_moral_list`. Shared “numbering” signal — name both when present; do not collapse into one ID. Disambiguate: *Premièrement* inside a lessons checklist → primarily `#42`; *Premièrement* as bare intro glue → `#3`.
+
+## D. Next-level bait & moral closes
+
+- FR: *passer au niveau supérieur ?*, *au final… mindset*, *en fin de compte…*
+- EN: *take your business to the next level?*, *at the end of the day, it’s all about…*
+- ES: *¿listo para transformar tu negocio?*, *al final del día, se trata de…*
+
+## E. Survey-hook fingerprints (hard + soft)
+
+Hard openers:
+- *Je vois beaucoup de* / *I see a lot of* / *Veo a muchos*
+- *On me dit souvent* / *I often hear* / *A menudo escucho*
+
+Soft-hear openers (same arc, milder wording — still ban):
+- *La / une phrase que j’entends souvent* / *The phrase I often hear* / *La frase que escucho mucho*
+- *Ce que j’entends souvent* / *What I often hear* / *Lo que más escucho*
+- Fake category quote after any of the above (« On a déjà des contacts… ») without a real attributed speaker in the brief
+
+Theatrical dig (all variants):
+- *Quand je creuse* / *En creusant (un peu)* / *When I dig* / *Digging a bit* / *Cuando indago* / *Al indagar*
+
+Packaging beats:
+- *Résultat : beaucoup… peu…* and soft twin *moins de X, plus de Y* / *less X, more Y* / *menos X, más Y*
+- Qualification triad / neat 3-bullet framework: *même problème / même niveau / même agenda* (or EN/ES *same…*) as symmetric checklist after a hear-hook
+
+**≠ lexical triplets** (`triple_adjectives`): *clair, direct, efficace* is surface rhythm; qualification triad is a 3-criterion **framework**. Same family, two layers — do not merge IDs.
+
+Rewrite: thesis-first → one uneven concrete criterion in prose → consequence → no invented quote → no dig theatre → close without packaging.
+
+### Polished residual (post–anti-slop tell · 2026-07-15)
+When hard/soft survey-hooks are gone, models still leave a **cleaner** cousin:
+
+1. **Inline qualification triad** (not only bullets): *Même industrie, même fonction, même irritant métier* / *Same industry, same role, same pain* / *Misma industria, misma función, mismo irritante* — three symmetric “même/same/mismo” criteria in one sentence. Still ban. Keep **one** filter criterion; drop or demote the other two.
+2. **Clean framework arc**: thèse → préférence → analogie communauté → teaser “nouveau format / je réfléchis à lancer…” → CTA soft. Even paragraph lengths end-to-end. Break with uneven depth, one doubt/friction, and zero bolt-on product tease unless the brief asks for it.
+3. **Uniform polish**: sober lexicon + hedges (*Franchement…*) but no asperity or disagreesable edge → still rewrite for identifiable voice.
+
+### Teaser failure pack (LA MESA / founder LinkedIn · 2026-07-15 m)
+
+When the brief is a **TEASER** (desire / POV), not an EXPLAIN, ban these as blocking:
+
+1. **Funnel dump** — teaching the full product path in-post: waitlist → profile → invitation → seat/payment (FR/EN/ES). Max **one** product sentence in a teaser.
+2. **Follower-proof bait** — *los que me siguen pueden dar fe* / *those who follow me can vouch* / *ceux qui me suivent peuvent témoigner* (vague social proof).
+3. **CTA LinkedIn bait** — *comenta y agrégame* / *comment and connect* / *like if* / *déjame un comentario* as conversion (use DM / link instead).
+4. **Network moral close** — *una buena red no se mide por…* / *a good network isn’t measured by…* / *un bon réseau ne se mesure pas par…* (Wikipedia packaging).
+5. **WIP soft stack** — *estoy perfeccionando* / *I’m refining a format* / *je perfectionne* / *lo que realmente me interesa* as the spine (use sharp verbs: *estoy armando / I’m building / j’installe*).
+
+**Job taxonomy (generation must declare one · maps to tell IDs — see TELLS-CATALOG Partie 2):**
+
+| Job | Max length | Allowed product | CTA | Priority banned tells |
+|-----|------------|-----------------|-----|----------------------|
+| TEASER | ~120–150 words | ≤1 sentence | DM or link | `funnel_dump_teaser` · `follower_proof_bait` · `engagement_bait` · `network_moral_close` · `wip_soft_spine` · `vague_coming_soon_cta` · `soft_format_teaser` · `numbered_moral_list` |
+| EXPLAIN | longer OK | funnel OK | soft | survey-hook `#10–16` · `clean_framework_arc` · `numbered_moral_list` · `years_legitimation` · `fake_scoop` · `not_x_its_y` · `real_lever_close` · `wikipedia_moral_close` |
+| CONVERT | short | seat/invite clear | DM / link, never comment-bait | `engagement_bait` · `closed_rhetorical_cta` · `follower_proof_bait` · `vague_coming_soon_cta` · `network_moral_close` · `real_lever_close` · `simple_yet_powerful` · `funnel_dump_teaser` if the post turns into a funnel tutorial |
+
+All 60 catalog tells remain banned; priority column = scan first for that job.
+## E2. Classic LinkedIn legitimacy / intimacy / teaser tells (2026-07-24)
+
+Hard ban as packaging (rewrite even if “true” in the brief — rephrase without the formula):
+
+| ID | FR | EN | ES |
+|----|----|----|-----|
+| `years_legitimation` | *J’ai passé X années à…* (surtout en ouverture) | *After X years in…* | *Después de X años en…* |
+| `fake_scoop` | *Personne ne parle de ça* | *Nobody talks about this* / *What nobody tells you* | *Nadie habla de esto* |
+| `closed_rhetorical_cta` | *Tu veux vraiment laisser passer ça ?* | *Are you really going to let this pass?* | *¿De verdad vas a dejar pasar esto?* |
+| `fake_we_intimacy` | *On a tous vécu ce moment où…* | *We’ve all been there when…* | *Todos hemos vivido ese momento…* |
+| `round_follower_milestone` | *1 000 abonnés. Ce que j’ai appris.* | *1,000 followers. What I learned.* | *1.000 seguidores. Lo que aprendí.* |
+| `simple_yet_powerful` | *Simple mais puissant* | *Simple yet powerful* / *Simple but powerful* | *Simple pero poderoso* |
+| `anaphora_stack` | 3+ bullets/phrases d’affilée qui démarrent par le même mot (*Quand… / Si…*) | Same with *When… / If…* | Same with *Cuando… / Si…* |
+| `vague_coming_soon_cta` | *Je prépare quelque chose. Reste à l’écoute.* | *Something is coming… Stay tuned.* | *Estoy preparando algo. Mantente atento.* |
+| `false_humility` | *Je ne suis pas un expert, mais…* (+ contenu très prescriptif) | *I’m not an expert, but…* | *No soy un experto, pero…* |
+| `self_title_hook` | *En tant que CEO / thought leader…* (accroche) | *As a serial entrepreneur…* | *Como experto / founder…* |
+| `thread_meta_promise` | *Ce thread va changer ta façon de voir…* | *This thread will change how you see…* | *Este hilo va a cambiar…* |
+| `hindsight_regret_hook` | *J’aurais aimé savoir ça avant* | *I wish I knew this earlier* | *Ojalá lo hubiera sabido antes* |
+
+Lint / structure (also catalogued): `uniform_list_length` (5+ bullets near-identical length) · `decorative_emoji_suffix` (🔥🚀💡 at end of title/bullet — ≠ leading `emoji_line_start`).
+
+### Structural content tell · `geo_sector_filler` (#43)
+
+Not lexicon / not rhythm — **interchangeable opener**. Human oracle: swap the geo/sector proper noun; if the claim still holds, rewrite.
+
+**Programmatic proxy** (`detectGeoSectorFiller` in UCM `slop-detector.ts`):
+1. Opener window = first 2 paragraphs or ~320 chars
+2. Match a **frame bound to a geo/sector slot** (Mexique/Mexico/LatAm/… or SaaS/fintech/tech…): *Au SLOT, aujourd’hui / le marché…* · *SLOT est une opportunité* · *SLOT … comme ailleurs* · *doing business in SLOT* · *Dans la tech aujourd’hui*
+3. **Exempt** if the same window has a non-swappable anchor: digit, `%`, `$`/`€`, or deadline lexeme (*avant / before / antes / d’ici / deadline*)
+
+Status: **BAN** · weight 2 · blocking humanizer gate.
+
+### Rhetorical question — two buckets (no doublon)
+
+| Bucket | Job | Status |
+|--------|-----|--------|
+| **Rhythm** (mid-body) | One open question that advances thought (*Et si le vrai frein n’était pas le prix ?*) | Allowed sparingly if not bait |
+| **Engagement manipulation** (`closed_rhetorical_cta`) | Closed pressure close (*Tu veux vraiment… ?*, *Agree?*, *Ready to…?*) | **Hard ban** — same family as engagement bait |
+
+Do not list “rhetorical question” twice as syntax + close. Treat **closed CTA questions** under engagement/closes; mid-body open questions under voice/rhythm.
+
+## F. Fake scenes
+
+- *Ce matin / Dimanche soir / Un client m’a appelé en panique*
+- *Yesterday a CEO DM’d me…* (unless in source)
+
+## G. Spanish regional filter (critical · MX ≠ ES)
+
+**Default for Guadalajara / LA MESA:** Mexican warm-pro B2B — not Castilian Spain, not fake “español neutro”, not street slang dumped for flavor.
+
+### Mexico target — avoid Spain tells
+| Ban (ES-Spain leak) | Prefer (MX) |
+|---------------------|-------------|
+| *vosotros / os* | *ustedes / los* or *tú* per Persona |
+| *vale / venga* | *ok / de acuerdo / vamos* |
+| *ordenador* | *computadora* |
+| *móvil* (strong ES cast) | *celular* |
+| *agendar una llamada* | *coordinar una reunión/llamada* |
+| *remover* (delete) | *eliminar / quitar* |
+| *coger* (take) | *tomar / agarrar* (sense differs MX↔ES) |
+
+Also prefer when natural: *platicar* (warm-pro), concrete Guadalajara stakes over generic “LatAm market” filler.
+
+**Register:** *güey* ≠ *tío* means “don’t import another country’s colloquial” — LinkedIn B2B GDL still isn’t street MX (*güey/órale* spam) nor Madrid bar talk (*tío/mola*).
+
+### Spain target — avoid LATAM-only calques
+Use local direct register; don’t paste Mexico-only fillers. No fake “español neutro” (tú + ultra-distant formality + bad gerunds calqued from English *-ing*).
+
+### Shared ES anglicism bans
+- *agendar una llamada* → *coordinar una reunión/llamada*
+- *remover* (delete sense) → *eliminar / quitar*
+- Bad gerund calque: *…siendo publicado hoy* style English *-ing* dumps
+
+Runtime: `es_spain_in_mx_tell` (*vosotros|vale|ordenador*), `es_agendar`.
+
+## H. Bullet / emoji UI slop
+
+- Same emoji starting every bullet
+- Every line: **Bold word:** + paragraph
+- Prefer varied `-` lists when a checklist of ✓ / 🟢 would scream template
+
+## I. Accroche sandwich
+
+Default AI pattern: shock sentence + blank + explanation.
+Prefer: compact 1–2 line block when ideas belong together; blank lines for real beats only.
+
+## J. Soft closes OK
+
+- FR: *Si vous êtes dans cette situation, dites-moi ce que vous avez essayé.*
+- EN: *If you’re in that spot, tell me what you’ve already tried.*
+- ES: *Si estás en esa situación, cuéntame qué ya intentaste.*
+
+Avoid: *agree?*, *like if*, *comment YES*, *Et vous, qu’en pensez-vous ?*
+
+## K. Syntax tics (all languages) — high IA detectability 2025–26
+
+Independent of vocabulary. Fix even when the lexicon looks “clean”.
+
+### Em dash (—)
+Top cross-language AI tell. **Max 1 per paragraph**; prefer rare in the whole piece. Use commas, periods, or parentheses instead of cascading — asides.
+
+### Antithesis “not X, it’s Y” · HARD BAN
+- FR: *Ce n’est pas X, c’est Y* / *Il ne s’agit pas de X, mais de Y*
+- EN: *It’s not about X, it’s about Y* / *It’s not just X — it’s Y*
+- ES: *No es solo X, es Y* / *No se trata de X, sino de Y*  
+**Zero per post.** State the claim directly, or contrast with a concrete fact/scene. Never the antithesis formula (high LinkedIn AI tell).
+
+Rewrite directions:
+- Bad: *Ce n’est pas un outil, c’est une méthode.*
+- Better: *On n’installe pas un outil. On change comment on décide.*
+- Or: *La méthode a tenu ; l’outil, non.*
+
+### Lexical triplets (beyond survey-hook)
+Ban rhythmic adjective/noun stacks anywhere: *clair, direct, efficace* / *clear, direct, effective* / *claro, directo, efectivo*. Prefer one sharp word, a pair, or uneven phrasing.
+
+**≠ `qualification_triad`:** lexical triplets (`triple_adjectives`) are surface rhythm; qualification triad is a **3-criterion framework** (*même/same/mismo ×3* or neat same-X bullets). Same family (“triplets”), two layers — do not merge IDs; flag both when present.
+
+### Paragraph length symmetry
+Even blocks (≈same line count every paragraph) read as model output. Vary hard: 2-line beat next to an 8-line development without padding filler.
+
+### Related voice / length rules (see SKILL.md)
+- Preserve 1–2 author voice markers from the source.  
+- Stay within ±15% source length.  
+- Anti-over-correction: keep some long fluent sentences — choppy punchline-only is a new tell.
+
+## L. Soft / mushy verbs (prefer sharp)
+
+**Comportements express (L / N / S) :**
+
+| À éviter | À faire |
+|----------|---------|
+| Verbes mous (*permettre, favoriser*) | Verbe d’action net (*envoie, coupe, livre, bloque, casse*) |
+| Densité plate | Alternance court / dense / respiration |
+| Close engagement bait | Close ouverte sans pression |
+
+Blacklist when a concrete verb exists:
+
+| Soft (ban/prefer replace) | Sharp direction |
+|---------------------------|-----------------|
+| FR *permettre, favoriser, contribuer à, offrir, garantir, assurer, perfectionner (WIP)* | *envoie, coupe, livre, bloque, casse, ralentit, pousse, évite* · *j’installe / je construis* |
+| EN *enable, foster, facilitate, provide, ensure, allow, help* (vague), *perfecting / refining a format* | *sends, cuts, ships, blocks, breaks, slows, pushes* · *I’m building / I’m installing* |
+| ES *permitir, fomentar, contribuir, ofrecer, garantizar, asegurar* (vago), *perfeccionando*, *lo que realmente me interesa* | *manda, corta, entrega, bloquea, frena, empuja* · *estoy armando* |
+
+## M. Overly clean / academic diction
+
+If two words are equivalent, pick the **more common**:
+
+- FR: *voir* > *observer* · *faire* > *effectuer* · *montrer* > *démontrer* · *dire* > *affirmer*  
+- EN: *see* > *observe* · *do* > *perform/execute* · *show* > *demonstrate* · *say* > *assert*  
+- ES: *ver* > *observar* · *hacer* > *efectuar* · *mostrar* > *demostrar*
+
+## N. Information density (not uniform)
+
+Reject one-idea-per-line slabs of equal weight:
+
+> Les ventes baissent. / Les équipes perdent confiance. / Les managers hésitent. / Les décisions ralentissent.
+
+Prefer uneven density — breathers + packed lines:
+
+> Les ventes baissent. Le vrai problème, c’est que plus personne ne sait si c’est temporaire ou structurel : les équipes arrêtent d’investir et les managers repoussent les décisions.
+
+## O. Emotional / reaction transitions
+
+Ban emotion-flat chains (*Ensuite… En pratique… Enfin…*) as the only glue.  
+Prefer reaction beats when true to voice: *Ce qui m’a surpris…*, *Le problème…*, *Franchement…*, *Et c’est là que…*, *What floored me…*, *Honestly…*, *Lo que me sorprendió…*.
+
+## P. Certainty / doubt markers
+
+IA writes like Wikipedia. Humans hedge. Include natural uncertainty when the claim isn’t absolute:
+
+- FR: *probablement, j’ai l’impression, dans mon expérience, pas toujours, souvent, je peux me tromper*  
+- EN: *probably, I suspect, in my experience, not always, often, I could be wrong*  
+- ES: *probablemente, tengo la impresión, en mi experiencia, no siempre, a menudo, puedo equivocarme*
+
+## Q. Intentional repetition & uneven depth
+
+- Intentional repeat of a key word can beat synonym roulette.  
+- Uneven explanation length when listing reasons (8 lines / 1 line / 4 lines — never symmetrical chapters).  
+- Zoom levels: concrete → general → concrete → opinion.  
+
+## R. Punctuation cadence
+
+Vary visual rhythm: periods, colons, parentheses, occasional incomplete beat. Avoid metronome of only periods or only commas.
+
+## S. Open closes (not morals)
+
+Prefer: *C’est comme ça que je le vois aujourd’hui.* / *That’s how I see it right now.* / *Así lo veo hoy.*  
+Avoid: *Finalement, tout est une question d’exécution* and equivalents.

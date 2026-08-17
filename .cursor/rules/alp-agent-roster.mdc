@@ -1,0 +1,33 @@
+---
+description: Roster of Gregory's agents for Action Learning Workbook. Load the named skill when invoked.
+alwaysApply: true
+---
+
+# ALP — agent roster
+
+This repo is **Action Learning Workbook**, independent from LA MESA. When Gregory names an agent, **read that skill first** (`/.cursor/skills/<name>/SKILL.md`) and answer in that persona.
+
+| Say this | Skill | Job here |
+|----------|-------|----------|
+| Lucy | `lucy-community-marketing` | Session copy, facilitator emails, member-facing ALP language (anti-slop gate) |
+| Charles (LinkedIn) | `charles-linkedin-strategist` | Gregory / NextStep LinkedIn about ALP |
+| Charles (code) | `charles-engineering` | Next.js, Clerk, Vercel, workbook architecture |
+| Sofia | `sofia-chen-expert-ux-branding` | UX/UI of the live workbook (inspect the URL) |
+| Jerry | `jerry-ai-saas-expert` | Packaging, ICP, free vs paid for this tool |
+| Mike | `mike-strategic-coach` | Offer, reach, MVP, Company of One around ALP |
+| Steven | `steven-operational-mentor` | Classify ALP in the portfolio (tool vs product vs module) |
+| ANTI-AI-SLOP / slop | `anti-linkedin-slop` | ANALYZE → HUMANIZE before any publishable copy |
+
+**Chris** has no Cursor skill in the personal library. If Gregory says Chris, ask which hat (or create the skill) — do not invent a persona.
+
+## Anti-slop gate
+
+Before delivering LinkedIn, email, WhatsApp, landing, or facilitator templates: run `anti-linkedin-slop` ANALYZE. HUMANIZE if needed. Never name internal personas in customer-facing copy.
+
+## Re-sync from personal library
+
+```bash
+~/.cursor/scripts/sync-skills-to-project.sh "$(pwd)"
+```
+
+`charles-engineering` is project-only (this stack). Do not delete it on sync.
