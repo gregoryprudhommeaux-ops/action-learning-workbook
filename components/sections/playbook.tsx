@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ACCENT_STYLES } from "@/lib/defaults";
 import type { Region, RegionAccent } from "@/lib/types";
 import { useWorkbook } from "@/components/workbook-provider";
+import { useLocale } from "@/components/locale-provider";
+import { tRegionName } from "@/lib/i18n";
 
 const ACCENTS: RegionAccent[] = [
   "red",
@@ -15,6 +17,7 @@ const ACCENTS: RegionAccent[] = [
 ];
 
 export function PlaybookSection() {
+  const { locale, t } = useLocale();
   const { state, upsertRegion, addRegion, removeRegion, setTab } =
     useWorkbook();
   const [selectedId, setSelectedId] = useState(state.regions[0]?.id ?? "");
@@ -26,13 +29,13 @@ export function PlaybookSection() {
   if (!selected) {
     return (
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-600">No regions yet.</p>
+        <p className="text-sm text-slate-600">{t("play.empty")}</p>
         <button
           type="button"
           onClick={addRegion}
           className="mt-4 rounded-lg bg-brand-blue px-4 py-2 text-xs font-semibold text-white"
         >
-          Add a region
+          {t("play.add")}
         </button>
       </div>
     );
@@ -48,15 +51,10 @@ export function PlaybookSection() {
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
-          Regional norms & synthesis
+          {t("play.kicker")}
         </span>
-        <h2 className="text-xl font-bold text-slate-900">
-          Regional collaboration playbook
-        </h2>
-        <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-          Edit site-specific communication norms, decision habits, and one
-          actionable tip. These cards travel into the executive summary.
-        </p>
+        <h2 className="text-xl font-bold text-slate-900">{t("play.title")}</h2>
+        <p className="mt-1 text-xs text-slate-500 sm:text-sm">{t("play.lead")}</p>
       </div>
 
       <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-center">
@@ -74,7 +72,7 @@ export function PlaybookSection() {
                     : "border border-slate-200 text-slate-600"
                 }`}
               >
-                {region.flag} {region.name}
+                {region.flag} {tRegionName(locale, region)}
               </button>
             );
           })}
@@ -86,7 +84,7 @@ export function PlaybookSection() {
           }}
           className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100"
         >
-          + Add region
+          {t("play.addPlus")}
         </button>
       </div>
 
@@ -98,7 +96,7 @@ export function PlaybookSection() {
                 value={selected.flag}
                 onChange={(event) => edit("flag", event.target.value)}
                 className="w-16 rounded border border-white/80 bg-white p-2 text-center text-2xl"
-                aria-label="Region emoji"
+                aria-label={t("play.emoji")}
               />
               <div className="space-y-1">
                 <input
@@ -115,7 +113,7 @@ export function PlaybookSection() {
             </div>
             <div className="flex items-center gap-2">
               <label className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-                Code
+                {t("play.code")}
               </label>
               <input
                 value={selected.code}
@@ -152,7 +150,7 @@ export function PlaybookSection() {
                   }}
                   className="rounded border border-red-200 bg-white px-2 py-1 text-xs font-semibold text-red-700"
                 >
-                  Remove
+                  {t("play.remove")}
                 </button>
               ) : null}
             </div>
@@ -161,16 +159,18 @@ export function PlaybookSection() {
           <div className="mt-4 grid grid-cols-1 gap-4 text-xs md:grid-cols-3">
             {(
               [
-                ["communication", "Communication style"],
-                ["meetingNorms", "Meeting & decision norms"],
-                ["tip", "Actionable collaboration tip"],
+                ["communication", "play.comm"],
+                ["meetingNorms", "play.meet"],
+                ["tip", "play.tipField"],
               ] as const
-            ).map(([field, label]) => (
+            ).map(([field, labelKey]) => (
               <div
                 key={field}
                 className={`rounded-lg border bg-white p-3.5 shadow-sm ${styles.card}`}
               >
-                <strong className="mb-1 block text-slate-800">{label}</strong>
+                <strong className="mb-1 block text-slate-800">
+                  {t(labelKey)}
+                </strong>
                 <textarea
                   rows={5}
                   value={selected[field]}
@@ -184,15 +184,13 @@ export function PlaybookSection() {
       </div>
 
       <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-4">
-        <span className="text-xs text-slate-400">
-          Cards are stored in this browser and in JSON export.
-        </span>
+        <span className="text-xs text-slate-400">{t("play.stored")}</span>
         <button
           type="button"
           onClick={() => setTab("pilot")}
           className="rounded-lg bg-brand-blue px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700"
         >
-          Proceed to Step 6: Pilot plan & KPIs →
+          {t("play.next")}
         </button>
       </div>
     </div>

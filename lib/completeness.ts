@@ -79,49 +79,80 @@ export function auditReady(state: WorkbookState): boolean {
   return scopeComplete(state) && governanceComplete(state);
 }
 
-export function packStatusLabel(state: WorkbookState): string {
-  if (!identityComplete(state)) return "Add author details to submit";
-  if (!auditReady(state)) return "Incomplete draft";
-  return "Ready for live audit";
+export type PackStatusKey = "needIdentity" | "incomplete" | "ready";
+
+export function packStatusKey(state: WorkbookState): PackStatusKey {
+  if (!identityComplete(state)) return "needIdentity";
+  if (!auditReady(state)) return "incomplete";
+  return "ready";
 }
+
+export function packStatusLabel(state: WorkbookState): string {
+  switch (packStatusKey(state)) {
+    case "needIdentity":
+      return "Add author details to submit";
+    case "incomplete":
+      return "Incomplete draft";
+    case "ready":
+      return "Ready for live audit";
+  }
+}
+
+export type MissingItemId =
+  | "projectName"
+  | "customInitiative"
+  | "region"
+  | "p1"
+  | "p2"
+  | "p3"
+  | "dri"
+  | "fullName"
+  | "email"
+  | "company"
+  | "position";
 
 export function missingAuditItems(state: WorkbookState): {
   tab: TabId;
+  id: MissingItemId;
   label: string;
 }[] {
-  const items: { tab: TabId; label: string }[] = [];
+  const items: { tab: TabId; id: MissingItemId; label: string }[] = [];
   if (!filled(state.projectName)) {
-    items.push({ tab: "scope", label: "Project name" });
+    items.push({ tab: "scope", id: "projectName", label: "Project name" });
   }
   if (state.initiativeId === "other" && !filled(state.customInitiative)) {
-    items.push({ tab: "scope", label: "Initiative description" });
+    items.push({
+      tab: "scope",
+      id: "customInitiative",
+      label: "Initiative description",
+    });
   }
   if (state.activeRegionIds.length < 1) {
-    items.push({ tab: "scope", label: "At least one region" });
+    items.push({ tab: "scope", id: "region", label: "At least one region" });
   }
   if (!filled(state.sla.p1Channel) || !filled(state.sla.p1Hours)) {
-    items.push({ tab: "governance", label: "P1 SLA" });
+    items.push({ tab: "governance", id: "p1", label: "P1 SLA" });
   }
   if (!filled(state.sla.p2Channel) || !filled(state.sla.p2Days)) {
-    items.push({ tab: "governance", label: "P2 SLA" });
+    items.push({ tab: "governance", id: "p2", label: "P2 SLA" });
   }
   if (!filled(state.sla.p3Channel)) {
-    items.push({ tab: "governance", label: "P3 channel" });
+    items.push({ tab: "governance", id: "p3", label: "P3 channel" });
   }
   if (!filled(state.dri.task) || !filled(state.dri.owner)) {
-    items.push({ tab: "governance", label: "Named DRI" });
+    items.push({ tab: "governance", id: "dri", label: "Named DRI" });
   }
   if (!filled(state.authorFullName)) {
-    items.push({ tab: "scope", label: "Full name" });
+    items.push({ tab: "scope", id: "fullName", label: "Full name" });
   }
   if (!isEmail(state.authorEmail)) {
-    items.push({ tab: "scope", label: "Email" });
+    items.push({ tab: "scope", id: "email", label: "Email" });
   }
   if (!isNamedCompany(state.companyName)) {
-    items.push({ tab: "scope", label: "Company" });
+    items.push({ tab: "scope", id: "company", label: "Company" });
   }
   if (!filled(state.authorPosition)) {
-    items.push({ tab: "scope", label: "Position" });
+    items.push({ tab: "scope", id: "position", label: "Position" });
   }
   return items;
 }

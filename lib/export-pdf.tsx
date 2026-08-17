@@ -3,7 +3,10 @@
 import { pdf } from "@react-pdf/renderer";
 import { WorkbookPdfDocument } from "@/components/pdf/workbook-document";
 import type { WorkbookState } from "@/lib/types";
+import type { Locale } from "@/lib/i18n/types";
+import { DEFAULT_LOCALE } from "@/lib/i18n/types";
 import { fileSlug } from "@/lib/workbook-state";
+import { registerPdfFonts } from "@/lib/pdf-fonts";
 
 export async function downloadWorkbookPdf(input: {
   state: WorkbookState;
@@ -13,7 +16,10 @@ export async function downloadWorkbookPdf(input: {
   analysis: string;
   roi: { monthly: number; pilot: number };
   packStatus: string;
+  locale?: Locale;
 }) {
+  registerPdfFonts();
+  const locale = input.locale ?? DEFAULT_LOCALE;
   const date = new Date().toISOString().split("T")[0];
   const blob = await pdf(
     <WorkbookPdfDocument
@@ -25,6 +31,7 @@ export async function downloadWorkbookPdf(input: {
       roi={input.roi}
       packStatus={input.packStatus}
       date={date}
+      locale={locale}
     />,
   ).toBlob();
 

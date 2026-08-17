@@ -7,16 +7,18 @@ import { GovernanceSection } from "@/components/sections/governance";
 import { PilotSection } from "@/components/sections/pilot";
 import { PlaybookSection } from "@/components/sections/playbook";
 import { ScopeSection } from "@/components/sections/scope";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import { StepNav } from "@/components/step-nav";
+import { useLocale } from "@/components/locale-provider";
 import { useWorkbook, WorkbookProvider } from "@/components/workbook-provider";
 
 function WorkbookShell() {
+  const { t } = useLocale();
   const {
     tab,
     setTab,
     toast,
     saveManual,
-    submitPack,
     state,
     stepStatusFor,
     packStatus,
@@ -39,10 +41,10 @@ function WorkbookShell() {
                 ALP
               </span>
               <h1 className="hidden text-lg font-semibold tracking-tight text-slate-100 md:block">
-                Action Learning Workbook
+                {t("app.title")}
               </h1>
               <h1 className="text-base font-semibold tracking-tight text-slate-100 md:hidden">
-                ALP Workbook
+                {t("app.titleShort")}
               </h1>
               {state.authorFullName ? (
                 <span className="hidden text-xs text-slate-400 lg:inline">
@@ -56,21 +58,15 @@ function WorkbookShell() {
               ) : null}
             </div>
             <div className="flex items-center space-x-2 text-xs sm:space-x-3">
+              <LocaleSwitcher />
               <button
                 type="button"
                 onClick={saveManual}
-                title="Saves in this browser only"
+                title={t("app.saveTitle")}
                 className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
               >
-                <span className="sm:hidden">Save here</span>
-                <span className="hidden sm:inline">Save on this device</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => void submitPack()}
-                className="flex items-center space-x-1 rounded bg-brand-blue px-3 py-1.5 text-xs font-medium text-white transition hover:bg-blue-700"
-              >
-                <span>Submit pack</span>
+                <span className="sm:hidden">{t("app.saveShort")}</span>
+                <span className="hidden sm:inline">{t("app.save")}</span>
               </button>
             </div>
           </div>
@@ -90,18 +86,33 @@ function WorkbookShell() {
       </main>
 
       <footer className="no-print mt-12 border-t border-slate-800 bg-navy-950 py-6 text-xs text-slate-400">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between space-y-3 px-4 sm:flex-row sm:space-y-0 sm:px-6 lg:px-8">
-          <div>
-            <span className="font-bold text-slate-200">
-              Action Learning Workbook
-            </span>{" "}
-            — cross-border operational excellence
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:items-end sm:px-6 lg:px-8">
+          <div className="space-y-1 text-center sm:text-left">
+            <div>
+              <span className="font-bold text-slate-200">{t("app.title")}</span>{" "}
+              — {t("app.tagline")}
+            </div>
+            <p>
+              {t("app.developed")}{" "}
+              <a
+                href="https://nextstep-suite.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-300 underline decoration-slate-600 underline-offset-2 transition hover:text-white"
+              >
+                {t("app.suite")}
+              </a>
+              <span className="text-slate-600"> · </span>
+              <a
+                href="/admin"
+                className="font-medium text-slate-300 underline decoration-slate-600 underline-offset-2 transition hover:text-white"
+              >
+                {t("app.adminLogin")}
+              </a>
+            </p>
           </div>
-          <div className="flex space-x-6">
-            <span>
-              {packStatus}. Submit the pack so the facilitator can export the
-              PDF for the live audit.
-            </span>
+          <div className="max-w-md text-center sm:text-right">
+            {t("app.footerStatus", { status: packStatus })}
           </div>
         </div>
       </footer>

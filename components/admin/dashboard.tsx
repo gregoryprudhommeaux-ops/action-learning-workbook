@@ -1,17 +1,24 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cohortStats, isPackReady } from "@/lib/cohort-stats";
 import {
   diagnosticCounts,
-  frictionAnalysis,
-  initiativeLabel,
-  activeRegionsLabel,
   roiHours,
 } from "@/lib/workbook-state";
-import { packStatusLabel } from "@/lib/completeness";
+import { packStatusKey } from "@/lib/completeness";
 import type { SubmissionRecord } from "@/lib/submission-snapshot";
 import { frictionBand } from "@/lib/submission-snapshot";
+import { useLocale } from "@/components/locale-provider";
+import {
+  LOCALES,
+  tActiveRegionsLabel,
+  tFrictionAnalysis,
+  tFrictionBadge,
+  tInitiativeLabel,
+  tPackStatus,
+} from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n/types";
 
 type Filter = "all" | "ready" | "incomplete";
 
@@ -20,6 +27,7 @@ export function AdminDashboard({
 }: {
   initialSubmissions: SubmissionRecord[];
 }) {
+  const { locale, t } = useLocale();
   const [rows] = useState(initialSubmissions);
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
@@ -27,6 +35,11 @@ export function AdminDashboard({
     initialSubmissions[0]?.id ?? null,
   );
   const [exporting, setExporting] = useState(false);
+  const [pdfLocale, setPdfLocale] = useState<Locale>(locale);
+
+  useEffect(() => {
+    setPdfLocale(locale);
+  }, [locale]);
 
   const stats = useMemo(() => cohortStats(rows), [rows]);
   const selected = rows.find((row) => row.id === selectedId) ?? null;
@@ -50,20 +63,33 @@ export function AdminDashboard({
     });
   }, [filter, query, rows]);
 
+  const initiatives = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const row of rows) {
+      const label = tInitiativeLabel(locale, row.payload);
+      map.set(label, (map.get(label) ?? 0) + 1);
+    }
+    return [...map.entries()]
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [locale, rows]);
+
   async function exportSelectedPdf() {
     if (!selected) return;
     setExporting(true);
     try {
       const { downloadWorkbookPdf } = await import("@/lib/export-pdf");
       const state = selected.payload;
+      const counts = diagnosticCounts(state.diagnostics);
       await downloadWorkbookPdf({
         state,
-        initiative: initiativeLabel(state),
-        regionsLabel: activeRegionsLabel(state),
-        frictionText: selected.frictionText,
-        analysis: frictionAnalysis(diagnosticCounts(state.diagnostics)),
+        initiative: tInitiativeLabel(pdfLocale, state),
+        regionsLabel: tActiveRegionsLabel(pdfLocale, state),
+        frictionText: tFrictionBadge(pdfLocale, selected.frictionPercent),
+        analysis: tFrictionAnalysis(pdfLocale, counts),
         roi: roiHours(state.calc),
-        packStatus: packStatusLabel(state),
+        packStatus: tPackStatus(pdfLocale, state),
+        locale: pdfLocale,
       });
     } finally {
       setExporting(false);
@@ -75,20 +101,28 @@ export function AdminDashboard({
   return (
     <div className="space-y-6">
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Stat label="Packs submitted" value={String(stats.total)} />
-        <Stat label="Ready for live audit" value={String(stats.ready)} accent />
-        <Stat label="Still incomplete" value={String(stats.incomplete)} />
-        <Stat label="Avg friction" value={`${stats.avgFriction}/100`} />
+        <Stat label={t("admin.stat.packs")} value={String(stats.total)} />
+        <Stat
+          label={t("admin.stat.ready")}
+          value={String(stats.ready)}
+          accent
+        />
+        <Stat
+          label={t("admin.stat.incomplete")}
+          value={String(stats.incomplete)}
+        />
+        <Stat
+          label={t("admin.stat.friction")}
+          value={`${stats.avgFriction}/100`}
+        />
       </section>
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="rounded-xl border border-slate-200 bg-white p-5 lg:col-span-2">
           <h2 className="text-sm font-semibold text-navy-900">
-            Friction across the cohort
+            {t("admin.cohort")}
           </h2>
-          <p className="mt-1 text-xs text-slate-500">
-            High friction packs should go first in the live audit.
-          </p>
+          <p className="mt-1 text-xs text-slate-500">{t("admin.cohortHelp")}</p>
           <div className="mt-4 flex h-3 overflow-hidden rounded-full bg-slate-100">
             <span
               className="bg-emerald-500"
@@ -104,19 +138,21 @@ export function AdminDashboard({
             />
           </div>
           <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-600">
-            <span>Low {stats.bands.low}</span>
-            <span>Moderate {stats.bands.moderate}</span>
-            <span>High {stats.bands.high}</span>
-            <span>{stats.companies} companies</span>
+            <span>{t("admin.low", { n: stats.bands.low })}</span>
+            <span>{t("admin.mod", { n: stats.bands.moderate })}</span>
+            <span>{t("admin.high", { n: stats.bands.high })}</span>
+            <span>{t("admin.companies", { n: stats.companies })}</span>
           </div>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-sm font-semibold text-navy-900">Initiatives</h2>
+          <h2 className="text-sm font-semibold text-navy-900">
+            {t("admin.inits")}
+          </h2>
           <ul className="mt-3 space-y-2 text-xs text-slate-600">
-            {stats.initiatives.length === 0 ? (
-              <li>No packs yet.</li>
+            {initiatives.length === 0 ? (
+              <li>{t("admin.none")}</li>
             ) : (
-              stats.initiatives.map((item) => (
+              initiatives.map((item) => (
                 <li
                   key={item.label}
                   className="flex items-center justify-between gap-3"
@@ -136,7 +172,7 @@ export function AdminDashboard({
         <div className="rounded-xl border border-slate-200 bg-white xl:col-span-3">
           <div className="flex flex-col gap-3 border-b border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-sm font-semibold text-navy-900">
-              Submitted tests
+              {t("admin.tests")}
             </h2>
             <div className="flex flex-wrap items-center gap-2">
               {(["all", "ready", "incomplete"] as const).map((item) => (
@@ -150,17 +186,13 @@ export function AdminDashboard({
                       : "bg-slate-100 text-slate-600"
                   }`}
                 >
-                  {item === "all"
-                    ? "All"
-                    : item === "ready"
-                      ? "Ready"
-                      : "Incomplete"}
+                  {t(`admin.${item}`)}
                 </button>
               ))}
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search name, email, company"
+                placeholder={t("admin.search")}
                 className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs sm:w-52"
               />
             </div>
@@ -169,11 +201,19 @@ export function AdminDashboard({
             <table className="min-w-full text-left text-xs">
               <thead className="bg-slate-50 text-slate-500">
                 <tr>
-                  <th className="px-4 py-2 font-medium">Submitted</th>
-                  <th className="px-4 py-2 font-medium">Person</th>
-                  <th className="px-4 py-2 font-medium">Company</th>
-                  <th className="px-4 py-2 font-medium">Friction</th>
-                  <th className="px-4 py-2 font-medium">Status</th>
+                  <th className="px-4 py-2 font-medium">{t("admin.col.when")}</th>
+                  <th className="px-4 py-2 font-medium">
+                    {t("admin.col.person")}
+                  </th>
+                  <th className="px-4 py-2 font-medium">
+                    {t("admin.col.company")}
+                  </th>
+                  <th className="px-4 py-2 font-medium">
+                    {t("admin.col.friction")}
+                  </th>
+                  <th className="px-4 py-2 font-medium">
+                    {t("admin.col.status")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -183,13 +223,14 @@ export function AdminDashboard({
                       colSpan={5}
                       className="px-4 py-8 text-center text-slate-400"
                     >
-                      No packs match this filter.
+                      {t("admin.empty")}
                     </td>
                   </tr>
                 ) : (
                   visible.map((row) => {
                     const active = row.id === selectedId;
                     const band = frictionBand(row.frictionPercent);
+                    const ready = isPackReady(row);
                     return (
                       <tr
                         key={row.id}
@@ -199,7 +240,7 @@ export function AdminDashboard({
                         }`}
                       >
                         <td className="px-4 py-3 whitespace-nowrap text-slate-500">
-                          {formatWhen(row.createdAt)}
+                          {formatWhen(row.createdAt, locale)}
                         </td>
                         <td className="px-4 py-3">
                           <div className="font-semibold text-navy-900">
@@ -224,13 +265,13 @@ export function AdminDashboard({
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          {isPackReady(row) ? (
+                          {ready ? (
                             <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
-                              Ready
+                              {t("admin.ready")}
                             </span>
                           ) : (
                             <span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-800">
-                              Incomplete
+                              {t("admin.incomplete")}
                             </span>
                           )}
                         </td>
@@ -248,7 +289,7 @@ export function AdminDashboard({
             <div className="space-y-4">
               <div>
                 <p className="text-xs font-semibold tracking-widest text-brand-blue uppercase">
-                  Pack detail
+                  {t("admin.detail")}
                 </p>
                 <h3 className="mt-1 text-lg font-bold text-navy-900">
                   {selected.authorFullName}
@@ -259,32 +300,62 @@ export function AdminDashboard({
                 <p className="text-xs text-slate-400">{selected.authorEmail}</p>
               </div>
               <dl className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2">
-                <Detail label="Project" value={selected.projectName} />
-                <Detail label="Initiative" value={selected.initiativeLabel} />
-                <Detail label="Regions" value={selected.regionsLabel} />
-                <Detail label="Friction" value={selected.frictionText} />
-                <Detail label="Status" value={selected.packStatus} />
+                <Detail label={t("admin.project")} value={selected.projectName} />
                 <Detail
-                  label="Submitted"
-                  value={new Date(selected.createdAt).toLocaleString()}
+                  label={t("admin.initiative")}
+                  value={tInitiativeLabel(locale, selected.payload)}
+                />
+                <Detail
+                  label={t("admin.regions")}
+                  value={tActiveRegionsLabel(locale, selected.payload)}
+                />
+                <Detail
+                  label={t("admin.friction")}
+                  value={tFrictionBadge(locale, selected.frictionPercent)}
+                />
+                <Detail
+                  label={t("admin.status")}
+                  value={t(`status.${packStatusKey(selected.payload)}`)}
+                />
+                <Detail
+                  label={t("admin.submitted")}
+                  value={new Date(selected.createdAt).toLocaleString(
+                    locale === "zh" ? "zh-CN" : locale,
+                  )}
                 />
               </dl>
               <p className="text-xs leading-relaxed text-slate-600">
                 {selected.payload.impactNarrative}
               </p>
-              <button
-                type="button"
-                onClick={() => void exportSelectedPdf()}
-                disabled={exporting}
-                className="w-full rounded-lg bg-brand-blue px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
-              >
-                {exporting ? "Preparing PDF…" : "Export PDF"}
-              </button>
+              <div className="space-y-2">
+                <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  {t("lang.pdf")}
+                </label>
+                <select
+                  value={pdfLocale}
+                  onChange={(event) =>
+                    setPdfLocale(event.target.value as Locale)
+                  }
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs"
+                >
+                  {LOCALES.map((item) => (
+                    <option key={item} value={item}>
+                      {t(`lang.${item}`)}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => void exportSelectedPdf()}
+                  disabled={exporting}
+                  className="w-full rounded-lg bg-brand-blue px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+                >
+                  {exporting ? t("admin.preparing") : t("admin.export")}
+                </button>
+              </div>
             </div>
           ) : (
-            <p className="text-sm text-slate-500">
-              Submitted packs will appear here. Export PDF is facilitator-only.
-            </p>
+            <p className="text-sm text-slate-500">{t("admin.emptyDetail")}</p>
           )}
         </aside>
       </section>
@@ -324,8 +395,8 @@ function Detail({ label, value }: { label: string; value: string }) {
   );
 }
 
-function formatWhen(iso: string) {
-  return new Date(iso).toLocaleString(undefined, {
+function formatWhen(iso: string, locale: Locale) {
+  return new Date(iso).toLocaleString(locale === "zh" ? "zh-CN" : locale, {
     month: "short",
     day: "numeric",
     hour: "2-digit",

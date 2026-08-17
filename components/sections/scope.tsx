@@ -2,35 +2,29 @@
 
 import { INITIATIVES } from "@/lib/defaults";
 import { useWorkbook } from "@/components/workbook-provider";
+import { useLocale } from "@/components/locale-provider";
+import { tRegionName } from "@/lib/i18n";
 
 export function ScopeSection() {
-  const {
-    state,
-    update,
-    toggleRegion,
-    setTab,
-    showToast,
-  } = useWorkbook();
+  const { locale, t } = useLocale();
+  const { state, update, toggleRegion, setTab, showToast } = useWorkbook();
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
-          Pre-work Step 1
+          {t("scope.kicker")}
         </span>
-        <h2 className="text-xl font-bold text-slate-900">
-          Select the live initiative and target regions
-        </h2>
+        <h2 className="text-xl font-bold text-slate-900">{t("scope.title")}</h2>
         <p className="mt-1 text-xs text-slate-500 sm:text-sm">
-          Pick the operational initiative your team will optimize. It should
-          require close collaboration between headquarters and other sites.
+          {t("scope.lead")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="space-y-4">
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-            A. Primary operational category
+            {t("scope.category")}
           </label>
           <div className="space-y-3">
             {INITIATIVES.map((item) => {
@@ -53,10 +47,10 @@ export function ScopeSection() {
                   />
                   <div className="ml-3 w-full">
                     <span className="block text-sm font-semibold text-slate-800">
-                      {item.label}
+                      {t(`init.${item.id}.label`)}
                     </span>
                     <span className="mt-0.5 block text-xs text-slate-500">
-                      {item.description}
+                      {t(`init.${item.id}.desc`)}
                     </span>
                     {item.id === "other" && selected ? (
                       <input
@@ -65,7 +59,7 @@ export function ScopeSection() {
                         onChange={(event) =>
                           update({ customInitiative: event.target.value })
                         }
-                        placeholder="Describe the operational context..."
+                        placeholder={t("init.other.placeholder")}
                         className="mt-1.5 w-full rounded border border-slate-300 p-2 text-xs focus:outline-none focus:ring-1 focus:ring-brand-blue"
                       />
                     ) : null}
@@ -79,16 +73,13 @@ export function ScopeSection() {
         <div className="space-y-6">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <span className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-              Prepared by — required to submit
+              {t("scope.prepared")}
             </span>
-            <p className="mt-1 text-xs text-slate-500">
-              Full name, email, company, and position are required to submit.
-              The facilitator prints them on the PDF.
-            </p>
+            <p className="mt-1 text-xs text-slate-500">{t("scope.preparedHelp")}</p>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Full name
+                  {t("scope.fullName")}
                 </label>
                 <input
                   type="text"
@@ -103,7 +94,7 @@ export function ScopeSection() {
               </div>
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Email
+                  {t("scope.email")}
                 </label>
                 <input
                   type="email"
@@ -118,7 +109,7 @@ export function ScopeSection() {
               </div>
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Company
+                  {t("scope.company")}
                 </label>
                 <input
                   type="text"
@@ -128,12 +119,12 @@ export function ScopeSection() {
                     update({ companyName: event.target.value })
                   }
                   className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
-                  placeholder="The company"
+                  placeholder={t("scope.companyPh")}
                 />
               </div>
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Position
+                  {t("scope.position")}
                 </label>
                 <input
                   type="text"
@@ -143,7 +134,7 @@ export function ScopeSection() {
                     update({ authorPosition: event.target.value })
                   }
                   className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
-                  placeholder="QA Lead, Site Head, …"
+                  placeholder={t("scope.positionPh")}
                 />
               </div>
             </div>
@@ -151,20 +142,20 @@ export function ScopeSection() {
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              B. Project name
+              {t("scope.project")}
             </label>
             <input
               type="text"
               value={state.projectName}
               onChange={(event) => update({ projectName: event.target.value })}
               className="w-full rounded-lg border border-slate-300 p-3 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder="Specific operational project name"
+              placeholder={t("scope.projectPh")}
             />
           </div>
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              C. Participating regions
+              {t("scope.regions")}
             </label>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {state.regions.map((region) => {
@@ -175,7 +166,7 @@ export function ScopeSection() {
                     type="button"
                     onClick={() => {
                       if (active && state.activeRegionIds.length <= 1) {
-                        showToast("Keep at least one region selected.", "⚠️");
+                        showToast(t("toast.regionMin"), "⚠️");
                         return;
                       }
                       toggleRegion(region.id);
@@ -187,21 +178,19 @@ export function ScopeSection() {
                     }`}
                   >
                     <span>
-                      {region.flag} {region.name}
+                      {region.flag} {tRegionName(locale, region)}
                     </span>
                     {active ? <span>✓</span> : null}
                   </button>
                 );
               })}
             </div>
-            <p className="mt-2 text-xs text-slate-400">
-              Add or rewrite regions in Step 5 — Regional Playbook.
-            </p>
+            <p className="mt-2 text-xs text-slate-400">{t("scope.regionsHelp")}</p>
           </div>
 
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-              D. Operational impact narrative
+              {t("scope.narrative")}
             </label>
             <textarea
               rows={4}
@@ -210,7 +199,7 @@ export function ScopeSection() {
                 update({ impactNarrative: event.target.value })
               }
               className="w-full rounded-lg border border-slate-300 p-3 text-xs focus:outline-none focus:ring-1 focus:ring-brand-blue sm:text-sm"
-              placeholder="3–5 sentences on current delays, rework, or friction, and the business impact of resolving them..."
+              placeholder={t("scope.narrativePh")}
             />
           </div>
         </div>
@@ -222,7 +211,7 @@ export function ScopeSection() {
           onClick={() => setTab("diagnostic")}
           className="rounded-lg bg-brand-blue px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700"
         >
-          Proceed to Step 2: Cultural diagnostic →
+          {t("scope.next")}
         </button>
       </div>
     </div>

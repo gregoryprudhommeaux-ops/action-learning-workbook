@@ -10,15 +10,16 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { emptyRegion } from "@/lib/defaults";
+import { emptyRegion, exampleState } from "@/lib/defaults";
 import type { DiagnosticKey, Region, TabId, WorkbookState } from "@/lib/types";
+import { useLocale } from "@/components/locale-provider";
 import {
   auditReady,
   identityComplete,
   missingAuditItems,
-  packStatusLabel,
   pdfExportReady,
   stepStatus,
+  type MissingItemId,
   type StepStatus,
 } from "@/lib/completeness";
 import {
@@ -29,16 +30,20 @@ import {
   subscribeWorkbook,
 } from "@/lib/workbook-store";
 import {
-  activeRegionsLabel,
   diagnosticCounts,
   fileSlug,
-  frictionAnalysis,
-  frictionBadge,
   frictionPercent,
-  initiativeLabel,
   mergeState,
   roiHours,
 } from "@/lib/workbook-state";
+import {
+  tActiveRegionsLabel,
+  tFrictionAnalysis,
+  tFrictionBadge,
+  tInitiativeLabel,
+  tMissingLabel,
+  tPackStatus,
+} from "@/lib/i18n";
 
 type ToastPayload = { message: string; icon: string };
 
@@ -59,6 +64,7 @@ type WorkbookContextValue = {
   addRegion: () => string;
   removeRegion: (id: string) => void;
   saveManual: () => void;
+  loadExample: () => void;
   submitPack: () => Promise<void>;
   exportJson: () => void;
   importJson: (file: File) => Promise<void>;
@@ -74,13 +80,14 @@ type WorkbookContextValue = {
   packStatus: string;
   readyForAudit: boolean;
   pdfReady: boolean;
-  missingAudit: { tab: TabId; label: string }[];
+  missingAudit: { tab: TabId; id: MissingItemId; label: string }[];
   stepStatusFor: (tab: TabId) => StepStatus;
 };
 
 const WorkbookContext = createContext<WorkbookContextValue | null>(null);
 
 export function WorkbookProvider({ children }: { children: ReactNode }) {
+  const { locale, t } = useLocale();
   const state = useSyncExternalStore(
     subscribeWorkbook,
     getWorkbookSnapshot,
@@ -167,14 +174,16 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
 
   const addRegion = useCallback(() => {
     const region = emptyRegion();
+    region.name = t("region.new.name");
+    region.tagline = t("region.new.tagline");
     setWorkbookState((current) => ({
       ...current,
       regions: [...current.regions, region],
       activeRegionIds: [...current.activeRegionIds, region.id],
     }));
-    showToast("Region added. Edit the playbook card.", "🌍");
+    showToast(t("toast.regionAdd"), "🌍");
     return region.id;
-  }, [showToast]);
+  }, [showToast, t]);
 
   const removeRegion = useCallback((id: string) => {
     setWorkbookState((current) => {
@@ -192,20 +201,24 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
 
   const saveManual = useCallback(() => {
     persistWorkbook();
-    showToast("Saved on this device. It does not sync to other browsers.");
-  }, [showToast]);
+    showToast(t("toast.saved"));
+  }, [showToast, t]);
+
+  const loadExample = useCallback(() => {
+    setWorkbookState(
+      JSON.parse(JSON.stringify(exampleState)) as WorkbookState,
+    );
+    showToast(t("toast.example"));
+  }, [showToast, t]);
 
   const submitPack = useCallback(async () => {
     if (!identityComplete(state)) {
-      showToast(
-        "Add your name, email, company, and position to submit the pack.",
-        "⚠️",
-      );
+      showToast(t("toast.identity"), "⚠️");
       setTab("scope");
       return;
     }
     try {
-      showToast("Submitting pack…", "📤");
+      showToast(t("toast.submitting"), "📤");
       const response = await fetch("/api/submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -213,14 +226,14 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       });
       const body = (await response.json()) as { error?: string };
       if (!response.ok) {
-        showToast(body.error ?? "Submit failed.", "⚠️");
+        showToast(body.error ?? t("toast.submitFail"), "⚠️");
         return;
       }
-      showToast("Pack submitted. The facilitator can export the PDF.", "📤");
+      showToast(t("toast.submitted"), "📤");
     } catch {
-      showToast("Submit failed.", "⚠️");
+      showToast(t("toast.submitFail"), "⚠️");
     }
-  }, [setTab, showToast, state]);
+  }, [setTab, showToast, state, t]);
 
   const exportJson = useCallback(() => {
     const blob = new Blob([JSON.stringify(state, null, 2)], {
@@ -257,18 +270,39 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
     return {
       percent,
       counts,
-      badge: frictionBadge(percent),
-      analysis: frictionAnalysis(counts),
+      badge: {
+        text: tFrictionBadge(locale, percent),
+        className:
+          percent > 65
+            ? "text-lg font-bold text-red-600"
+            : percent > 30
+              ? "text-lg font-bold text-brand-blue"
+              : "text-lg font-bold text-emerald-600",
+      },
+      analysis: tFrictionAnalysis(locale, counts),
     };
-  }, [state.diagnostics]);
+  }, [locale, state.diagnostics]);
 
   const roi = useMemo(() => roiHours(state.calc), [state.calc]);
-  const initiative = useMemo(() => initiativeLabel(state), [state]);
-  const regionsLabel = useMemo(() => activeRegionsLabel(state), [state]);
+  const initiative = useMemo(
+    () => tInitiativeLabel(locale, state),
+    [locale, state],
+  );
+  const regionsLabel = useMemo(
+    () => tActiveRegionsLabel(locale, state),
+    [locale, state],
+  );
   const readyForAudit = useMemo(() => auditReady(state), [state]);
   const pdfReady = useMemo(() => pdfExportReady(state), [state]);
-  const packStatus = useMemo(() => packStatusLabel(state), [state]);
-  const missingAudit = useMemo(() => missingAuditItems(state), [state]);
+  const packStatus = useMemo(() => tPackStatus(locale, state), [locale, state]);
+  const missingAudit = useMemo(
+    () =>
+      missingAuditItems(state).map((item) => ({
+        ...item,
+        label: tMissingLabel(locale, item.id),
+      })),
+    [locale, state],
+  );
   const stepStatusFor = useCallback(
     (tabId: TabId) => stepStatus(tabId, state),
     [state],
@@ -289,6 +323,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       addRegion,
       removeRegion,
       saveManual,
+      loadExample,
       submitPack,
       exportJson,
       importJson,
@@ -317,6 +352,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       regionsLabel,
       removeRegion,
       roi,
+      loadExample,
       saveManual,
       setTab,
       showToast,

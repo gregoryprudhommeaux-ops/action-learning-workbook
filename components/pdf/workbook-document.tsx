@@ -1,14 +1,11 @@
 "use client";
 
-import {
-  Document,
-  Page,
-  View,
-  Text,
-  StyleSheet,
-} from "@react-pdf/renderer";
+import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import type { WorkbookState } from "@/lib/types";
-import { companyAsName } from "@/lib/workbook-state";
+import type { Locale } from "@/lib/i18n/types";
+import { translate } from "@/lib/i18n/translate";
+import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n/labels";
+import { PDF_FONT } from "@/lib/pdf-fonts";
 
 const navy = "#0f172a";
 const brand = "#1e40af";
@@ -28,7 +25,7 @@ const styles = StyleSheet.create({
     paddingTop: 78,
     paddingBottom: 48,
     paddingHorizontal: 42,
-    fontFamily: "Helvetica",
+    fontFamily: PDF_FONT,
     fontSize: 9,
     color: slate,
   },
@@ -51,12 +48,14 @@ const styles = StyleSheet.create({
     letterSpacing: 1.2,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
   },
   headerTitle: {
     color: "#f1f5f9",
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
   },
   headerMeta: {
     color: "#94a3b8",
@@ -67,13 +66,15 @@ const styles = StyleSheet.create({
     color: brand,
     fontSize: 8,
     letterSpacing: 1.4,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     textTransform: "uppercase",
     marginBottom: 4,
   },
   h1: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     color: navy,
     marginBottom: 10,
     lineHeight: 1.25,
@@ -97,17 +98,20 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
     textTransform: "uppercase",
     marginBottom: 3,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
   },
   metaValue: {
     fontSize: 8,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     color: navy,
     lineHeight: 1.3,
   },
   sectionTitle: {
     fontSize: 9,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     color: muted,
     letterSpacing: 0.8,
     textTransform: "uppercase",
@@ -124,7 +128,8 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 9,
     lineHeight: 1.45,
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: PDF_FONT,
+    fontStyle: "italic",
     color: slate,
   },
   grid2: {
@@ -141,7 +146,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   cardTitle: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     fontSize: 8,
     color: navy,
     marginBottom: 4,
@@ -169,7 +175,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   th: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     fontSize: 7,
     color: navy,
   },
@@ -177,6 +184,13 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: slate,
     lineHeight: 1.3,
+  },
+  tdBold: {
+    fontSize: 8,
+    color: slate,
+    lineHeight: 1.3,
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
   },
   colPri: { width: "22%" },
   colCh: { width: "28%" },
@@ -195,7 +209,8 @@ const styles = StyleSheet.create({
   },
   driOwner: {
     color: "#7dd3fc",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     fontSize: 9,
   },
   analysis: {
@@ -230,7 +245,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   signName: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
     fontSize: 8,
     color: navy,
   },
@@ -250,6 +266,7 @@ type PdfProps = {
   roi: { monthly: number; pilot: number };
   packStatus: string;
   date: string;
+  locale: Locale;
 };
 
 function SectionTitle({ children }: { children: string }) {
@@ -265,230 +282,220 @@ export function WorkbookPdfDocument({
   roi,
   packStatus,
   date,
+  locale,
 }: PdfProps) {
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(locale, key, vars);
+  const company = tCompanyAsName(locale, state.companyName);
   const activeRegions = state.regions.filter((region) =>
     state.activeRegionIds.includes(region.id),
   );
 
   return (
     <Document
-      title={`${state.projectName} — ALP Workbook`}
-      author={state.authorFullName || state.companyName || "Action Learning Workbook"}
+      title={`${state.projectName} — ${t("app.titleShort")}`}
+      author={state.authorFullName || state.companyName || t("app.title")}
     >
       <Page size="A4" style={styles.page} wrap>
         <View style={styles.headerBar} fixed>
           <View>
             <Text style={styles.badge}>ALP</Text>
             <Text style={[styles.headerTitle, { marginTop: 6 }]}>
-              Action Learning Workbook
+              {t("app.title")}
             </Text>
           </View>
           <View>
-            <Text style={styles.headerMeta}>
-              {companyAsName(state.companyName)}
-            </Text>
+            <Text style={styles.headerMeta}>{company}</Text>
             <Text style={styles.headerMeta}>{packStatus}</Text>
             <Text style={styles.headerMeta}>{date}</Text>
           </View>
         </View>
 
-        <Text style={styles.kicker}>
-          Compiled executive workbook · confidential working draft
-        </Text>
+        <Text style={styles.kicker}>{t("pdf.kicker")}</Text>
         <Text style={styles.h1}>{txt(state.projectName)}</Text>
 
         <View style={[styles.metaRow, { marginBottom: 10 }]}>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Prepared by</Text>
+            <Text style={styles.metaLabel}>{t("pdf.prepared")}</Text>
             <Text style={styles.metaValue}>{txt(state.authorFullName)}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Position</Text>
+            <Text style={styles.metaLabel}>{t("pdf.position")}</Text>
             <Text style={styles.metaValue}>{txt(state.authorPosition)}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Company</Text>
-            <Text style={styles.metaValue}>
-              {companyAsName(state.companyName)}
-            </Text>
+            <Text style={styles.metaLabel}>{t("pdf.company")}</Text>
+            <Text style={styles.metaValue}>{company}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Email</Text>
+            <Text style={styles.metaLabel}>{t("pdf.email")}</Text>
             <Text style={styles.metaValue}>{txt(state.authorEmail)}</Text>
           </View>
         </View>
 
         <View style={styles.metaRow}>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Initiative</Text>
+            <Text style={styles.metaLabel}>{t("pdf.initiative")}</Text>
             <Text style={styles.metaValue}>{txt(initiative)}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Active regions</Text>
+            <Text style={styles.metaLabel}>{t("pdf.regions")}</Text>
             <Text style={styles.metaValue}>{txt(regionsLabel)}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>Diagnostic score</Text>
+            <Text style={styles.metaLabel}>{t("pdf.score")}</Text>
             <Text style={styles.metaValue}>{txt(frictionText)}</Text>
           </View>
           <View style={styles.metaCard}>
-            <Text style={styles.metaLabel}>P1 target SLA</Text>
-            <Text style={styles.metaValue}>{state.sla.p1Hours} hours</Text>
+            <Text style={styles.metaLabel}>{t("pdf.p1")}</Text>
+            <Text style={styles.metaValue}>
+              {t("pdf.hours", { n: state.sla.p1Hours })}
+            </Text>
           </View>
         </View>
 
-        <SectionTitle>1. Operational impact narrative</SectionTitle>
-        <Text style={styles.narrative}>
-          “{txt(state.impactNarrative)}”
-        </Text>
-        <Text style={[styles.analysis, { marginTop: 8 }]}>
-          {txt(analysis)}
-        </Text>
+        <SectionTitle>{t("pdf.s1")}</SectionTitle>
+        <Text style={styles.narrative}>“{txt(state.impactNarrative)}”</Text>
+        <Text style={[styles.analysis, { marginTop: 8 }]}>{txt(analysis)}</Text>
 
-        <SectionTitle>2. Diagnostic friction and examples</SectionTitle>
+        <SectionTitle>{t("pdf.s2")}</SectionTitle>
         <View style={styles.grid2}>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>A. Urgency and time</Text>
+            <Text style={styles.cardTitle}>{t("pdf.a")}</Text>
             <Text style={styles.cardBody}>{txt(state.examples.a)}</Text>
           </View>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>B. Voice and trust</Text>
+            <Text style={styles.cardTitle}>{t("pdf.b")}</Text>
             <Text style={styles.cardBody}>{txt(state.examples.b)}</Text>
           </View>
         </View>
         <View style={styles.grid2}>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>C. Message and clarity</Text>
+            <Text style={styles.cardTitle}>{t("pdf.c")}</Text>
             <Text style={styles.cardBody}>{txt(state.examples.c)}</Text>
           </View>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>D. Power and structure</Text>
+            <Text style={styles.cardTitle}>{t("pdf.d")}</Text>
             <Text style={styles.cardBody}>{txt(state.examples.d)}</Text>
           </View>
         </View>
 
-        <SectionTitle>3. Working agreement and SLA protocol</SectionTitle>
+        <SectionTitle>{t("pdf.s3")}</SectionTitle>
         <View style={styles.tableHeader}>
-          <Text style={[styles.th, styles.colPri]}>Priority</Text>
-          <Text style={[styles.th, styles.colCh]}>Primary channel</Text>
-          <Text style={[styles.th, styles.colSla]}>Target SLA</Text>
-          <Text style={[styles.th, styles.colExp]}>Expectation</Text>
+          <Text style={[styles.th, styles.colPri]}>{t("pdf.priority")}</Text>
+          <Text style={[styles.th, styles.colCh]}>{t("pdf.channel")}</Text>
+          <Text style={[styles.th, styles.colSla]}>{t("pdf.sla")}</Text>
+          <Text style={[styles.th, styles.colExp]}>{t("pdf.expect")}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colPri, { fontFamily: "Helvetica-Bold" }]}>
-            P1 Critical
-          </Text>
+          <Text style={[styles.tdBold, styles.colPri]}>{t("pdf.p1row")}</Text>
           <Text style={[styles.td, styles.colCh]}>{txt(state.sla.p1Channel)}</Text>
-          <Text style={[styles.td, styles.colSla]}>{state.sla.p1Hours} hours</Text>
-          <Text style={[styles.td, styles.colExp]}>
-            Immediate verbal confirmation + incident owner in 2 hrs
+          <Text style={[styles.td, styles.colSla]}>
+            {t("pdf.hours", { n: state.sla.p1Hours })}
           </Text>
+          <Text style={[styles.td, styles.colExp]}>{t("pdf.p1exp")}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colPri, { fontFamily: "Helvetica-Bold" }]}>
-            P2 Standard
-          </Text>
+          <Text style={[styles.tdBold, styles.colPri]}>{t("pdf.p2row")}</Text>
           <Text style={[styles.td, styles.colCh]}>{txt(state.sla.p2Channel)}</Text>
           <Text style={[styles.td, styles.colSla]}>
-            {state.sla.p2Days} business days
+            {t("pdf.days", { n: state.sla.p2Days })}
           </Text>
-          <Text style={[styles.td, styles.colExp]}>
-            Written feedback or extension before the deadline
-          </Text>
+          <Text style={[styles.td, styles.colExp]}>{t("pdf.p2exp")}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colPri, { fontFamily: "Helvetica-Bold" }]}>
-            P3 Info-only
-          </Text>
+          <Text style={[styles.tdBold, styles.colPri]}>{t("pdf.p3row")}</Text>
           <Text style={[styles.td, styles.colCh]}>{txt(state.sla.p3Channel)}</Text>
-          <Text style={[styles.td, styles.colSla]}>No live response</Text>
-          <Text style={[styles.td, styles.colExp]}>
-            Reviewed asynchronously; questions in scheduled syncs
-          </Text>
+          <Text style={[styles.td, styles.colSla]}>{t("pdf.p3sla")}</Text>
+          <Text style={[styles.td, styles.colExp]}>{t("pdf.p3exp")}</Text>
         </View>
 
-        <SectionTitle>4. Directly Responsible Individual</SectionTitle>
+        <SectionTitle>{t("pdf.s4")}</SectionTitle>
         <View style={styles.dri}>
-          <Text>Deliverable: {txt(state.dri.task)}</Text>
+          <Text>{t("pdf.deliverable", { task: txt(state.dri.task) })}</Text>
           <Text style={styles.driOwner}>{txt(state.dri.owner)}</Text>
         </View>
 
-        <SectionTitle>5. 4–6 week pilot plan and KPIs</SectionTitle>
+        <SectionTitle>{t("pdf.s5")}</SectionTitle>
         <View style={styles.grid2}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Routine 1</Text>
-            <Text style={styles.cardBody}>{txt(state.pilot.change1)}</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Routine 2</Text>
-            <Text style={styles.cardBody}>{txt(state.pilot.change2)}</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Routine 3</Text>
-            <Text style={styles.cardBody}>{txt(state.pilot.change3)}</Text>
-          </View>
+          {[state.pilot.change1, state.pilot.change2, state.pilot.change3].map(
+            (change, index) => (
+              <View key={index} style={styles.card}>
+                <Text style={styles.cardTitle}>
+                  {t("pdf.routine", { n: index + 1 })}
+                </Text>
+                <Text style={styles.cardBody}>{txt(change)}</Text>
+              </View>
+            ),
+          )}
         </View>
 
         <View style={styles.tableHeader}>
-          <Text style={[styles.th, styles.colKpi]}>KPI</Text>
-          <Text style={[styles.th, styles.colBase]}>Baseline</Text>
-          <Text style={[styles.th, styles.colTarg]}>Target</Text>
+          <Text style={[styles.th, styles.colKpi]}>{t("pdf.kpi")}</Text>
+          <Text style={[styles.th, styles.colBase]}>{t("pdf.base")}</Text>
+          <Text style={[styles.th, styles.colTarg]}>{t("pdf.targ")}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>SOP review response time</Text>
+          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k1")}</Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase1)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg1)}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>Off-hours call frequency</Text>
+          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k2")}</Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase2)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg2)}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>Cross-site trust rating</Text>
+          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k3")}</Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase3)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg3)}</Text>
         </View>
 
         <View style={[styles.grid2, { marginTop: 10 }]}>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Hours saved / month</Text>
-            <Text style={styles.metaValue}>{roi.monthly} hrs</Text>
+            <Text style={styles.cardTitle}>{t("pdf.month")}</Text>
+            <Text style={styles.metaValue}>
+              {t("pilot.hrs", { n: roi.monthly })}
+            </Text>
             <Text style={styles.cardBody}>
-              Team of {state.calc.teamSize} · {state.calc.hoursPerWk} alignment
-              hours / person / week · {state.calc.pctGain}% friction reduction
+              {t("pdf.proj", {
+                size: state.calc.teamSize,
+                hours: state.calc.hoursPerWk,
+                pct: state.calc.pctGain,
+              })}
             </Text>
           </View>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Saved in 6-week pilot</Text>
-            <Text style={styles.metaValue}>{roi.pilot} hrs</Text>
-            <Text style={styles.cardBody}>
-              Projection only. Recalculate after the live audit if SLA targets
-              change.
+            <Text style={styles.cardTitle}>{t("pdf.six")}</Text>
+            <Text style={styles.metaValue}>
+              {t("pilot.hrs", { n: roi.pilot })}
             </Text>
+            <Text style={styles.cardBody}>{t("pdf.recalc")}</Text>
           </View>
         </View>
 
-        <SectionTitle>6. Regional playbook (active sites)</SectionTitle>
+        <SectionTitle>{t("pdf.s6")}</SectionTitle>
         {activeRegions.map((region) => (
           <View key={region.id} style={[styles.card, { marginBottom: 8 }]} wrap={false}>
             <Text style={styles.cardTitle}>
-              {txt(region.code)} · {txt(region.name)}
+              {txt(region.code)} · {txt(tRegionName(locale, region))}
             </Text>
             <Text style={[styles.cardBody, { marginBottom: 4, color: muted }]}>
-              {txt(region.tagline)}
+              {txt(tRegionTagline(locale, region))}
             </Text>
             <Text style={styles.cardBody}>
-              Communication: {txt(region.communication)}
+              {t("pdf.comm", { text: txt(region.communication) })}
             </Text>
             <Text style={styles.cardBody}>
-              Meetings: {txt(region.meetingNorms)}
+              {t("pdf.meet", { text: txt(region.meetingNorms) })}
             </Text>
-            <Text style={styles.cardBody}>Tip: {txt(region.tip)}</Text>
+            <Text style={styles.cardBody}>
+              {t("pdf.tip", { text: txt(region.tip) })}
+            </Text>
           </View>
         ))}
 
-        <SectionTitle>7. Sign-off</SectionTitle>
+        <SectionTitle>{t("pdf.s7")}</SectionTitle>
         <View style={styles.signRow}>
           <View style={styles.signBox}>
             <Text style={styles.signName}>{txt(state.authorFullName)}</Text>
@@ -498,22 +505,20 @@ export function WorkbookPdfDocument({
             </Text>
           </View>
           <View style={styles.signBox}>
-            <Text style={styles.signName}>Cross-regional counterpart</Text>
-            <Text style={styles.signHint}>Confirmed pre-work</Text>
+            <Text style={styles.signName}>{t("pdf.counterpart")}</Text>
+            <Text style={styles.signHint}>{t("pdf.confirmed")}</Text>
           </View>
           <View style={styles.signBox}>
-            <Text style={styles.signName}>Facilitator / coach</Text>
-            <Text style={styles.signHint}>Pending live audit</Text>
+            <Text style={styles.signName}>{t("pdf.coach")}</Text>
+            <Text style={styles.signHint}>{t("pdf.pending")}</Text>
           </View>
         </View>
 
         <View style={styles.footer} fixed>
-          <Text>
-            Action Learning Workbook · {companyAsName(state.companyName)}
-          </Text>
+          <Text>{t("pdf.footer", { company })}</Text>
           <Text
             render={({ pageNumber, totalPages }) =>
-              `Page ${pageNumber} / ${totalPages}`
+              t("pdf.page", { n: pageNumber, total: totalPages })
             }
           />
         </View>

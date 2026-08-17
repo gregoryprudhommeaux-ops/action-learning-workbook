@@ -19,7 +19,8 @@ body {
 }
 
 body {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-geist-sans), var(--font-noto-sc), "PingFang SC",
+    "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
 }
 
 .chart-container {

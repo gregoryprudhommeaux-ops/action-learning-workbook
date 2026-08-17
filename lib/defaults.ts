@@ -6,7 +6,7 @@ import type {
   WorkbookState,
 } from "./types";
 
-export const STORAGE_KEY = "alp_workbook_state";
+export const STORAGE_KEY = "alp_workbook_state_v2";
 
 export const TABS: { id: TabId; label: string; short: string }[] = [
   { id: "briefing", label: "Strategic Purpose", short: "Purpose" },
@@ -248,7 +248,61 @@ export const DIAGNOSTIC_AXES = [
   },
 ];
 
+const EMPTY_DIAGNOSTICS: WorkbookState["diagnostics"] = {
+  a1: false,
+  a2: false,
+  a3: false,
+  b1: false,
+  b2: false,
+  b3: false,
+  c1: false,
+  c2: false,
+  c3: false,
+  d1: false,
+  d2: false,
+  d3: false,
+};
+
 export const defaultState: WorkbookState = {
+  authorFullName: "",
+  authorEmail: "",
+  authorPosition: "",
+  companyName: "",
+  initiativeId: "audit",
+  customInitiative: "",
+  projectName: "",
+  activeRegionIds: [],
+  regions: DEFAULT_REGIONS,
+  impactNarrative: "",
+  diagnostics: EMPTY_DIAGNOSTICS,
+  examples: { a: "", b: "", c: "", d: "" },
+  sla: {
+    p1Channel: "",
+    p1Hours: 0,
+    p2Channel: "",
+    p2Days: 0,
+    p3Channel: "",
+  },
+  dri: { task: "", owner: "" },
+  pilot: {
+    change1: "",
+    change2: "",
+    change3: "",
+    kpiBase1: "",
+    kpiTarg1: "",
+    kpiBase2: "",
+    kpiTarg2: "",
+    kpiBase3: "",
+    kpiTarg3: "",
+  },
+  calc: {
+    teamSize: 0,
+    hoursPerWk: 0,
+    pctGain: 0,
+  },
+};
+
+export const exampleState: WorkbookState = {
   authorFullName: "",
   authorEmail: "",
   authorPosition: "",

@@ -9,6 +9,7 @@ import {
   RadarController,
   RadialLinearScale,
 } from "chart.js";
+import { useLocale } from "@/components/locale-provider";
 
 Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler);
 
@@ -17,6 +18,7 @@ export function FrictionRadar({
 }: {
   counts: [number, number, number, number];
 }) {
+  const { t, locale } = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<Chart | null>(null);
 
@@ -24,19 +26,22 @@ export function FrictionRadar({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const labels = [
+      t("radar.clock"),
+      t("radar.voice"),
+      t("radar.message"),
+      t("radar.power"),
+    ];
+    const datasetLabel = t("radar.dataset");
+
     if (!chartRef.current) {
       chartRef.current = new Chart(canvas, {
         type: "radar",
         data: {
-          labels: [
-            "Clock & Time",
-            "Voice & Trust",
-            "Message Clarity",
-            "Power & Hierarchy",
-          ],
+          labels,
           datasets: [
             {
-              label: "Project Friction Level (%)",
+              label: datasetLabel,
               data: counts.map((count) => count * 33.3),
               backgroundColor: "rgba(30, 64, 175, 0.2)",
               borderColor: "#1e40af",
@@ -66,12 +71,16 @@ export function FrictionRadar({
           plugins: { legend: { display: false } },
         },
       });
+    } else {
+      const chart = chartRef.current;
+      chart.data.labels = labels;
+      if (chart.data.datasets[0]) {
+        chart.data.datasets[0].label = datasetLabel;
+        chart.data.datasets[0].data = counts.map((count) => count * 33.3);
+      }
+      chart.update();
     }
-
-    const chart = chartRef.current;
-    chart.data.datasets[0].data = counts.map((count) => count * 33.3);
-    chart.update();
-  }, [counts]);
+  }, [counts, locale, t]);
 
   useEffect(() => {
     return () => {

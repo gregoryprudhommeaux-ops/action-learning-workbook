@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { TABS } from "@/lib/defaults";
+import { useLocale } from "@/components/locale-provider";
 import type { StepStatus } from "@/lib/completeness";
 import type { TabId } from "@/lib/types";
 
-function statusPhrase(status: StepStatus) {
-  if (status === "done") return "complete";
-  if (status === "blocked") return "needs input";
-  return "not started";
+function statusKey(status: StepStatus) {
+  if (status === "done") return "nav.complete";
+  if (status === "blocked") return "nav.blocked";
+  return "nav.todo";
 }
 
 export function StepNav({
@@ -20,6 +21,7 @@ export function StepNav({
   setTab: (id: TabId) => void;
   stepStatusFor: (id: TabId) => StepStatus;
 }) {
+  const { t } = useLocale();
   const index = TABS.findIndex((item) => item.id === tab);
   const current = TABS[index] ?? TABS[0];
   const prev = index > 0 ? TABS[index - 1] : null;
@@ -39,7 +41,7 @@ export function StepNav({
   return (
     <nav
       className="no-print sticky top-16 z-40 border-b border-slate-200 bg-white"
-      aria-label="Workbook steps"
+      aria-label={t("nav.aria")}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ol className="relative grid grid-cols-7 gap-0 py-3">
@@ -54,14 +56,19 @@ export function StepNav({
               sessionReady &&
               status === "done" &&
               !doneAtOpen.current[item.id];
+            const label = t(`tab.${item.id}`);
             return (
               <li key={item.id} className="relative z-10 flex justify-center">
                 <button
                   type="button"
                   onClick={() => setTab(item.id)}
                   aria-current={active ? "step" : undefined}
-                  aria-label={`Step ${stepIndex + 1}, ${item.label}, ${statusPhrase(status)}`}
-                  title={item.label}
+                  aria-label={t("nav.stepAria", {
+                    n: stepIndex + 1,
+                    label,
+                    status: t(statusKey(status)),
+                  })}
+                  title={label}
                   className="group flex w-full max-w-[7.5rem] flex-col items-center gap-1.5"
                 >
                   <span
@@ -80,7 +87,7 @@ export function StepNav({
                         : "font-medium text-slate-500 group-hover:text-navy-900"
                     }`}
                   >
-                    {item.short}
+                    {t(`tab.short.${item.id}`)}
                   </span>
                 </button>
               </li>
@@ -95,10 +102,10 @@ export function StepNav({
             onClick={() => prev && setTab(prev.id)}
             className="rounded-md px-2 py-1 text-xs font-medium text-slate-600 disabled:opacity-30"
           >
-            Previous
+            {t("nav.prev")}
           </button>
           <p className="min-w-0 truncate text-center text-xs font-semibold text-navy-900">
-            {index + 1} / {TABS.length} · {current.label}
+            {index + 1} / {TABS.length} · {t(`tab.${current.id}`)}
           </p>
           <button
             type="button"
@@ -106,7 +113,7 @@ export function StepNav({
             onClick={() => next && setTab(next.id)}
             className="rounded-md px-2 py-1 text-xs font-medium text-brand-blue disabled:opacity-30"
           >
-            Next
+            {t("nav.next")}
           </button>
         </div>
       </div>

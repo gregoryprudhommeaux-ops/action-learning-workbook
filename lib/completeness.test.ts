@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { defaultState } from "./defaults";
+import { defaultState, exampleState } from "./defaults";
 import {
   auditReady,
   identityComplete,
@@ -14,19 +14,27 @@ import type { WorkbookState } from "./types";
 
 function withPatch(patch: Partial<WorkbookState>): WorkbookState {
   return {
-    ...defaultState,
+    ...exampleState,
     ...patch,
-    sla: { ...defaultState.sla, ...patch.sla },
-    dri: { ...defaultState.dri, ...patch.dri },
+    sla: { ...exampleState.sla, ...patch.sla },
+    dri: { ...exampleState.dri, ...patch.dri },
   };
 }
 
 describe("completeness", () => {
-  it("treats the starter pack as ready for audit but not for PDF until author details exist", () => {
-    assert.equal(auditReady(defaultState), true);
+  it("starts empty so a new participant is not audit-ready", () => {
+    assert.equal(auditReady(defaultState), false);
+    assert.equal(scopeComplete(defaultState), false);
+    assert.equal(identityComplete(defaultState), false);
     assert.equal(packStatusLabel(defaultState), "Add author details to submit");
-    assert.equal(stepStatus("compiled", defaultState), "blocked");
-    const labels = missingAuditItems(defaultState).map((item) => item.label);
+    assert.equal(stepStatus("scope", defaultState), "blocked");
+  });
+
+  it("treats the example pack as ready for audit but not for PDF until author details exist", () => {
+    assert.equal(auditReady(exampleState), true);
+    assert.equal(packStatusLabel(exampleState), "Add author details to submit");
+    assert.equal(stepStatus("compiled", exampleState), "blocked");
+    const labels = missingAuditItems(exampleState).map((item) => item.label);
     assert.ok(labels.includes("Company"));
     assert.ok(labels.includes("Full name"));
     assert.ok(labels.includes("Email"));
@@ -92,7 +100,7 @@ describe("completeness", () => {
 
   it("blocks readiness when DRI or SLA is empty", () => {
     const state = withPatch({
-      sla: { ...defaultState.sla, p1Channel: "", p1Hours: 0 },
+      sla: { ...exampleState.sla, p1Channel: "", p1Hours: 0 },
       dri: { task: "", owner: "" },
     });
     assert.equal(auditReady(state), false);
