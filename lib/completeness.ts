@@ -1,4 +1,5 @@
 import type { TabId, WorkbookState } from "./types";
+import { isNamedCompany } from "./workbook-state";
 
 export type StepStatus = "done" | "todo" | "blocked";
 
@@ -61,7 +62,7 @@ export function identityComplete(state: WorkbookState): boolean {
   return (
     filled(state.authorFullName) &&
     isEmail(state.authorEmail) &&
-    filled(state.companyName) &&
+    isNamedCompany(state.companyName) &&
     filled(state.authorPosition)
   );
 }
@@ -116,7 +117,7 @@ export function missingAuditItems(state: WorkbookState): {
   if (!isEmail(state.authorEmail)) {
     items.push({ tab: "scope", label: "Email" });
   }
-  if (!filled(state.companyName)) {
+  if (!isNamedCompany(state.companyName)) {
     items.push({ tab: "scope", label: "Company" });
   }
   if (!filled(state.authorPosition)) {

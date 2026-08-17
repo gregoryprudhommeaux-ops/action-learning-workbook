@@ -7,8 +7,8 @@ import { GovernanceSection } from "@/components/sections/governance";
 import { PilotSection } from "@/components/sections/pilot";
 import { PlaybookSection } from "@/components/sections/playbook";
 import { ScopeSection } from "@/components/sections/scope";
+import { StepNav } from "@/components/step-nav";
 import { useWorkbook, WorkbookProvider } from "@/components/workbook-provider";
-import { TABS } from "@/lib/defaults";
 
 function WorkbookShell() {
   const {
@@ -77,41 +77,7 @@ function WorkbookShell() {
         </div>
       </header>
 
-      <nav className="no-print sticky top-16 z-40 border-b border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="no-scrollbar flex space-x-1 overflow-x-auto py-2 text-xs font-medium text-slate-600 sm:text-sm">
-            {TABS.map((item) => {
-              const active = tab === item.id;
-              const status = stepStatusFor(item.id);
-              const dotClass =
-                status === "done"
-                  ? "bg-emerald-500"
-                  : status === "blocked"
-                    ? "bg-amber-500"
-                    : "bg-slate-300";
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setTab(item.id)}
-                  aria-current={active ? "step" : undefined}
-                  className={`flex items-center whitespace-nowrap rounded-md px-3 py-2 transition sm:px-4 ${
-                    active
-                      ? "border-b-2 border-brand-blue bg-brand-soft font-semibold text-brand-blue"
-                      : "hover:bg-slate-50"
-                  }`}
-                >
-                  <span
-                    className={`mr-2 inline-block h-1.5 w-1.5 rounded-full ${dotClass}`}
-                    aria-hidden="true"
-                  />
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
+      <StepNav tab={tab} setTab={setTab} stepStatusFor={stepStatusFor} />
 
       <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-6 sm:px-6 lg:px-8">
         {tab === "briefing" ? <BriefingSection /> : null}

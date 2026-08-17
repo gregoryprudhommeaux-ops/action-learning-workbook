@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import type { WorkbookState } from "@/lib/types";
+import { companyAsName } from "@/lib/workbook-state";
 
 const navy = "#0f172a";
 const brand = "#1e40af";
@@ -284,9 +285,7 @@ export function WorkbookPdfDocument({
           </View>
           <View>
             <Text style={styles.headerMeta}>
-              {txt(state.companyName) === "—"
-                ? "Organization"
-                : state.companyName}
+              {companyAsName(state.companyName)}
             </Text>
             <Text style={styles.headerMeta}>{packStatus}</Text>
             <Text style={styles.headerMeta}>{date}</Text>
@@ -309,7 +308,9 @@ export function WorkbookPdfDocument({
           </View>
           <View style={styles.metaCard}>
             <Text style={styles.metaLabel}>Company</Text>
-            <Text style={styles.metaValue}>{txt(state.companyName)}</Text>
+            <Text style={styles.metaValue}>
+              {companyAsName(state.companyName)}
+            </Text>
           </View>
           <View style={styles.metaCard}>
             <Text style={styles.metaLabel}>Email</Text>
@@ -508,10 +509,7 @@ export function WorkbookPdfDocument({
 
         <View style={styles.footer} fixed>
           <Text>
-            Action Learning Workbook ·{" "}
-            {txt(state.companyName) === "—"
-              ? "Organization"
-              : state.companyName}
+            Action Learning Workbook · {companyAsName(state.companyName)}
           </Text>
           <Text
             render={({ pageNumber, totalPages }) =>

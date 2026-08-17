@@ -1,6 +1,7 @@
 "use client";
 
 import { useWorkbook } from "@/components/workbook-provider";
+import { companyInCopy } from "@/lib/workbook-state";
 
 export function BriefingSection() {
   const { state, setTab } = useWorkbook();
@@ -17,7 +18,7 @@ export function BriefingSection() {
           </h2>
           <p className="text-sm leading-relaxed text-slate-200 sm:text-base">
             Daily operational velocity depends on execution across{" "}
-            {state.companyName || "your organization"} — headquarters and
+            {companyInCopy(state.companyName)} — headquarters and
             international sites with different clocks, voice norms, and
             decision habits.
           </p>

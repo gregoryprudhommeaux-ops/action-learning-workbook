@@ -27,6 +27,7 @@ describe("completeness", () => {
     assert.equal(packStatusLabel(defaultState), "Add author details to submit");
     assert.equal(stepStatus("compiled", defaultState), "blocked");
     const labels = missingAuditItems(defaultState).map((item) => item.label);
+    assert.ok(labels.includes("Company"));
     assert.ok(labels.includes("Full name"));
     assert.ok(labels.includes("Email"));
     assert.ok(labels.includes("Position"));
@@ -37,11 +38,27 @@ describe("completeness", () => {
       authorFullName: "Alex Chen",
       authorEmail: "alex.chen@acme.com",
       authorPosition: "HQ QA Lead",
+      companyName: "Northwind",
     });
     assert.equal(identityComplete(state), true);
     assert.equal(pdfExportReady(state), true);
     assert.equal(packStatusLabel(state), "Ready for live audit");
     assert.equal(stepStatus("compiled", state), "done");
+  });
+
+  it("rejects Acme Global as a real company name", () => {
+    const state = withPatch({
+      authorFullName: "Alex Chen",
+      authorEmail: "alex.chen@acme.com",
+      authorPosition: "HQ QA Lead",
+      companyName: "Acme Global",
+    });
+    assert.equal(identityComplete(state), false);
+    assert.ok(
+      missingAuditItems(state)
+        .map((item) => item.label)
+        .includes("Company"),
+    );
   });
 
   it("blocks audit readiness without a project name or region", () => {
@@ -51,6 +68,7 @@ describe("completeness", () => {
       authorFullName: "Alex Chen",
       authorEmail: "alex.chen@acme.com",
       authorPosition: "HQ QA Lead",
+      companyName: "Northwind",
     });
     assert.equal(scopeComplete(state), false);
     assert.equal(auditReady(state), false);

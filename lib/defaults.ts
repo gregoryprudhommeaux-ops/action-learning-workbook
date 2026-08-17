@@ -8,14 +8,14 @@ import type {
 
 export const STORAGE_KEY = "alp_workbook_state";
 
-export const TABS: { id: TabId; label: string }[] = [
-  { id: "briefing", label: "1. Strategic Purpose" },
-  { id: "scope", label: "2. Initiative Scope" },
-  { id: "diagnostic", label: "3. Cultural Diagnostic" },
-  { id: "governance", label: "4. SLA & Governance" },
-  { id: "playbook", label: "5. Regional Playbook" },
-  { id: "pilot", label: "6. Pilot & KPI Calculator" },
-  { id: "compiled", label: "7. Executive Summary" },
+export const TABS: { id: TabId; label: string; short: string }[] = [
+  { id: "briefing", label: "Strategic Purpose", short: "Purpose" },
+  { id: "scope", label: "Initiative Scope", short: "Scope" },
+  { id: "diagnostic", label: "Cultural Diagnostic", short: "Diagnostic" },
+  { id: "governance", label: "SLA & Governance", short: "SLA" },
+  { id: "playbook", label: "Regional Playbook", short: "Playbook" },
+  { id: "pilot", label: "Pilot & KPI Calculator", short: "Pilot" },
+  { id: "compiled", label: "Executive Summary", short: "Summary" },
 ];
 
 export const INITIATIVES: {
@@ -252,7 +252,7 @@ export const defaultState: WorkbookState = {
   authorFullName: "",
   authorEmail: "",
   authorPosition: "",
-  companyName: "Acme Global",
+  companyName: "",
   initiativeId: "audit",
   customInitiative: "",
   projectName: "Cross-site process transfer & audit alignment",

@@ -61,6 +61,22 @@ export function roiHours(calc: WorkbookState["calc"]): {
   };
 }
 
+const GENERIC_COMPANY = new Set(["acme global", "acme"]);
+
+export function isNamedCompany(name: string | undefined): boolean {
+  const value = (name ?? "").trim();
+  if (!value) return false;
+  return !GENERIC_COMPANY.has(value.toLowerCase());
+}
+
+export function companyInCopy(name: string | undefined): string {
+  return isNamedCompany(name) ? (name ?? "").trim() : "the company";
+}
+
+export function companyAsName(name: string | undefined): string {
+  return isNamedCompany(name) ? (name ?? "").trim() : "The company";
+}
+
 export function initiativeLabel(state: WorkbookState): string {
   if (state.initiativeId === "other") {
     return state.customInitiative.trim() || "Custom operational focus";
@@ -76,7 +92,7 @@ export function activeRegionsLabel(state: WorkbookState): string {
 }
 
 export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
-  return {
+  const merged: WorkbookState = {
     ...defaultState,
     ...parsed,
     diagnostics: { ...defaultState.diagnostics, ...parsed.diagnostics },
@@ -94,6 +110,10 @@ export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
         ? parsed.activeRegionIds
         : defaultState.activeRegionIds,
   };
+  merged.companyName = isNamedCompany(merged.companyName)
+    ? merged.companyName.trim()
+    : "";
+  return merged;
 }
 
 export function loadState(): WorkbookState | null {

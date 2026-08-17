@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useWorkbook } from "@/components/workbook-provider";
+import { companyAsName } from "@/lib/workbook-state";
 
 export function CompiledSection() {
   const {
@@ -108,7 +109,7 @@ export function CompiledSection() {
           <div className="flex items-start justify-between">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-brand-blue">
-                {state.companyName || "Organization"} · Global Action Learning
+                {companyAsName(state.companyName)} · Global Action Learning
                 Project
               </span>
               <h1 className="mt-1 text-2xl font-bold text-navy-900">

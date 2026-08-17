@@ -128,7 +128,7 @@ export function ScopeSection() {
                     update({ companyName: event.target.value })
                   }
                   className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
-                  placeholder="Company or business unit"
+                  placeholder="The company"
                 />
               </div>
               <div>
