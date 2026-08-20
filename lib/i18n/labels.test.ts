@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { DEFAULT_REGIONS } from "./defaults";
-import { tRegionField } from "./i18n/labels";
+import { DEFAULT_REGIONS } from "../defaults";
+import { tRegionField } from "./labels";
 
 describe("tRegionField", () => {
   it("translates catalog defaults when the stored value is untouched", () => {
