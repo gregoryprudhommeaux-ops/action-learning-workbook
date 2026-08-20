@@ -34,7 +34,11 @@ Required env vars (auto-provisioned by Clerk on Vercel):
 - `CLERK_SECRET_KEY`
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
 - `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`
-- `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-in`
+- `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up`
+- `DATABASE_URL` (Neon)
+- `DEVELOPER_EMAILS` — comma-separated emails that can approve facilitator accounts
+
+Facilitators create an account at `/sign-up` (Google), land as **pending**, and only see the inbox after a developer email approves them.
 
 ## What teams fill in
 

@@ -1,0 +1,86 @@
+import { currentUser } from "@clerk/nextjs/server";
+import {
+  canReadPacks,
+  resolveAdminRole,
+  type AdminRole,
+} from "@/lib/admin-auth";
+import { upsertFacilitator } from "@/lib/facilitators";
+
+export type AdminSession = {
+  userId: string;
+  email: string;
+  name: string;
+  role: AdminRole;
+};
+
+export async function loadAdminSession(): Promise<AdminSession | null> {
+  const user = await currentUser();
+  if (!user) return null;
+
+  const email =
+    user.primaryEmailAddress?.emailAddress ??
+    user.emailAddresses[0]?.emailAddress ??
+    "";
+  const name =
+    [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+    user.fullName ||
+    "Facilitator";
+
+  const facilitator = email
+    ? await upsertFacilitator({
+        clerkUserId: user.id,
+        email,
+      })
+    : null;
+
+  const role = resolveAdminRole({
+    email,
+    facilitatorStatus: facilitator?.status ?? null,
+  });
+
+  return {
+    userId: user.id,
+    email: email || "—",
+    name,
+    role,
+  };
+}
+
+export async function requirePackAccess(): Promise<
+  | { ok: true; session: AdminSession }
+  | { ok: false; status: 401 | 403; error: string }
+> {
+  const session = await loadAdminSession();
+  if (!session) {
+    return { ok: false, status: 401, error: "Unauthorized" };
+  }
+  if (!canReadPacks(session.role)) {
+    return {
+      ok: false,
+      status: 403,
+      error: "Facilitator account is not approved yet",
+    };
+  }
+  return { ok: true, session };
+}
+
+export async function requireDeveloper(): Promise<
+  | { ok: true; session: AdminSession }
+  | { ok: false; status: 401 | 403 | 503; error: string }
+> {
+  const session = await loadAdminSession();
+  if (!session) {
+    return { ok: false, status: 401, error: "Unauthorized" };
+  }
+  if (!process.env.DEVELOPER_EMAILS?.trim()) {
+    return {
+      ok: false,
+      status: 503,
+      error: "DEVELOPER_EMAILS is not configured",
+    };
+  }
+  if (session.role !== "developer") {
+    return { ok: false, status: 403, error: "Developer only" };
+  }
+  return { ok: true, session };
+}

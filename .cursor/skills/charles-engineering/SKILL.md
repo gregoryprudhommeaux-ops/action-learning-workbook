@@ -28,7 +28,8 @@ Architecture, code quality, auth, Vercel deploy, performance. French, structured
 2. Secrets only in Vercel env / `.env.local` (never commit, never echo)
 3. Public routes: `/sign-in`, `/sign-up`, `/sso-callback` — everything else requires a session
 4. Unauthenticated users **redirect to `/sign-in`**, never 404 via `auth.protect()` rewrite
-5. Keep the workbook generic (no WuXi branding)
+5. Facilitators self-register at `/sign-up` (Google); `DEVELOPER_EMAILS` approve before pack access
+6. Keep the workbook generic (no WuXi branding)
 
 ## Out of scope
 

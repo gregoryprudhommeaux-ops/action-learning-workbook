@@ -2,30 +2,24 @@
 
 import Link from "next/link";
 import { AuthUser } from "@/components/auth-user";
-import { AdminDashboard } from "@/components/admin/dashboard";
-import { AccountsQueue } from "@/components/admin/accounts-queue";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { useLocale } from "@/components/locale-provider";
-import type { SubmissionRecord } from "@/lib/submission-snapshot";
-import type { FacilitatorRecord } from "@/lib/facilitators";
 import type { AdminRole } from "@/lib/admin-auth";
 
-export function AdminShell({
+export function AdminWaiting({
   name,
   email,
   role,
-  submissions,
-  facilitators,
-  developerEmailsConfigured,
 }: {
   name: string;
   email: string;
-  role: Extract<AdminRole, "developer" | "facilitator">;
-  submissions: SubmissionRecord[];
-  facilitators: FacilitatorRecord[];
-  developerEmailsConfigured: boolean;
+  role: Extract<AdminRole, "pending" | "rejected">;
 }) {
   const { t } = useLocale();
+  const title =
+    role === "rejected" ? t("admin.waiting.rejectedTitle") : t("admin.waiting.pendingTitle");
+  const body =
+    role === "rejected" ? t("admin.waiting.rejectedBody") : t("admin.waiting.pendingBody");
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
@@ -57,15 +51,15 @@ export function AdminShell({
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <p className="mb-6 max-w-2xl text-sm text-slate-600">{t("admin.lead")}</p>
-        {role === "developer" ? (
-          <AccountsQueue
-            initialFacilitators={facilitators}
-            developerEmailsConfigured={developerEmailsConfigured}
-          />
-        ) : null}
-        <AdminDashboard initialSubmissions={submissions} />
+      <main className="mx-auto max-w-lg px-4 py-16 sm:px-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
+          <p className="text-xs font-semibold tracking-widest text-brand-blue uppercase">
+            {t("admin.waiting.badge")}
+          </p>
+          <h2 className="mt-3 text-xl font-bold text-navy-900">{title}</h2>
+          <p className="mt-3 text-sm text-slate-600">{body}</p>
+          <p className="mt-6 text-xs text-slate-400">{email}</p>
+        </div>
       </main>
     </div>
   );
