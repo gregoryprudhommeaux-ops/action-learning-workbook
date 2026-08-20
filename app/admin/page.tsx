@@ -1,18 +1,53 @@
-import { currentUser } from "@clerk/nextjs/server";
+import { canReadPacks } from "@/lib/admin-auth";
+import { loadAdminSession } from "@/lib/admin-session";
 import { AdminShell } from "@/components/admin/shell";
+import { AdminWaiting } from "@/components/admin/waiting";
+import { listFacilitators } from "@/lib/facilitators";
 import { listSubmissions } from "@/lib/submissions";
 
 export default async function AdminPage() {
-  const user = await currentUser();
-  const email =
-    user?.primaryEmailAddress?.emailAddress ??
-    user?.emailAddresses[0]?.emailAddress ??
-    "—";
-  const name =
-    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
-    user?.fullName ||
-    "Facilitator";
-  const submissions = await listSubmissions();
+  const session = await loadAdminSession();
+  if (!session) {
+    return null;
+  }
 
-  return <AdminShell name={name} email={email} submissions={submissions} />;
+  if (!canReadPacks(session.role)) {
+    return (
+      <AdminWaiting
+        name={session.name}
+        email={session.email}
+        role={session.role === "rejected" ? "rejected" : "pending"}
+      />
+    );
+  }
+
+  const role = session.role;
+  if (role !== "developer" && role !== "facilitator") {
+    return (
+      <AdminWaiting
+        name={session.name}
+        email={session.email}
+        role="pending"
+      />
+    );
+  }
+
+  const developerEmailsConfigured = Boolean(
+    process.env.DEVELOPER_EMAILS?.trim(),
+  );
+  const [submissions, facilitators] = await Promise.all([
+    listSubmissions(),
+    role === "developer" ? listFacilitators() : Promise.resolve([]),
+  ]);
+
+  return (
+    <AdminShell
+      name={session.name}
+      email={session.email}
+      role={role}
+      submissions={submissions}
+      facilitators={facilitators}
+      developerEmailsConfigured={developerEmailsConfigured}
+    />
+  );
 }
