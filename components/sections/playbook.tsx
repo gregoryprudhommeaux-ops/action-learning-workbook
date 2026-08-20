@@ -5,7 +5,8 @@ import { ACCENT_STYLES } from "@/lib/defaults";
 import type { Region, RegionAccent, RegionCategory } from "@/lib/types";
 import { useWorkbook } from "@/components/workbook-provider";
 import { useLocale } from "@/components/locale-provider";
-import { tRegionName } from "@/lib/i18n";
+import { tRegionField, tRegionName } from "@/lib/i18n";
+import type { RegionTextField } from "@/lib/i18n/labels";
 
 const ACCENTS: RegionAccent[] = [
   "red",
@@ -55,7 +56,7 @@ export function PlaybookSection() {
   const styles = ACCENT_STYLES[selected.accent];
   const categories = selected.categories ?? [];
 
-  function edit(field: keyof Region, value: string) {
+  function edit(field: RegionTextField | "flag" | "code", value: string) {
     upsertRegion({ ...selected, [field]: value });
   }
 
@@ -128,12 +129,12 @@ export function PlaybookSection() {
               />
               <div className="space-y-1">
                 <input
-                  value={selected.name}
+                  value={tRegionField(locale, selected, "name")}
                   onChange={(event) => edit("name", event.target.value)}
                   className="w-full rounded border border-white/80 bg-white px-2 py-1 text-base font-bold text-slate-900"
                 />
                 <input
-                  value={selected.tagline}
+                  value={tRegionField(locale, selected, "tagline")}
                   onChange={(event) => edit("tagline", event.target.value)}
                   className={`w-full rounded border border-white/80 bg-white px-2 py-1 text-xs font-medium ${styles.tag}`}
                 />
@@ -162,7 +163,7 @@ export function PlaybookSection() {
               >
                 {ACCENTS.map((accent) => (
                   <option key={accent} value={accent}>
-                    {accent}
+                    {t(`play.accent.${accent}`)}
                   </option>
                 ))}
               </select>
@@ -201,7 +202,7 @@ export function PlaybookSection() {
                 </strong>
                 <textarea
                   rows={5}
-                  value={selected[field]}
+                  value={tRegionField(locale, selected, field)}
                   onChange={(event) => edit(field, event.target.value)}
                   placeholder={t(exampleKey)}
                   className="w-full resize-y rounded border border-slate-200 p-2 text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-blue"

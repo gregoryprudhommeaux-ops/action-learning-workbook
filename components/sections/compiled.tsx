@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useWorkbook } from "@/components/workbook-provider";
 import { useLocale } from "@/components/locale-provider";
-import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n";
+import { tCompanyAsName, tRegionField, tRegionName, tRegionTagline } from "@/lib/i18n";
 
 export function CompiledSection() {
   const { locale, t } = useLocale();
@@ -317,15 +317,15 @@ export function CompiledSection() {
                   </p>
                   <p className="mt-2 text-slate-600">
                     <span className="font-semibold">{t("sum.comm")}</span>{" "}
-                    {region.communication}
+                    {tRegionField(locale, region, "communication")}
                   </p>
                   <p className="mt-1 text-slate-600">
                     <span className="font-semibold">{t("sum.meet")}</span>{" "}
-                    {region.meetingNorms}
+                    {tRegionField(locale, region, "meetingNorms")}
                   </p>
                   <p className="mt-1 text-slate-600">
                     <span className="font-semibold">{t("sum.tip")}</span>{" "}
-                    {region.tip}
+                    {tRegionField(locale, region, "tip")}
                   </p>
                   {(region.categories ?? [])
                     .filter(
