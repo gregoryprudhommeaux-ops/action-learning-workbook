@@ -28,13 +28,15 @@ export function AdminDashboard({
   initialSubmissions: SubmissionRecord[];
 }) {
   const { locale, t } = useLocale();
-  const [rows] = useState(initialSubmissions);
+  const [rows, setRows] = useState(initialSubmissions);
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(
     initialSubmissions[0]?.id ?? null,
   );
   const [exporting, setExporting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [pdfLocale, setPdfLocale] = useState<Locale>(locale);
 
   useEffect(() => {
@@ -93,6 +95,35 @@ export function AdminDashboard({
       });
     } finally {
       setExporting(false);
+    }
+  }
+
+  async function deleteSelected() {
+    if (!selected) return;
+    const label =
+      selected.authorFullName || selected.authorEmail || selected.id;
+    if (!window.confirm(t("admin.deleteConfirm", { name: label }))) return;
+
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/admin/submissions/${selected.id}`, {
+        method: "DELETE",
+      });
+      const data = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        setDeleteError(data.error ?? t("admin.deleteFail"));
+        return;
+      }
+      setRows((prev) => {
+        const next = prev.filter((row) => row.id !== selected.id);
+        setSelectedId(next[0]?.id ?? null);
+        return next;
+      });
+    } catch {
+      setDeleteError(t("admin.deleteFail"));
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -347,11 +378,22 @@ export function AdminDashboard({
                 <button
                   type="button"
                   onClick={() => void exportSelectedPdf()}
-                  disabled={exporting}
+                  disabled={exporting || deleting}
                   className="w-full rounded-lg bg-brand-blue px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
                 >
                   {exporting ? t("admin.preparing") : t("admin.export")}
                 </button>
+                <button
+                  type="button"
+                  onClick={() => void deleteSelected()}
+                  disabled={exporting || deleting}
+                  className="w-full rounded-lg border border-red-200 bg-white px-4 py-2.5 text-xs font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-60"
+                >
+                  {deleting ? t("admin.deleting") : t("admin.delete")}
+                </button>
+                {deleteError ? (
+                  <p className="text-xs text-red-600">{deleteError}</p>
+                ) : null}
               </div>
             </div>
           ) : (
