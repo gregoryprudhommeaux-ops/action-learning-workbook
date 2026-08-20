@@ -439,6 +439,7 @@ export const zh: Record<string, string> = {
   "admin.signupLink": "创建一个",
   "admin.haveAccount": "已有账户？",
   "admin.signinLink": "登录",
+  "admin.role.superAdmin": "超级管理员",
   "admin.waiting.badge": "访问权限",
   "admin.waiting.pendingTitle": "等待超级管理员批准",
   "admin.waiting.pendingBody":

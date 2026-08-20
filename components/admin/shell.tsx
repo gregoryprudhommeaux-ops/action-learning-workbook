@@ -16,14 +16,14 @@ export function AdminShell({
   role,
   submissions,
   facilitators,
-  developerEmailsConfigured,
+  superAdminEmailsConfigured,
 }: {
   name: string;
   email: string;
-  role: Extract<AdminRole, "developer" | "facilitator">;
+  role: Extract<AdminRole, "superAdmin" | "facilitator">;
   submissions: SubmissionRecord[];
   facilitators: FacilitatorRecord[];
-  developerEmailsConfigured: boolean;
+  superAdminEmailsConfigured: boolean;
 }) {
   const { t } = useLocale();
 
@@ -41,6 +41,7 @@ export function AdminShell({
               </h1>
               <p className="hidden text-xs text-slate-400 sm:block">
                 {name} · {email}
+                {role === "superAdmin" ? ` · ${t("admin.role.superAdmin")}` : ""}
               </p>
             </div>
           </div>
@@ -59,10 +60,10 @@ export function AdminShell({
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <p className="mb-6 max-w-2xl text-sm text-slate-600">{t("admin.lead")}</p>
-        {role === "developer" ? (
+        {role === "superAdmin" ? (
           <AccountsQueue
             initialFacilitators={facilitators}
-            developerEmailsConfigured={developerEmailsConfigured}
+            superAdminEmailsConfigured={superAdminEmailsConfigured}
           />
         ) : null}
         <AdminDashboard initialSubmissions={submissions} />

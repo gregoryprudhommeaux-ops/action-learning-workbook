@@ -1,4 +1,4 @@
-import { canReadPacks } from "@/lib/admin-auth";
+import { canReadPacks, superAdminEmailsEnv } from "@/lib/admin-auth";
 import { loadAdminSession } from "@/lib/admin-session";
 import { AdminShell } from "@/components/admin/shell";
 import { AdminWaiting } from "@/components/admin/waiting";
@@ -22,7 +22,7 @@ export default async function AdminPage() {
   }
 
   const role = session.role;
-  if (role !== "developer" && role !== "facilitator") {
+  if (role !== "superAdmin" && role !== "facilitator") {
     return (
       <AdminWaiting
         name={session.name}
@@ -32,12 +32,10 @@ export default async function AdminPage() {
     );
   }
 
-  const developerEmailsConfigured = Boolean(
-    process.env.DEVELOPER_EMAILS?.trim(),
-  );
+  const superAdminEmailsConfigured = Boolean(superAdminEmailsEnv()?.trim());
   const [submissions, facilitators] = await Promise.all([
     listSubmissions(),
-    role === "developer" ? listFacilitators() : Promise.resolve([]),
+    role === "superAdmin" ? listFacilitators() : Promise.resolve([]),
   ]);
 
   return (
@@ -47,7 +45,7 @@ export default async function AdminPage() {
       role={role}
       submissions={submissions}
       facilitators={facilitators}
-      developerEmailsConfigured={developerEmailsConfigured}
+      superAdminEmailsConfigured={superAdminEmailsConfigured}
     />
   );
 }

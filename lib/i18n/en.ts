@@ -457,6 +457,7 @@ export const en: Record<string, string> = {
   "admin.signupLink": "Create one",
   "admin.haveAccount": "Already have an account?",
   "admin.signinLink": "Sign in",
+  "admin.role.superAdmin": "Super Admin",
   "admin.waiting.badge": "Access",
   "admin.waiting.pendingTitle": "Waiting for Super Admin approval",
   "admin.waiting.pendingBody":
