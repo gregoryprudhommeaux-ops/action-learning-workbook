@@ -443,10 +443,11 @@ export const en: Record<string, string> = {
   "admin.workbook": "Workbook",
   "admin.lead":
     "Submitted packs for the live session. Export PDF here, or participants can download their own copy from the summary.",
-  "admin.signin": "Facilitator sign-in",
+  "admin.signin": "Facilitator admin",
   "admin.signinLead":
-    "Google is required for the admin console only. The workbook itself is public.",
+    "Create an admin account with Google, or continue with an account you already made. The workbook itself stays public.",
   "admin.google": "Continue with Google",
+  "admin.googleCreate": "Create admin account with Google",
   "admin.back": "Back to the workbook",
   "admin.googleFail": "Google sign-in failed.",
   "admin.stat.packs": "Packs submitted",

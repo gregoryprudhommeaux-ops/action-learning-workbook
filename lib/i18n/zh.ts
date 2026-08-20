@@ -425,9 +425,11 @@ export const zh: Record<string, string> = {
   "admin.workbook": "手册",
   "admin.lead":
     "已提交的资料包。可在此导出 PDF；参与者也可在摘要页下载自己的副本。",
-  "admin.signin": "引导员登录",
-  "admin.signinLead": "仅管理控制台需要 Google。手册本身是公开的。",
+  "admin.signin": "引导员管理",
+  "admin.signinLead":
+    "用 Google 创建管理员账户，或用已有账户继续。手册本身仍公开。",
   "admin.google": "使用 Google 继续",
+  "admin.googleCreate": "用 Google 创建管理员账户",
   "admin.back": "返回手册",
   "admin.googleFail": "Google 登录失败。",
   "admin.stat.packs": "已提交资料包",
