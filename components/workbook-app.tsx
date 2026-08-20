@@ -21,7 +21,6 @@ function WorkbookShell() {
     saveManual,
     state,
     stepStatusFor,
-    packStatus,
   } = useWorkbook();
 
   return (
@@ -112,7 +111,7 @@ function WorkbookShell() {
             </p>
           </div>
           <div className="max-w-md text-center sm:text-right">
-            {t("app.footerStatus", { status: packStatus })}
+            {t("app.footerStatus")}
           </div>
         </div>
       </footer>

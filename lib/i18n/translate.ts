@@ -1,9 +1,8 @@
 import type { Locale } from "./types";
 import { en } from "./en";
-import { es } from "./es";
 import { zh } from "./zh";
 
-const dictionaries: Record<Locale, Record<string, string>> = { en, es, zh };
+const dictionaries: Record<Locale, Record<string, string>> = { en, zh };
 
 export function translate(
   locale: Locale,

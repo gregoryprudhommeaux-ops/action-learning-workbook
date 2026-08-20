@@ -1,6 +1,5 @@
 export const en: Record<string, string> = {
   "lang.en": "English",
-  "lang.es": "Español",
   "lang.zh": "中文",
   "lang.switch": "Language",
   "lang.pdf": "PDF language",
@@ -16,7 +15,7 @@ export const en: Record<string, string> = {
   "app.saveTitle": "Saves in this browser only",
   "app.submit": "Submit pack",
   "app.footerStatus":
-    "{status}. Submit the pack so the facilitator can export the PDF for the live audit.",
+    "Complete the full questionnaire to print your personalized report at the end.",
 
   "company.the": "the company",
   "company.The": "The company",
@@ -93,15 +92,14 @@ export const en: Record<string, string> = {
   "init.other.placeholder": "Describe the operational context...",
   "init.customFallback": "Custom operational focus",
 
-  "region.hq.name": "Headquarters",
-  "region.hq.tagline": "High context · Consensus-oriented · Implicit hierarchy",
-  "region.eu.name": "Europe",
-  "region.eu.tagline": "Low context · Structured planning · Direct feedback",
   "region.us.name": "United States",
   "region.us.tagline": "Low context · Egalitarian · Action-oriented",
-  "region.apac.name": "Asia-Pacific",
-  "region.apac.tagline":
-    "Cross-cultural bridge · High efficiency · Structured governance",
+  "region.sg.name": "Singapore",
+  "region.sg.tagline": "High efficiency · Multicultural · Process-disciplined",
+  "region.ie.name": "Ireland",
+  "region.ie.tagline": "English-speaking EU · Informal · Candid",
+  "region.de.name": "Germany",
+  "region.de.tagline": "Low context · Structured planning · Direct feedback",
 
   "briefing.kicker": "Executive briefing & strategic context",
   "briefing.hero": "Accelerating cross-border operational excellence",
@@ -114,7 +112,7 @@ export const en: Record<string, string> = {
     "At this scale, coordination delays, misaligned priorities, and different readings of “urgency” or “ownership” become performance bottlenecks. These friction points rarely come from technical skill gaps — they come from unexamined assumptions about communication, hierarchy, and feedback.",
   "briefing.callout":
     "This Action Learning Project is the shift from theory to action. Teams do not write essays. They solve live friction on a real initiative.",
-  "briefing.roadmap": "Pre-work deliverables roadmap",
+  "briefing.roadmap": "Work deliverables roadmap",
   "briefing.r2.step": "Step 2",
   "briefing.r2.title": "Select initiative",
   "briefing.r2.body":
@@ -154,7 +152,9 @@ export const en: Record<string, string> = {
     "Add your name, email, company, and position to submit the pack.",
   "toast.submitting": "Submitting pack…",
   "toast.submitted":
-    "Pack submitted. The facilitator can export the PDF.",
+    "Pack submitted. You and the facilitator can both download the PDF.",
+  "toast.pdfPreparing": "Preparing PDF…",
+  "toast.pdfFail": "Could not create the PDF.",
   "toast.submitFail": "Submit failed.",
   "toast.regionMin": "Keep at least one region selected.",
   "toast.regionAdd": "Region added. Edit the playbook card.",
@@ -162,7 +162,7 @@ export const en: Record<string, string> = {
   "scope.kicker": "Pre-work Step 2",
   "scope.title": "Select the live initiative and target regions",
   "scope.lead":
-    "Pick the operational initiative your team will optimize. It should require close collaboration between headquarters and other sites.",
+    "Pick the operational initiative your team will optimize. It should require close collaboration between sites in different countries.",
   "scope.category": "A. Primary operational category",
   "scope.prepared": "Prepared by — required to submit",
   "scope.preparedHelp":
@@ -286,6 +286,12 @@ export const en: Record<string, string> = {
   "play.comm": "Communication style",
   "play.meet": "Meeting & decision norms",
   "play.tipField": "Actionable collaboration tip",
+  "play.commExample":
+    "e.g. Direct and low-context in email; criticism is usually private, not in the large meeting.",
+  "play.meetExample":
+    "e.g. Agenda 48 hours ahead. Decisions need a named owner before the call ends.",
+  "play.tipExample":
+    "e.g. Follow the live call with a short written recap and one named owner per action.",
   "play.stored": "Cards are stored in this browser.",
   "play.emoji": "Region emoji",
   "play.next": "Proceed to Step 6: Pilot & KPI →",
@@ -332,7 +338,7 @@ export const en: Record<string, string> = {
   "sum.kicker": "Final output",
   "sum.title": "Compiled Action Learning Project workbook",
   "sum.ready":
-    "Ready for the facilitator to export the live-audit PDF.",
+    "Download your PDF, or submit the pack so the facilitator has a copy.",
   "sum.finish": "Finish the required fields below before submitting the pack.",
   "sum.notReady": "Not ready to submit",
   "sum.required":
@@ -342,6 +348,8 @@ export const en: Record<string, string> = {
   "sum.prepared": "Prepared by",
   "sum.status": "Status:",
   "sum.date": "Date:",
+  "sum.downloadPdf": "Download PDF",
+  "sum.preparing": "Preparing PDF…",
   "sum.initiative": "Selected initiative",
   "sum.regions": "Active regions",
   "sum.score": "Diagnostic score",
@@ -432,7 +440,7 @@ export const en: Record<string, string> = {
   "admin.title": "Facilitator dashboard",
   "admin.workbook": "Workbook",
   "admin.lead":
-    "Who is ready for the live session. Export PDF only lives here — the public workbook submits packs, it does not print them.",
+    "Submitted packs for the live session. Export PDF here, or participants can download their own copy from the summary.",
   "admin.signin": "Facilitator sign-in",
   "admin.signinLead":
     "Google is required for the admin console only. The workbook itself is public.",
@@ -472,5 +480,5 @@ export const en: Record<string, string> = {
   "admin.export": "Export PDF",
   "admin.preparing": "Preparing PDF…",
   "admin.emptyDetail":
-    "Submitted packs will appear here. Export PDF is facilitator-only.",
+    "Submitted packs will appear here. Export the PDF for any selected pack.",
 };

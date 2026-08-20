@@ -6,7 +6,7 @@ import type {
   WorkbookState,
 } from "./types";
 
-export const STORAGE_KEY = "alp_workbook_state_v2";
+export const STORAGE_KEY = "alp_workbook_state_v3";
 
 export const TABS: { id: TabId; label: string; short: string }[] = [
   { id: "briefing", label: "Strategic Purpose", short: "Purpose" },
@@ -92,32 +92,6 @@ export const ACCENT_STYLES: Record<
 
 export const DEFAULT_REGIONS: Region[] = [
   {
-    id: "hq",
-    code: "HQ",
-    name: "Headquarters",
-    flag: "🏢",
-    tagline: "High context · Consensus-oriented · Implicit hierarchy",
-    communication:
-      "Relational and harmony-focused. Direct negative feedback is often avoided in public settings to preserve face.",
-    meetingNorms:
-      "Informal pre-alignment builds the real consensus. Silence in large forums often reflects respect for hierarchy rather than agreement.",
-    tip: "Follow live calls with written bullet summaries and named owners so mutual understanding is explicit.",
-    accent: "red",
-  },
-  {
-    id: "eu",
-    code: "EU",
-    name: "Europe",
-    flag: "🇪🇺",
-    tagline: "Low context · Structured planning · Direct feedback",
-    communication:
-      "Explicit, objective, detail-oriented. Constructive criticism is treated as professional duty, not personal hostility.",
-    meetingNorms:
-      "Agendas distributed 48+ hours ahead. High need for complete data before committing to deadlines.",
-    tip: "Avoid ad-hoc schedule changes. Send the analytical pack before the meeting, not during it.",
-    accent: "amber",
-  },
-  {
     id: "us",
     code: "US",
     name: "United States",
@@ -131,17 +105,43 @@ export const DEFAULT_REGIONS: Region[] = [
     accent: "blue",
   },
   {
-    id: "apac",
-    code: "APAC",
-    name: "Asia-Pacific",
-    flag: "🌏",
-    tagline: "Cross-cultural bridge · High efficiency · Structured governance",
+    id: "sg",
+    code: "SG",
+    name: "Singapore",
+    flag: "🇸🇬",
+    tagline: "High efficiency · Multicultural · Process-disciplined",
     communication:
-      "A synthesis of East and West styles. Professional tone, multicultural awareness, structured phrasing.",
+      "Professional, precise, and multilingual. Harmony and face matter in mixed rooms; decisions still expect a clear process owner.",
     meetingNorms:
-      "Strong focus on governance frameworks, efficiency, and keeping harmony while driving metrics.",
-    tip: "Use this region as a mediator when HQ and Western sites stall on process rollouts.",
+      "Agendas and pre-reads are expected. Silence may mean the decision path is unclear, not that people agree.",
+    tip: "Confirm owners and next steps in writing after the call. Do not treat a quiet room as sign-off.",
     accent: "purple",
+  },
+  {
+    id: "ie",
+    code: "IE",
+    name: "Ireland",
+    flag: "🇮🇪",
+    tagline: "English-speaking EU · Informal · Candid",
+    communication:
+      "Conversational and relationship-aware, with relatively direct pushback once trust is there. Humor can mask a real objection.",
+    meetingNorms:
+      "Works well with short alignment calls plus a written recap. Last-minute agenda changes land poorly before a locked review.",
+    tip: "Ask what is actually blocking the date. Informal agreement still needs a named owner and a deadline.",
+    accent: "emerald",
+  },
+  {
+    id: "de",
+    code: "DE",
+    name: "Germany",
+    flag: "🇩🇪",
+    tagline: "Low context · Structured planning · Direct feedback",
+    communication:
+      "Explicit, objective, detail-oriented. Constructive criticism is treated as professional duty, not personal hostility.",
+    meetingNorms:
+      "Agendas distributed 48+ hours ahead. High need for complete data before committing to deadlines.",
+    tip: "Avoid ad-hoc schedule changes. Send the analytical pack before the meeting, not during it.",
+    accent: "amber",
   },
 ];
 
@@ -288,10 +288,13 @@ export const defaultState: WorkbookState = {
     change1: "",
     change2: "",
     change3: "",
+    kpiName1: "",
     kpiBase1: "",
     kpiTarg1: "",
+    kpiName2: "",
     kpiBase2: "",
     kpiTarg2: "",
+    kpiName3: "",
     kpiBase3: "",
     kpiTarg3: "",
   },
@@ -310,10 +313,10 @@ export const exampleState: WorkbookState = {
   initiativeId: "audit",
   customInitiative: "",
   projectName: "Cross-site process transfer & audit alignment",
-  activeRegionIds: ["hq", "eu", "us"],
+  activeRegionIds: ["us", "sg", "ie", "de"],
   regions: DEFAULT_REGIONS,
   impactNarrative:
-    "Validation reviews between HQ and the European site currently take 6 days because of time-zone lag and implicit feedback styles. Cutting that to 48 hours protects the submission window.",
+    "Validation reviews between the US and German sites currently take 6 days because of time-zone lag and implicit feedback styles. Cutting that to 48 hours protects the submission window.",
   diagnostics: {
     a1: true,
     a2: false,
@@ -329,7 +332,7 @@ export const exampleState: WorkbookState = {
     d3: true,
   },
   examples: {
-    a: "The European site requested a 3-week planning lock while HQ needed 24-hour turnarounds.",
+    a: "The German site requested a 3-week planning lock while the US site needed 24-hour turnarounds.",
     b: "Silence on the cross-site QA call was read as consent, but unresolved issues remained.",
     c: "Review comments were taken personally because of harsh low-context phrasing.",
     d: "Sign-off was delayed 10 days because three managers claimed partial ownership without a DRI.",
@@ -343,19 +346,22 @@ export const exampleState: WorkbookState = {
   },
   dri: {
     task: "Cross-site SOP validation",
-    owner: "DRI: Alex Chen (HQ QA Lead)",
+    owner: "DRI: Alex Chen (US QA Lead)",
   },
   pilot: {
     change1:
       "Mandatory [ACTION REQUIRED] subject tags on P2 emails with explicit SLA dates",
     change2:
-      "Rotate meeting facilitators across HQ and regional sites bi-weekly, with pre-shared agendas",
+      "Rotate meeting facilitators across US, Singapore, Ireland, and Germany bi-weekly, with pre-shared agendas",
     change3:
       "Name a single DRI for every cross-site transfer deliverable",
+    kpiName1: "SOP review response time",
     kpiBase1: "Average 4 days",
     kpiTarg1: "≤ 2 business days",
+    kpiName2: "Off-hours call frequency",
     kpiBase2: "3x per week",
     kpiTarg2: "≤ 1x per month",
+    kpiName3: "Cross-site trust rating",
     kpiBase3: "3.2 / 5.0",
     kpiTarg3: "≥ 4.2 / 5.0",
   },

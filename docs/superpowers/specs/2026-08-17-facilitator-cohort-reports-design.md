@@ -165,7 +165,7 @@ Existing `GET /api/admin/submissions` today returns packs after any signed-in us
 
 ## i18n
 
-New copy in existing locales only (`en`, `es`, `zh` — there is no `fr` locale). Keys under `admin.*` (waiting, tags, unassigned, dossier, cohort report, approve/reject). No WuXi. No internal persona names.
+New copy in existing locales only (`en`, `zh` — there is no `fr` or `es` locale). Keys under `admin.*` (waiting, tags, unassigned, dossier, cohort report, approve/reject). No WuXi. No internal persona names.
 
 ## Tests (node:test, same style as `lib/cohort-stats.test.ts`)
 

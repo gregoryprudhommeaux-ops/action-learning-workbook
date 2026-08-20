@@ -66,6 +66,7 @@ type WorkbookContextValue = {
   saveManual: () => void;
   loadExample: () => void;
   submitPack: () => Promise<void>;
+  exportPdf: () => Promise<void>;
   exportJson: () => void;
   importJson: (file: File) => Promise<void>;
   friction: {
@@ -176,6 +177,9 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
     const region = emptyRegion();
     region.name = t("region.new.name");
     region.tagline = t("region.new.tagline");
+    region.communication = t("play.commExample");
+    region.meetingNorms = t("play.meetExample");
+    region.tip = t("play.tipExample");
     setWorkbookState((current) => ({
       ...current,
       regions: [...current.regions, region],
@@ -234,6 +238,31 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       showToast(t("toast.submitFail"), "⚠️");
     }
   }, [setTab, showToast, state, t]);
+
+  const exportPdf = useCallback(async () => {
+    if (!pdfExportReady(state)) {
+      showToast(t("toast.identity"), "⚠️");
+      setTab("scope");
+      return;
+    }
+    try {
+      showToast(t("toast.pdfPreparing"), "📄");
+      const { downloadWorkbookPdf } = await import("@/lib/export-pdf");
+      const counts = diagnosticCounts(state.diagnostics);
+      await downloadWorkbookPdf({
+        state,
+        initiative: tInitiativeLabel(locale, state),
+        regionsLabel: tActiveRegionsLabel(locale, state),
+        frictionText: tFrictionBadge(locale, frictionPercent(state.diagnostics)),
+        analysis: tFrictionAnalysis(locale, counts),
+        roi: roiHours(state.calc),
+        packStatus: tPackStatus(locale, state),
+        locale,
+      });
+    } catch {
+      showToast(t("toast.pdfFail"), "⚠️");
+    }
+  }, [locale, setTab, showToast, state, t]);
 
   const exportJson = useCallback(() => {
     const blob = new Blob([JSON.stringify(state, null, 2)], {
@@ -325,6 +354,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       saveManual,
       loadExample,
       submitPack,
+      exportPdf,
       exportJson,
       importJson,
       friction,
@@ -340,6 +370,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
     [
       addRegion,
       exportJson,
+      exportPdf,
       submitPack,
       friction,
       importJson,

@@ -66,13 +66,23 @@ export function PilotSection() {
               <tbody className="divide-y divide-slate-200 text-slate-700">
                 {(
                   [
-                    ["pilot.k1", "kpiBase1", "kpiTarg1"],
-                    ["pilot.k2", "kpiBase2", "kpiTarg2"],
-                    ["pilot.k3", "kpiBase3", "kpiTarg3"],
+                    ["kpiName1", "pilot.k1", "kpiBase1", "kpiTarg1"],
+                    ["kpiName2", "pilot.k2", "kpiBase2", "kpiTarg2"],
+                    ["kpiName3", "pilot.k3", "kpiBase3", "kpiTarg3"],
                   ] as const
-                ).map(([labelKey, base, target]) => (
-                  <tr key={labelKey}>
-                    <td className="p-2 font-medium">{t(labelKey)}</td>
+                ).map(([name, placeholderKey, base, target]) => (
+                  <tr key={name}>
+                    <td className="p-2">
+                      <input
+                        type="text"
+                        value={state.pilot[name]}
+                        onChange={(event) =>
+                          patch("pilot", { [name]: event.target.value })
+                        }
+                        placeholder={t(placeholderKey)}
+                        className="w-full rounded border border-slate-300 p-1 text-xs font-medium"
+                      />
+                    </td>
                     <td className="p-2">
                       <input
                         type="text"

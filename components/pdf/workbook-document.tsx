@@ -436,17 +436,23 @@ export function WorkbookPdfDocument({
           <Text style={[styles.th, styles.colTarg]}>{t("pdf.targ")}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k1")}</Text>
+          <Text style={[styles.td, styles.colKpi]}>
+            {txt((state.pilot.kpiName1 ?? "").trim() || t("pilot.k1"))}
+          </Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase1)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg1)}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k2")}</Text>
+          <Text style={[styles.td, styles.colKpi]}>
+            {txt((state.pilot.kpiName2 ?? "").trim() || t("pilot.k2"))}
+          </Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase2)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg2)}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.td, styles.colKpi]}>{t("pilot.k3")}</Text>
+          <Text style={[styles.td, styles.colKpi]}>
+            {txt((state.pilot.kpiName3 ?? "").trim() || t("pilot.k3"))}
+          </Text>
           <Text style={[styles.td, styles.colBase]}>{txt(state.pilot.kpiBase3)}</Text>
           <Text style={[styles.td, styles.colTarg]}>{txt(state.pilot.kpiTarg3)}</Text>
         </View>

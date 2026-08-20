@@ -1,6 +1,5 @@
 export const zh: Record<string, string> = {
   "lang.en": "English",
-  "lang.es": "Español",
   "lang.zh": "中文",
   "lang.switch": "语言",
   "lang.pdf": "PDF 语言",
@@ -16,7 +15,7 @@ export const zh: Record<string, string> = {
   "app.saveTitle": "仅保存在当前浏览器",
   "app.submit": "提交资料包",
   "app.footerStatus":
-    "{status}。提交资料包后，引导员即可导出现场审核 PDF。",
+    "请完成全部问卷，才能在最后打印个性化报告。",
 
   "company.the": "公司",
   "company.The": "公司",
@@ -89,14 +88,14 @@ export const zh: Record<string, string> = {
   "init.other.placeholder": "描述运营背景……",
   "init.customFallback": "自定义运营重点",
 
-  "region.hq.name": "总部",
-  "region.hq.tagline": "高语境 · 共识导向 · 隐性层级",
-  "region.eu.name": "欧洲",
-  "region.eu.tagline": "低语境 · 结构化规划 · 直接反馈",
   "region.us.name": "美国",
   "region.us.tagline": "低语境 · 平等主义 · 行动导向",
-  "region.apac.name": "亚太",
-  "region.apac.tagline": "跨文化桥梁 · 高效率 · 结构化治理",
+  "region.sg.name": "新加坡",
+  "region.sg.tagline": "高效率 · 多元文化 · 流程严谨",
+  "region.ie.name": "爱尔兰",
+  "region.ie.tagline": "英语区欧盟 · 非正式 · 坦率",
+  "region.de.name": "德国",
+  "region.de.tagline": "低语境 · 结构化规划 · 直接反馈",
 
   "briefing.kicker": "高管简报与战略背景",
   "briefing.hero": "加速跨境运营卓越",
@@ -109,7 +108,7 @@ export const zh: Record<string, string> = {
     "在这个规模上，协同延迟、优先级错位，以及对“紧急”或“ownership”的不同解读，会变成绩效瓶颈。这些摩擦很少来自技术能力缺口——它们来自对沟通、层级和反馈的未加审视的假设。",
   "briefing.callout":
     "这个行动学习项目是从理论走向行动。团队不写论文。他们在真实倡议上解决活的摩擦。",
-  "briefing.roadmap": "会前交付路线图",
+  "briefing.roadmap": "工作交付路线图",
   "briefing.r2.step": "第 2 步",
   "briefing.r2.title": "选择倡议",
   "briefing.r2.body": "命名正在进行的跨境项目以及涉及的站点。",
@@ -141,7 +140,9 @@ export const zh: Record<string, string> = {
   "toast.saved": "已保存在本设备。不会同步到其他浏览器。",
   "toast.identity": "请填写姓名、邮箱、公司和职位后再提交资料包。",
   "toast.submitting": "正在提交资料包…",
-  "toast.submitted": "资料包已提交。引导员可以导出 PDF。",
+  "toast.submitted": "资料包已提交。你和引导员都可以下载 PDF。",
+  "toast.pdfPreparing": "正在准备 PDF…",
+  "toast.pdfFail": "无法生成 PDF。",
   "toast.submitFail": "提交失败。",
   "toast.regionMin": "请至少保留一个区域。",
   "toast.regionAdd": "已添加区域。请编辑手册卡片。",
@@ -149,7 +150,7 @@ export const zh: Record<string, string> = {
   "scope.kicker": "会前作业 第 2 步",
   "scope.title": "选择正在进行的倡议与目标区域",
   "scope.lead":
-    "选择团队将优化的运营倡议。它应需要总部与其他站点的紧密协作。",
+    "选择团队将优化的运营倡议。它应需要不同国家站点之间的紧密协作。",
   "scope.category": "A. 主要运营类别",
   "scope.prepared": "填写人 — 提交必填",
   "scope.preparedHelp":
@@ -269,6 +270,12 @@ export const zh: Record<string, string> = {
   "play.comm": "沟通风格",
   "play.meet": "会议与决策规范",
   "play.tipField": "可执行的协作建议",
+  "play.commExample":
+    "例如：邮件偏直接、低语境；批评通常私下进行，不在大会上公开。",
+  "play.meetExample":
+    "例如：议程提前 48 小时发出。会议结束前必须指定一名负责人。",
+  "play.tipExample":
+    "例如：会后发一份简短书面纪要，每项行动指定一名负责人。",
   "play.stored": "卡片保存在当前浏览器。",
   "play.emoji": "区域表情",
   "play.next": "继续到第 6 步：试点与 KPI →",
@@ -314,7 +321,7 @@ export const zh: Record<string, string> = {
 
   "sum.kicker": "最终输出",
   "sum.title": "行动学习项目汇编手册",
-  "sum.ready": "可供引导员导出现场审核 PDF。",
+  "sum.ready": "可下载 PDF，或提交资料包供引导员留存。",
   "sum.finish": "提交资料包前，请完成下方必填项。",
   "sum.notReady": "尚不可提交",
   "sum.required":
@@ -324,6 +331,8 @@ export const zh: Record<string, string> = {
   "sum.prepared": "填写人",
   "sum.status": "状态：",
   "sum.date": "日期：",
+  "sum.downloadPdf": "下载 PDF",
+  "sum.preparing": "正在准备 PDF…",
   "sum.initiative": "所选倡议",
   "sum.regions": "活跃区域",
   "sum.score": "诊断分数",
@@ -413,7 +422,7 @@ export const zh: Record<string, string> = {
   "admin.title": "引导员控制台",
   "admin.workbook": "手册",
   "admin.lead":
-    "谁已为现场会议做好准备。导出 PDF 只在这里——公开手册提交资料包，不打印。",
+    "已提交的资料包。可在此导出 PDF；参与者也可在摘要页下载自己的副本。",
   "admin.signin": "引导员登录",
   "admin.signinLead": "仅管理控制台需要 Google。手册本身是公开的。",
   "admin.google": "使用 Google 继续",
@@ -451,5 +460,5 @@ export const zh: Record<string, string> = {
   "admin.submitted": "已提交",
   "admin.export": "导出 PDF",
   "admin.preparing": "正在准备 PDF…",
-  "admin.emptyDetail": "提交的资料包将显示在这里。导出 PDF 仅限引导员。",
+  "admin.emptyDetail": "提交的资料包将显示在这里。可为任一资料包导出 PDF。",
 };

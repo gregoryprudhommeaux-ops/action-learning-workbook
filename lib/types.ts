@@ -84,10 +84,13 @@ export interface WorkbookState {
     change1: string;
     change2: string;
     change3: string;
+    kpiName1: string;
     kpiBase1: string;
     kpiTarg1: string;
+    kpiName2: string;
     kpiBase2: string;
     kpiTarg2: string;
+    kpiName3: string;
     kpiBase3: string;
     kpiTarg3: string;
   };

@@ -159,11 +159,11 @@ export function PlaybookSection() {
           <div className="mt-4 grid grid-cols-1 gap-4 text-xs md:grid-cols-3">
             {(
               [
-                ["communication", "play.comm"],
-                ["meetingNorms", "play.meet"],
-                ["tip", "play.tipField"],
+                ["communication", "play.comm", "play.commExample"],
+                ["meetingNorms", "play.meet", "play.meetExample"],
+                ["tip", "play.tipField", "play.tipExample"],
               ] as const
-            ).map(([field, labelKey]) => (
+            ).map(([field, labelKey, exampleKey]) => (
               <div
                 key={field}
                 className={`rounded-lg border bg-white p-3.5 shadow-sm ${styles.card}`}
@@ -175,7 +175,8 @@ export function PlaybookSection() {
                   rows={5}
                   value={selected[field]}
                   onChange={(event) => edit(field, event.target.value)}
-                  className="w-full resize-y rounded border border-slate-200 p-2 text-slate-600 focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder={t(exampleKey)}
+                  className="w-full resize-y rounded border border-slate-200 p-2 text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
               </div>
             ))}

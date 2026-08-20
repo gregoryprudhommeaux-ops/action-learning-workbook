@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useWorkbook } from "@/components/workbook-provider";
 import { useLocale } from "@/components/locale-provider";
 import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n";
@@ -12,6 +13,7 @@ export function CompiledSection() {
     regionsLabel,
     friction,
     submitPack,
+    exportPdf,
     packStatus,
     readyForAudit,
     pdfReady,
@@ -20,6 +22,16 @@ export function CompiledSection() {
   } = useWorkbook();
   const today = new Date().toISOString().split("T")[0];
   const company = tCompanyAsName(locale, state.companyName);
+  const [exporting, setExporting] = useState(false);
+
+  async function downloadPdf() {
+    setExporting(true);
+    try {
+      await exportPdf();
+    } finally {
+      setExporting(false);
+    }
+  }
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -34,6 +46,14 @@ export function CompiledSection() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            onClick={() => void downloadPdf()}
+            disabled={exporting}
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-navy-900 transition hover:bg-slate-50 disabled:opacity-60"
+          >
+            {exporting ? t("sum.preparing") : t("sum.downloadPdf")}
+          </button>
           <button
             type="button"
             onClick={() => void submitPack()}
@@ -246,21 +266,27 @@ export function CompiledSection() {
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-600">
                 <tr>
-                  <td className="p-2">{t("pilot.k1")}</td>
+                  <td className="p-2">
+                    {state.pilot.kpiName1?.trim() || t("pilot.k1")}
+                  </td>
                   <td className="p-2">{state.pilot.kpiBase1}</td>
                   <td className="p-2 font-semibold text-brand-blue">
                     {state.pilot.kpiTarg1}
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-2">{t("pilot.k2")}</td>
+                  <td className="p-2">
+                    {state.pilot.kpiName2?.trim() || t("pilot.k2")}
+                  </td>
                   <td className="p-2">{state.pilot.kpiBase2}</td>
                   <td className="p-2 font-semibold text-brand-blue">
                     {state.pilot.kpiTarg2}
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-2">{t("pilot.k3")}</td>
+                  <td className="p-2">
+                    {state.pilot.kpiName3?.trim() || t("pilot.k3")}
+                  </td>
                   <td className="p-2">{state.pilot.kpiBase3}</td>
                   <td className="p-2 font-semibold text-brand-blue">
                     {state.pilot.kpiTarg3}

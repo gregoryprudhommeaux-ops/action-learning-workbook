@@ -6,7 +6,6 @@ import { useLocale } from "@/components/locale-provider";
 const SHORT: Record<(typeof LOCALES)[number], string> = {
   en: "EN",
   zh: "中文",
-  es: "ES",
 };
 
 export function LocaleSwitcher({
