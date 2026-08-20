@@ -90,6 +90,8 @@ export const zh: Record<string, string> = {
 
   "region.us.name": "美国",
   "region.us.tagline": "低语境 · 平等主义 · 行动导向",
+  "region.cn.name": "中国",
+  "region.cn.tagline": "高语境 · 共识导向 · 隐性层级",
   "region.sg.name": "新加坡",
   "region.sg.tagline": "高效率 · 多元文化 · 流程严谨",
   "region.ie.name": "爱尔兰",
@@ -147,7 +149,7 @@ export const zh: Record<string, string> = {
   "toast.regionMin": "请至少保留一个区域。",
   "toast.regionAdd": "已添加区域。请编辑手册卡片。",
 
-  "scope.kicker": "会前作业 第 2 步",
+  "scope.kicker": "第 2 步",
   "scope.title": "选择正在进行的倡议与目标区域",
   "scope.lead":
     "选择团队将优化的运营倡议。它应需要不同国家站点之间的紧密协作。",
@@ -170,7 +172,7 @@ export const zh: Record<string, string> = {
   "scope.companyPh": "公司",
   "scope.positionPh": "QA Lead、站点负责人……",
 
-  "diag.kicker": "会前作业 第 3 步",
+  "diag.kicker": "第 3 步",
   "diag.title": "跨文化诊断矩阵",
   "diag.lead": "勾选本项目中正在发生的每一项症状。雷达会随勾选更新。",
   "diag.score": "诊断摩擦分数",
@@ -220,7 +222,7 @@ export const zh: Record<string, string> = {
   "diag.d.ph":
     "例如：签核延迟 10 天，因为三位经理都声称部分所有权，却没有 DRI……",
 
-  "gov.kicker": "会前作业 第 4 步",
+  "gov.kicker": "第 4 步",
   "gov.title": "起草工作协议与 SLA 协议",
   "gov.lead":
     "为跨境沟通与升级设定量化目标。现场会议前不要留空。",
@@ -258,7 +260,7 @@ export const zh: Record<string, string> = {
   "gov.l3.meta": "最终决策权",
   "gov.next": "继续到区域手册 →",
 
-  "play.kicker": "会前作业 第 5 步",
+  "play.kicker": "第 5 步",
   "play.title": "区域协作手册",
   "play.lead":
     "编辑各站点的沟通规范、决策习惯和一条可执行建议。这些卡片会进入高管摘要。",
@@ -288,7 +290,7 @@ export const zh: Record<string, string> = {
   "chart.hours": "响应小时数",
   "sum.p2short": "优先级 2：标准",
 
-  "pilot.kicker": "会前作业 第 6 步",
+  "pilot.kicker": "第 6 步",
   "pilot.title": "4–6 周试点承诺与 KPI 计算器",
   "pilot.lead":
     "命名将要测试的行为例行事项，并量化预估效率收益。",

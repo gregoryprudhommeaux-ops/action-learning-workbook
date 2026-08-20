@@ -6,7 +6,7 @@ import type {
   WorkbookState,
 } from "./types";
 
-export const STORAGE_KEY = "alp_workbook_state_v3";
+export const STORAGE_KEY = "alp_workbook_state_v4";
 
 export const TABS: { id: TabId; label: string; short: string }[] = [
   { id: "briefing", label: "Strategic Purpose", short: "Purpose" },
@@ -103,6 +103,19 @@ export const DEFAULT_REGIONS: Region[] = [
       "Fast-paced and action-oriented. High expectation of individual initiative regardless of rank.",
     tip: "Flag risks and delays early in explicit language. Close every call with named next-step owners.",
     accent: "blue",
+  },
+  {
+    id: "cn",
+    code: "CN",
+    name: "China",
+    flag: "🇨🇳",
+    tagline: "High context · Consensus-oriented · Implicit hierarchy",
+    communication:
+      "Relational and harmony-focused. Direct negative feedback is often avoided in public settings to preserve face.",
+    meetingNorms:
+      "Informal pre-alignment builds the real consensus. Silence in large forums often reflects respect for hierarchy rather than agreement.",
+    tip: "Follow live calls with written bullet summaries and named owners so mutual understanding is explicit.",
+    accent: "red",
   },
   {
     id: "sg",
@@ -313,7 +326,7 @@ export const exampleState: WorkbookState = {
   initiativeId: "audit",
   customInitiative: "",
   projectName: "Cross-site process transfer & audit alignment",
-  activeRegionIds: ["us", "sg", "ie", "de"],
+  activeRegionIds: ["us", "cn", "sg", "ie", "de"],
   regions: DEFAULT_REGIONS,
   impactNarrative:
     "Validation reviews between the US and German sites currently take 6 days because of time-zone lag and implicit feedback styles. Cutting that to 48 hours protects the submission window.",
@@ -352,7 +365,7 @@ export const exampleState: WorkbookState = {
     change1:
       "Mandatory [ACTION REQUIRED] subject tags on P2 emails with explicit SLA dates",
     change2:
-      "Rotate meeting facilitators across US, Singapore, Ireland, and Germany bi-weekly, with pre-shared agendas",
+      "Rotate meeting facilitators across US, China, Singapore, Ireland, and Germany bi-weekly, with pre-shared agendas",
     change3:
       "Name a single DRI for every cross-site transfer deliverable",
     kpiName1: "SOP review response time",

@@ -94,6 +94,8 @@ export const en: Record<string, string> = {
 
   "region.us.name": "United States",
   "region.us.tagline": "Low context · Egalitarian · Action-oriented",
+  "region.cn.name": "China",
+  "region.cn.tagline": "High context · Consensus-oriented · Implicit hierarchy",
   "region.sg.name": "Singapore",
   "region.sg.tagline": "High efficiency · Multicultural · Process-disciplined",
   "region.ie.name": "Ireland",
@@ -159,7 +161,7 @@ export const en: Record<string, string> = {
   "toast.regionMin": "Keep at least one region selected.",
   "toast.regionAdd": "Region added. Edit the playbook card.",
 
-  "scope.kicker": "Pre-work Step 2",
+  "scope.kicker": "Step 2",
   "scope.title": "Select the live initiative and target regions",
   "scope.lead":
     "Pick the operational initiative your team will optimize. It should require close collaboration between sites in different countries.",
@@ -182,7 +184,7 @@ export const en: Record<string, string> = {
   "scope.companyPh": "The company",
   "scope.positionPh": "QA Lead, Site Head, …",
 
-  "diag.kicker": "Pre-work Step 3",
+  "diag.kicker": "Step 3",
   "diag.title": "Cross-cultural diagnostic matrix",
   "diag.lead":
     "Check every symptom that is live on this project. The radar updates as you go.",
@@ -233,7 +235,7 @@ export const en: Record<string, string> = {
   "diag.d.ph":
     "e.g., Sign-off was delayed 10 days because three managers claimed partial ownership without a DRI...",
 
-  "gov.kicker": "Pre-work Step 4",
+  "gov.kicker": "Step 4",
   "gov.title": "Draft the working agreement and SLA protocol",
   "gov.lead":
     "Set quantitative targets for cross-border communication and escalation. Do not leave these blank before the live session.",
@@ -274,7 +276,7 @@ export const en: Record<string, string> = {
   "gov.l3.meta": "Final decision rights",
   "gov.next": "Proceed to regional playbook →",
 
-  "play.kicker": "Pre-work Step 5",
+  "play.kicker": "Step 5",
   "play.title": "Regional collaboration playbook",
   "play.lead":
     "Edit site-specific communication norms, decision habits, and one actionable tip. These cards travel into the executive summary.",
@@ -304,7 +306,7 @@ export const en: Record<string, string> = {
   "chart.hours": "Hours to response",
   "sum.p2short": "Priority 2: Standard",
 
-  "pilot.kicker": "Pre-work Step 6",
+  "pilot.kicker": "Step 6",
   "pilot.title": "4–6 week pilot commitment & KPI calculator",
   "pilot.lead":
     "Name the behavioral routines you will test, then quantify estimated efficiency gains.",
