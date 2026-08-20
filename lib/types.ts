@@ -56,6 +56,8 @@ export interface WorkbookState {
   authorEmail: string;
   authorPosition: string;
   companyName: string;
+  /** Set when the participant continues past Strategic Purpose. */
+  briefingComplete: boolean;
   initiativeId: InitiativeId;
   customInitiative: string;
   projectName: string;

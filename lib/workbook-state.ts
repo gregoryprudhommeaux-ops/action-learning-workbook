@@ -110,6 +110,14 @@ export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
         ? parsed.activeRegionIds
         : defaultState.activeRegionIds,
   };
+  // Older saves had no flag — treat progressed packs as Purpose already done.
+  if (typeof parsed.briefingComplete !== "boolean") {
+    merged.briefingComplete = Boolean(
+      (parsed.projectName ?? "").trim() ||
+        (parsed.authorFullName ?? "").trim() ||
+        Object.values(parsed.diagnostics ?? {}).some(Boolean),
+    );
+  }
   merged.companyName = isNamedCompany(merged.companyName)
     ? merged.companyName.trim()
     : "";

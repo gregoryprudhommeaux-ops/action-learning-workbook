@@ -27,12 +27,21 @@ describe("completeness", () => {
     assert.equal(scopeComplete(defaultState), false);
     assert.equal(identityComplete(defaultState), false);
     assert.equal(packStatusLabel(defaultState), "Add author details to submit");
+    assert.equal(stepStatus("briefing", defaultState), "todo");
     assert.equal(stepStatus("scope", defaultState), "blocked");
+  });
+
+  it("marks Purpose done after Continue to Scope", () => {
+    assert.equal(
+      stepStatus("briefing", { ...defaultState, briefingComplete: true }),
+      "done",
+    );
   });
 
   it("treats the example pack as ready for audit but not for PDF until author details exist", () => {
     assert.equal(auditReady(exampleState), true);
     assert.equal(packStatusLabel(exampleState), "Add author details to submit");
+    assert.equal(stepStatus("briefing", exampleState), "done");
     assert.equal(stepStatus("compiled", exampleState), "blocked");
     const labels = missingAuditItems(exampleState).map((item) => item.label);
     assert.ok(labels.includes("Company"));
