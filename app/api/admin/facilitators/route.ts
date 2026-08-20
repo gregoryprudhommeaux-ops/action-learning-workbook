@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { requireDeveloper } from "@/lib/admin-session";
+import { requireSuperAdmin } from "@/lib/admin-session";
 import { listFacilitators } from "@/lib/facilitators";
 
 export async function GET() {
-  const access = await requireDeveloper();
+  const access = await requireSuperAdmin();
   if (!access.ok) {
     return NextResponse.json(
       { error: access.error },

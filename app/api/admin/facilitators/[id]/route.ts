@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireDeveloper } from "@/lib/admin-session";
+import { requireSuperAdmin } from "@/lib/admin-session";
 import { setFacilitatorStatus } from "@/lib/facilitators";
 
 type Body = { status?: string };
@@ -8,7 +8,7 @@ export async function PATCH(
   req: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  const access = await requireDeveloper();
+  const access = await requireSuperAdmin();
   if (!access.ok) {
     return NextResponse.json(
       { error: access.error },

@@ -2,43 +2,43 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   canReadPacks,
-  isDeveloper,
-  parseDeveloperEmails,
+  isSuperAdmin,
+  parseSuperAdminEmails,
   resolveAdminRole,
 } from "./admin-auth";
 
-describe("parseDeveloperEmails", () => {
+describe("parseSuperAdminEmails", () => {
   it("splits, trims, lowercases, and drops empties", () => {
     assert.deepEqual(
-      parseDeveloperEmails("  Ada@Example.com , bob@test.com,,  "),
+      parseSuperAdminEmails("  Ada@Example.com , bob@test.com,,  "),
       ["ada@example.com", "bob@test.com"],
     );
   });
 
   it("returns empty when unset", () => {
-    assert.deepEqual(parseDeveloperEmails(undefined), []);
-    assert.deepEqual(parseDeveloperEmails("  "), []);
+    assert.deepEqual(parseSuperAdminEmails(undefined), []);
+    assert.deepEqual(parseSuperAdminEmails("  "), []);
   });
 });
 
-describe("isDeveloper", () => {
+describe("isSuperAdmin", () => {
   it("matches case-insensitively against the env list", () => {
     assert.equal(
-      isDeveloper("Ada@Example.com", "ada@example.com, other@x.com"),
+      isSuperAdmin("Ada@Example.com", "ada@example.com, other@x.com"),
       true,
     );
-    assert.equal(isDeveloper("nobody@x.com", "ada@example.com"), false);
+    assert.equal(isSuperAdmin("nobody@x.com", "ada@example.com"), false);
   });
 
   it("is false when the env list is empty", () => {
-    assert.equal(isDeveloper("ada@example.com", ""), false);
-    assert.equal(isDeveloper("ada@example.com", undefined), false);
+    assert.equal(isSuperAdmin("ada@example.com", ""), false);
+    assert.equal(isSuperAdmin("ada@example.com", undefined), false);
   });
 });
 
 describe("canReadPacks", () => {
-  it("allows developer and approved facilitator only", () => {
-    assert.equal(canReadPacks("developer"), true);
+  it("allows super admin and approved facilitator only", () => {
+    assert.equal(canReadPacks("superAdmin"), true);
     assert.equal(canReadPacks("facilitator"), true);
     assert.equal(canReadPacks("pending"), false);
     assert.equal(canReadPacks("rejected"), false);
@@ -46,23 +46,23 @@ describe("canReadPacks", () => {
 });
 
 describe("resolveAdminRole", () => {
-  it("prefers developer over facilitator row", () => {
+  it("prefers super admin over facilitator row", () => {
     assert.equal(
       resolveAdminRole({
-        email: "dev@example.com",
+        email: "gregory@example.com",
         facilitatorStatus: "pending",
-        developerEmailsEnv: "dev@example.com",
+        superAdminEmailsEnv: "gregory@example.com",
       }),
-      "developer",
+      "superAdmin",
     );
   });
 
-  it("maps facilitator status when not a developer", () => {
+  it("maps facilitator status when not a super admin", () => {
     assert.equal(
       resolveAdminRole({
         email: "f@example.com",
         facilitatorStatus: "approved",
-        developerEmailsEnv: "dev@example.com",
+        superAdminEmailsEnv: "gregory@example.com",
       }),
       "facilitator",
     );
@@ -70,7 +70,7 @@ describe("resolveAdminRole", () => {
       resolveAdminRole({
         email: "f@example.com",
         facilitatorStatus: "rejected",
-        developerEmailsEnv: "dev@example.com",
+        superAdminEmailsEnv: "gregory@example.com",
       }),
       "rejected",
     );
@@ -78,7 +78,7 @@ describe("resolveAdminRole", () => {
       resolveAdminRole({
         email: "f@example.com",
         facilitatorStatus: null,
-        developerEmailsEnv: "dev@example.com",
+        superAdminEmailsEnv: "gregory@example.com",
       }),
       "pending",
     );

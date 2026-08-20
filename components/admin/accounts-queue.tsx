@@ -6,17 +6,17 @@ import type { FacilitatorRecord } from "@/lib/facilitators";
 
 export function AccountsQueue({
   initialFacilitators,
-  developerEmailsConfigured,
+  superAdminEmailsConfigured,
 }: {
   initialFacilitators: FacilitatorRecord[];
-  developerEmailsConfigured: boolean;
+  superAdminEmailsConfigured: boolean;
 }) {
   const { t } = useLocale();
   const [rows, setRows] = useState(initialFacilitators);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  if (!developerEmailsConfigured) {
+  if (!superAdminEmailsConfigured) {
     return (
       <section className="mb-8 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <h2 className="text-sm font-semibold text-amber-900">

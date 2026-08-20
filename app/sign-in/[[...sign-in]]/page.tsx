@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useSignUp } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import Link from "next/link";
@@ -18,28 +18,45 @@ export default function SignInPage() {
 
 function AdminSignIn() {
   const { t } = useLocale();
-  const { signIn, fetchStatus } = useSignIn();
+  const { signIn, errors: signInErrors, fetchStatus: signInStatus } =
+    useSignIn();
+  const { signUp, errors: signUpErrors, fetchStatus: signUpStatus } =
+    useSignUp();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
-  const ready = Boolean(signIn) && fetchStatus !== "fetching";
+  const ready =
+    Boolean(signIn) &&
+    Boolean(signUp) &&
+    signInStatus !== "fetching" &&
+    signUpStatus !== "fetching";
   const redirectUrl = searchParams.get("redirect_url") || "/admin";
   const signUpHref =
     redirectUrl === "/admin"
       ? "/sign-up"
       : `/sign-up?redirect_url=${encodeURIComponent(redirectUrl)}`;
 
-  async function continueWithGoogle() {
-    if (!signIn) return;
+  async function startGoogle(mode: "sign-in" | "sign-up") {
     setError(null);
-    const result = await signIn.sso({
-      strategy: "oauth_google",
-      redirectUrl,
-      redirectCallbackUrl: "/sso-callback",
-    });
-    if (result.error) {
-      setError(result.error.message ?? t("admin.googleFail"));
+    try {
+      const client = mode === "sign-up" ? signUp : signIn;
+      if (!client) return;
+      const { error } = await client.sso({
+        strategy: "oauth_google",
+        redirectUrl,
+        redirectCallbackUrl: "/sso-callback",
+      });
+      if (error) {
+        setError(error.message ?? t("admin.googleFail"));
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : t("admin.googleFail");
+      setError(message);
     }
   }
+
+  const hookError =
+    signInErrors?.global?.[0]?.message ?? signUpErrors?.global?.[0]?.message;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
@@ -61,15 +78,26 @@ function AdminSignIn() {
         </div>
         <button
           type="button"
-          onClick={() => void continueWithGoogle()}
+          onClick={() => void startGoogle("sign-up")}
           disabled={!ready}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-3 rounded-lg bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+        >
+          <GoogleMark />
+          {t("admin.googleCreate")}
+        </button>
+        <button
+          type="button"
+          onClick={() => void startGoogle("sign-in")}
+          disabled={!ready}
+          className="mt-3 flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 disabled:opacity-60"
         >
           <GoogleMark />
           {t("admin.google")}
         </button>
-        {error ? (
-          <p className="mt-3 text-center text-xs text-red-600">{error}</p>
+        {error || hookError ? (
+          <p className="mt-3 text-center text-xs text-red-600">
+            {error ?? hookError}
+          </p>
         ) : null}
         <p className="mt-6 text-center text-xs text-slate-500">
           {t("admin.needAccount")}{" "}

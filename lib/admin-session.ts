@@ -2,6 +2,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import {
   canReadPacks,
   resolveAdminRole,
+  superAdminEmailsEnv,
   type AdminRole,
 } from "@/lib/admin-auth";
 import { upsertFacilitator } from "@/lib/facilitators";
@@ -64,7 +65,7 @@ export async function requirePackAccess(): Promise<
   return { ok: true, session };
 }
 
-export async function requireDeveloper(): Promise<
+export async function requireSuperAdmin(): Promise<
   | { ok: true; session: AdminSession }
   | { ok: false; status: 401 | 403 | 503; error: string }
 > {
@@ -72,15 +73,18 @@ export async function requireDeveloper(): Promise<
   if (!session) {
     return { ok: false, status: 401, error: "Unauthorized" };
   }
-  if (!process.env.DEVELOPER_EMAILS?.trim()) {
+  if (!superAdminEmailsEnv()?.trim()) {
     return {
       ok: false,
       status: 503,
-      error: "DEVELOPER_EMAILS is not configured",
+      error: "SUPER_ADMIN_EMAILS is not configured",
     };
   }
-  if (session.role !== "developer") {
-    return { ok: false, status: 403, error: "Developer only" };
+  if (session.role !== "superAdmin") {
+    return { ok: false, status: 403, error: "Super Admin only" };
   }
   return { ok: true, session };
 }
+
+/** @deprecated Use requireSuperAdmin */
+export const requireDeveloper = requireSuperAdmin;
