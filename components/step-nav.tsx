@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { TABS } from "@/lib/defaults";
 import { useLocale } from "@/components/locale-provider";
 import type { StepStatus } from "@/lib/completeness";
@@ -26,17 +25,6 @@ export function StepNav({
   const current = TABS[index] ?? TABS[0];
   const prev = index > 0 ? TABS[index - 1] : null;
   const next = index < TABS.length - 1 ? TABS[index + 1] : null;
-  const doneAtOpen = useRef<Partial<Record<TabId, boolean>>>({});
-  const [sessionReady, setSessionReady] = useState(false);
-
-  useEffect(() => {
-    doneAtOpen.current = Object.fromEntries(
-      TABS.map((item) => [item.id, stepStatusFor(item.id) === "done"]),
-    );
-    setSessionReady(true);
-    // Snapshot once per page load — not when the pack later changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <nav
@@ -52,10 +40,7 @@ export function StepNav({
           {TABS.map((item, stepIndex) => {
             const active = tab === item.id;
             const status = stepStatusFor(item.id);
-            const completedThisVisit =
-              sessionReady &&
-              status === "done" &&
-              !doneAtOpen.current[item.id];
+            const completed = status === "done";
             const label = t(`tab.${item.id}`);
             return (
               <li key={item.id} className="relative z-10 flex justify-center">
@@ -72,19 +57,17 @@ export function StepNav({
                   className="group flex w-full max-w-[7.5rem] flex-col items-center gap-1.5"
                 >
                   <span
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-semibold transition ${circleClass(active, completedThisVisit)}`}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-semibold transition ${circleClass(active, completed)}`}
                   >
-                    {completedThisVisit && !active ? (
-                      <CheckIcon />
-                    ) : (
-                      stepIndex + 1
-                    )}
+                    {completed ? <CheckIcon /> : stepIndex + 1}
                   </span>
                   <span
                     className={`hidden text-center text-[11px] leading-tight md:block ${
                       active
                         ? "font-semibold text-brand-blue"
-                        : "font-medium text-slate-500 group-hover:text-navy-900"
+                        : completed
+                          ? "font-medium text-emerald-700"
+                          : "font-medium text-slate-500 group-hover:text-navy-900"
                     }`}
                   >
                     {t(`tab.short.${item.id}`)}
@@ -121,9 +104,10 @@ export function StepNav({
   );
 }
 
-function circleClass(active: boolean, completedThisVisit: boolean) {
+function circleClass(active: boolean, completed: boolean) {
+  if (active && completed) return "bg-brand-blue text-white shadow-sm";
   if (active) return "bg-brand-blue text-white shadow-sm";
-  if (completedThisVisit) return "bg-emerald-600 text-white";
+  if (completed) return "bg-emerald-600 text-white";
   return "border border-slate-300 bg-white text-slate-500";
 }
 
