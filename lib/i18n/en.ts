@@ -438,6 +438,8 @@ export const en: Record<string, string> = {
   "pdf.b": "B. Voice and trust",
   "pdf.c": "C. Message and clarity",
   "pdf.d": "D. Power and structure",
+  "pdf.example": "Example:",
+  "pdf.noneChecked": "No symptoms checked on this axis.",
 
   "admin.title": "Facilitator dashboard",
   "admin.workbook": "Workbook",
@@ -476,7 +478,6 @@ export const en: Record<string, string> = {
   "admin.accounts.approve": "Approve",
   "admin.accounts.reject": "Reject",
   "admin.accounts.fail": "Could not update that account.",
-  "admin.role.superAdmin": "Super Admin",
   "admin.stat.packs": "Packs submitted",
   "admin.stat.ready": "Ready for live audit",
   "admin.stat.incomplete": "Still incomplete",
