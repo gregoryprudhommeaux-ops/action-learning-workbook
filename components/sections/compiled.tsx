@@ -349,15 +349,12 @@ export function CompiledSection() {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.lead")}</p>
-              <p className="text-[10px]">{t("sum.confirmed")}</p>
             </div>
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.counterpart")}</p>
-              <p className="text-[10px]">{t("sum.confirmed")}</p>
             </div>
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.facilitator")}</p>
-              <p className="text-[10px]">{t("sum.pending")}</p>
             </div>
           </div>
         </div>

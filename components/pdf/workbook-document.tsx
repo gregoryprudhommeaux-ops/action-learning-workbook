@@ -531,11 +531,9 @@ export function WorkbookPdfDocument({
           </View>
           <View style={styles.signBox}>
             <Text style={styles.signName}>{t("pdf.counterpart")}</Text>
-            <Text style={styles.signHint}>{t("pdf.confirmed")}</Text>
           </View>
           <View style={styles.signBox}>
             <Text style={styles.signName}>{t("pdf.coach")}</Text>
-            <Text style={styles.signHint}>{t("pdf.pending")}</Text>
           </View>
         </View>
 
