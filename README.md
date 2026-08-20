@@ -34,7 +34,19 @@ Required env vars (auto-provisioned by Clerk on Vercel):
 - `CLERK_SECRET_KEY`
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
 - `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`
-- `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-in`
+- `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up`
+- `DATABASE_URL` (Neon)
+- `SUPER_ADMIN_EMAILS` — your Google email (Super Admin). Only this account can approve or reject facilitators. `DEVELOPER_EMAILS` still works as a legacy alias.
+
+### Roles
+
+| Role | Who | Access |
+|---|---|---|
+| **Super Admin** | Email listed in `SUPER_ADMIN_EMAILS` (you) | Full `/admin`, approve/reject facilitators |
+| **Facilitator** | Google sign-up at `/sign-up`, then **approved by Super Admin** | Inbox / packs only after approval |
+| **Pending** | Signed up, waiting | Waiting screen only |
+
+Flow: facilitator opens `/sign-up` → Google → pending → you sign in at `/admin` → **Facilitators to approve** → Approve.
 
 ## What teams fill in
 
