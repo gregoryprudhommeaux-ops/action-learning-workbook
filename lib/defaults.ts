@@ -102,6 +102,7 @@ export const DEFAULT_REGIONS: Region[] = [
     meetingNorms:
       "Fast-paced and action-oriented. High expectation of individual initiative regardless of rank.",
     tip: "Flag risks and delays early in explicit language. Close every call with named next-step owners.",
+    categories: [],
     accent: "blue",
   },
   {
@@ -115,6 +116,7 @@ export const DEFAULT_REGIONS: Region[] = [
     meetingNorms:
       "Informal pre-alignment builds the real consensus. Silence in large forums often reflects respect for hierarchy rather than agreement.",
     tip: "Follow live calls with written bullet summaries and named owners so mutual understanding is explicit.",
+    categories: [],
     accent: "red",
   },
   {
@@ -128,6 +130,7 @@ export const DEFAULT_REGIONS: Region[] = [
     meetingNorms:
       "Agendas and pre-reads are expected. Silence may mean the decision path is unclear, not that people agree.",
     tip: "Confirm owners and next steps in writing after the call. Do not treat a quiet room as sign-off.",
+    categories: [],
     accent: "purple",
   },
   {
@@ -141,6 +144,7 @@ export const DEFAULT_REGIONS: Region[] = [
     meetingNorms:
       "Works well with short alignment calls plus a written recap. Last-minute agenda changes land poorly before a locked review.",
     tip: "Ask what is actually blocking the date. Informal agreement still needs a named owner and a deadline.",
+    categories: [],
     accent: "emerald",
   },
   {
@@ -154,6 +158,7 @@ export const DEFAULT_REGIONS: Region[] = [
     meetingNorms:
       "Agendas distributed 48+ hours ahead. High need for complete data before committing to deadlines.",
     tip: "Avoid ad-hoc schedule changes. Send the analytical pack before the meeting, not during it.",
+    categories: [],
     accent: "amber",
   },
 ];
@@ -400,6 +405,7 @@ export function emptyRegion(): Region {
     communication: "",
     meetingNorms: "",
     tip: "",
+    categories: [],
     accent: "slate",
   };
 }

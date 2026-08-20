@@ -316,9 +316,30 @@ export function CompiledSection() {
                     {tRegionTagline(locale, region)}
                   </p>
                   <p className="mt-2 text-slate-600">
+                    <span className="font-semibold">{t("sum.comm")}</span>{" "}
+                    {region.communication}
+                  </p>
+                  <p className="mt-1 text-slate-600">
+                    <span className="font-semibold">{t("sum.meet")}</span>{" "}
+                    {region.meetingNorms}
+                  </p>
+                  <p className="mt-1 text-slate-600">
                     <span className="font-semibold">{t("sum.tip")}</span>{" "}
                     {region.tip}
                   </p>
+                  {(region.categories ?? [])
+                    .filter(
+                      (category) =>
+                        category.title.trim() || category.detail.trim(),
+                    )
+                    .map((category) => (
+                      <p key={category.id} className="mt-1 text-slate-600">
+                        <span className="font-semibold">
+                          {category.title.trim() || t("play.categoryName")}:
+                        </span>{" "}
+                        {category.detail}
+                      </p>
+                    ))}
                 </div>
               ))}
           </div>

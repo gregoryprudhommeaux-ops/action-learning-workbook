@@ -498,6 +498,21 @@ export function WorkbookPdfDocument({
             <Text style={styles.cardBody}>
               {t("pdf.tip", { text: txt(region.tip) })}
             </Text>
+            {(region.categories ?? [])
+              .filter(
+                (category) =>
+                  category.title.trim() || category.detail.trim(),
+              )
+              .map((category) => (
+                <Text key={category.id} style={styles.cardBody}>
+                  {t("pdf.category", {
+                    title: txt(
+                      category.title.trim() || t("play.categoryName"),
+                    ),
+                    text: txt(category.detail),
+                  })}
+                </Text>
+              ))}
           </View>
         ))}
 

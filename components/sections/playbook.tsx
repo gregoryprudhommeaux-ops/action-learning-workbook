@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ACCENT_STYLES } from "@/lib/defaults";
-import type { Region, RegionAccent } from "@/lib/types";
+import type { Region, RegionAccent, RegionCategory } from "@/lib/types";
 import { useWorkbook } from "@/components/workbook-provider";
 import { useLocale } from "@/components/locale-provider";
 import { tRegionName } from "@/lib/i18n";
@@ -15,6 +15,17 @@ const ACCENTS: RegionAccent[] = [
   "purple",
   "slate",
 ];
+
+function newCategory(): RegionCategory {
+  return {
+    id:
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `cat-${Date.now()}`,
+    title: "",
+    detail: "",
+  };
+}
 
 export function PlaybookSection() {
   const { locale, t } = useLocale();
@@ -42,9 +53,26 @@ export function PlaybookSection() {
   }
 
   const styles = ACCENT_STYLES[selected.accent];
+  const categories = selected.categories ?? [];
 
   function edit(field: keyof Region, value: string) {
     upsertRegion({ ...selected, [field]: value });
+  }
+
+  function setCategories(next: RegionCategory[]) {
+    upsertRegion({ ...selected, categories: next });
+  }
+
+  function editCategory(
+    id: string,
+    field: "title" | "detail",
+    value: string,
+  ) {
+    setCategories(
+      categories.map((category) =>
+        category.id === id ? { ...category, [field]: value } : category,
+      ),
+    );
   }
 
   return (
@@ -180,6 +208,65 @@ export function PlaybookSection() {
                 />
               </div>
             ))}
+          </div>
+
+          {categories.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 text-xs md:grid-cols-2">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className={`rounded-lg border bg-white p-3.5 shadow-sm ${styles.card}`}
+                >
+                  <div className="mb-2 flex items-start justify-between gap-2">
+                    <label className="block text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+                      {t("play.categoryName")}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCategories(
+                          categories.filter((item) => item.id !== category.id),
+                        )
+                      }
+                      className="text-[10px] font-semibold text-red-600 hover:text-red-700"
+                    >
+                      {t("play.removeCategory")}
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    value={category.title}
+                    onChange={(event) =>
+                      editCategory(category.id, "title", event.target.value)
+                    }
+                    placeholder={t("play.categoryName")}
+                    className="mb-3 w-full rounded border border-slate-200 p-2 font-semibold text-slate-800 placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  />
+                  <label className="mb-1 block text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+                    {t("play.categoryDetail")}
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={category.detail}
+                    onChange={(event) =>
+                      editCategory(category.id, "detail", event.target.value)
+                    }
+                    placeholder={t("play.categoryDetail")}
+                    className="w-full resize-y rounded border border-slate-200 p-2 text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          <div>
+            <button
+              type="button"
+              onClick={() => setCategories([...categories, newCategory()])}
+              className="rounded-lg border border-dashed border-slate-300 bg-white/80 px-4 py-2 text-xs font-semibold tracking-wide text-slate-700 uppercase transition hover:border-brand-blue hover:text-brand-blue"
+            >
+              {t("play.addCategory")}
+            </button>
           </div>
         </div>
       </div>

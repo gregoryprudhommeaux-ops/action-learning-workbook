@@ -22,6 +22,12 @@ export type RegionAccent =
   | "purple"
   | "slate";
 
+export interface RegionCategory {
+  id: string;
+  title: string;
+  detail: string;
+}
+
 export interface Region {
   id: string;
   code: string;
@@ -32,6 +38,8 @@ export interface Region {
   meetingNorms: string;
   tip: string;
   accent: RegionAccent;
+  /** Extra playbook cards added by the participant. */
+  categories: RegionCategory[];
 }
 
 export interface Diagnostics {

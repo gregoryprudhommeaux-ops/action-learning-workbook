@@ -103,7 +103,16 @@ export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
     calc: { ...defaultState.calc, ...parsed.calc },
     regions:
       parsed.regions && parsed.regions.length > 0
-        ? parsed.regions
+        ? parsed.regions.map((region) => ({
+            ...region,
+            categories: Array.isArray(region.categories)
+              ? region.categories.map((category) => ({
+                  id: category.id,
+                  title: category.title ?? "",
+                  detail: category.detail ?? "",
+                }))
+              : [],
+          }))
         : defaultState.regions,
     activeRegionIds:
       parsed.activeRegionIds && parsed.activeRegionIds.length > 0
