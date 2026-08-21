@@ -4,7 +4,7 @@ import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import type { WorkbookState } from "@/lib/types";
 import type { Locale } from "@/lib/i18n/types";
 import { translate } from "@/lib/i18n/translate";
-import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n/labels";
+import { tCompanyAsName, tRegionField, tRegionName, tRegionTagline } from "@/lib/i18n/labels";
 import { PDF_FONT } from "@/lib/pdf-fonts";
 
 const navy = "#0f172a";
@@ -490,14 +490,33 @@ export function WorkbookPdfDocument({
               {txt(tRegionTagline(locale, region))}
             </Text>
             <Text style={styles.cardBody}>
-              {t("pdf.comm", { text: txt(region.communication) })}
+              {t("pdf.comm", {
+                text: txt(tRegionField(locale, region, "communication")),
+              })}
             </Text>
             <Text style={styles.cardBody}>
-              {t("pdf.meet", { text: txt(region.meetingNorms) })}
+              {t("pdf.meet", {
+                text: txt(tRegionField(locale, region, "meetingNorms")),
+              })}
             </Text>
             <Text style={styles.cardBody}>
-              {t("pdf.tip", { text: txt(region.tip) })}
+              {t("pdf.tip", { text: txt(tRegionField(locale, region, "tip")) })}
             </Text>
+            {(region.categories ?? [])
+              .filter(
+                (category) =>
+                  category.title.trim() || category.detail.trim(),
+              )
+              .map((category) => (
+                <Text key={category.id} style={styles.cardBody}>
+                  {t("pdf.category", {
+                    title: txt(
+                      category.title.trim() || t("play.categoryName"),
+                    ),
+                    text: txt(category.detail),
+                  })}
+                </Text>
+              ))}
           </View>
         ))}
 
@@ -512,11 +531,9 @@ export function WorkbookPdfDocument({
           </View>
           <View style={styles.signBox}>
             <Text style={styles.signName}>{t("pdf.counterpart")}</Text>
-            <Text style={styles.signHint}>{t("pdf.confirmed")}</Text>
           </View>
           <View style={styles.signBox}>
             <Text style={styles.signName}>{t("pdf.coach")}</Text>
-            <Text style={styles.signHint}>{t("pdf.pending")}</Text>
           </View>
         </View>
 

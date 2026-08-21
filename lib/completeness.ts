@@ -160,7 +160,7 @@ export function missingAuditItems(state: WorkbookState): {
 export function stepStatus(tab: TabId, state: WorkbookState): StepStatus {
   switch (tab) {
     case "briefing":
-      return "done";
+      return state.briefingComplete ? "done" : "todo";
     case "scope":
       return scopeComplete(state) ? "done" : "blocked";
     case "diagnostic":

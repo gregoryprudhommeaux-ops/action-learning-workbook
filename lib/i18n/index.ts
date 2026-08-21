@@ -19,4 +19,5 @@ export {
   tPackStatus,
   tRegionName,
   tRegionTagline,
+  tRegionField,
 } from "./labels";

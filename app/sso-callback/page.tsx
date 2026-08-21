@@ -3,6 +3,7 @@
 import { useClerk, useSignIn, useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useLocale } from "@/components/locale-provider";
 
 const AFTER_AUTH = "/admin";
 
@@ -13,6 +14,7 @@ function isComplete(status: string | null | undefined) {
 }
 
 export default function SsoCallbackPage() {
+  const { t } = useLocale();
   const clerk = useClerk();
   const { signIn } = useSignIn();
   const { signUp } = useSignUp();
@@ -115,7 +117,7 @@ export default function SsoCallbackPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-slate-50 text-sm text-slate-500">
-      Completing Google sign-in…
+      {t("admin.ssoWait")}
       <div id="clerk-captcha" />
     </div>
   );

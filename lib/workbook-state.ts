@@ -103,13 +103,30 @@ export function mergeState(parsed: Partial<WorkbookState>): WorkbookState {
     calc: { ...defaultState.calc, ...parsed.calc },
     regions:
       parsed.regions && parsed.regions.length > 0
-        ? parsed.regions
+        ? parsed.regions.map((region) => ({
+            ...region,
+            categories: Array.isArray(region.categories)
+              ? region.categories.map((category) => ({
+                  id: category.id,
+                  title: category.title ?? "",
+                  detail: category.detail ?? "",
+                }))
+              : [],
+          }))
         : defaultState.regions,
     activeRegionIds:
       parsed.activeRegionIds && parsed.activeRegionIds.length > 0
         ? parsed.activeRegionIds
         : defaultState.activeRegionIds,
   };
+  // Older saves had no flag — treat progressed packs as Purpose already done.
+  if (typeof parsed.briefingComplete !== "boolean") {
+    merged.briefingComplete = Boolean(
+      (parsed.projectName ?? "").trim() ||
+        (parsed.authorFullName ?? "").trim() ||
+        Object.values(parsed.diagnostics ?? {}).some(Boolean),
+    );
+  }
   merged.companyName = isNamedCompany(merged.companyName)
     ? merged.companyName.trim()
     : "";

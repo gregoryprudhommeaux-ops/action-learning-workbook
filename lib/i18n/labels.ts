@@ -26,19 +26,31 @@ export function tInitiativeLabel(locale: Locale, state: WorkbookState) {
 }
 
 export function tRegionName(locale: Locale, region: Region) {
-  const catalog = DEFAULT_REGIONS.find((item) => item.id === region.id);
-  if (catalog && region.name === catalog.name) {
-    return translate(locale, `region.${region.id}.name`);
-  }
-  return region.name;
+  return tRegionField(locale, region, "name");
 }
 
 export function tRegionTagline(locale: Locale, region: Region) {
+  return tRegionField(locale, region, "tagline");
+}
+
+export type RegionTextField =
+  | "name"
+  | "tagline"
+  | "communication"
+  | "meetingNorms"
+  | "tip";
+
+/** Translate catalog defaults; keep custom edits as-is. */
+export function tRegionField(
+  locale: Locale,
+  region: Region,
+  field: RegionTextField,
+) {
   const catalog = DEFAULT_REGIONS.find((item) => item.id === region.id);
-  if (catalog && region.tagline === catalog.tagline) {
-    return translate(locale, `region.${region.id}.tagline`);
+  if (catalog && region[field] === catalog[field]) {
+    return translate(locale, `region.${region.id}.${field}`);
   }
-  return region.tagline;
+  return region[field];
 }
 
 export function tActiveRegionsLabel(locale: Locale, state: WorkbookState) {

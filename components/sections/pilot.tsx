@@ -25,11 +25,11 @@ export function PilotSection() {
           <div className="space-y-3">
             {(
               [
-                ["change1", "pilot.c1"],
-                ["change2", "pilot.c2"],
-                ["change3", "pilot.c3"],
+                ["change1", "pilot.c1", "pilot.c1.example"],
+                ["change2", "pilot.c2", "pilot.c2.example"],
+                ["change3", "pilot.c3", "pilot.c3.example"],
               ] as const
-            ).map(([field, labelKey]) => (
+            ).map(([field, labelKey, exampleKey]) => (
               <div
                 key={field}
                 className="rounded-lg border border-slate-200 bg-slate-50 p-3.5"
@@ -43,6 +43,7 @@ export function PilotSection() {
                   onChange={(event) =>
                     patch("pilot", { [field]: event.target.value })
                   }
+                  placeholder={t(exampleKey)}
                   className="w-full rounded border border-slate-300 p-2 text-xs focus:ring-1 focus:ring-brand-blue"
                 />
               </div>

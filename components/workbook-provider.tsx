@@ -285,12 +285,12 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
         const text = await file.text();
         const parsed = JSON.parse(text) as Partial<WorkbookState>;
         setWorkbookState(mergeState(parsed));
-        showToast("Workbook state imported.", "📥");
+        showToast(t("toast.imported"), "📥");
       } catch {
-        showToast("Invalid JSON file.", "⚠️");
+        showToast(t("toast.importFail"), "⚠️");
       }
     },
-    [showToast],
+    [showToast, t],
   );
 
   const friction = useMemo(() => {

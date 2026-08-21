@@ -94,14 +94,52 @@ export const en: Record<string, string> = {
 
   "region.us.name": "United States",
   "region.us.tagline": "Low context · Egalitarian · Action-oriented",
+  "region.us.communication":
+    "Direct, enthusiastic, low context. Feedback is often wrapped in a positive–critique–positive sandwich.",
+  "region.us.meetingNorms":
+    "Fast-paced and action-oriented. High expectation of individual initiative regardless of rank.",
+  "region.us.tip":
+    "Flag risks and delays early in explicit language. Close every call with named next-step owners.",
   "region.cn.name": "China",
   "region.cn.tagline": "High context · Consensus-oriented · Implicit hierarchy",
+  "region.cn.communication":
+    "Relational and harmony-focused. Direct negative feedback is often avoided in public settings to preserve face.",
+  "region.cn.meetingNorms":
+    "Informal pre-alignment builds the real consensus. Silence in large forums often reflects respect for hierarchy rather than agreement.",
+  "region.cn.tip":
+    "Follow live calls with written bullet summaries and named owners so mutual understanding is explicit.",
   "region.sg.name": "Singapore",
   "region.sg.tagline": "High efficiency · Multicultural · Process-disciplined",
+  "region.sg.communication":
+    "Professional, precise, and multilingual. Harmony and face matter in mixed rooms; decisions still expect a clear process owner.",
+  "region.sg.meetingNorms":
+    "Agendas and pre-reads are expected. Silence may mean the decision path is unclear, not that people agree.",
+  "region.sg.tip":
+    "Confirm owners and next steps in writing after the call. Do not treat a quiet room as sign-off.",
   "region.ie.name": "Ireland",
   "region.ie.tagline": "English-speaking EU · Informal · Candid",
+  "region.ie.communication":
+    "Conversational and relationship-aware, with relatively direct pushback once trust is there. Humor can mask a real objection.",
+  "region.ie.meetingNorms":
+    "Works well with short alignment calls plus a written recap. Last-minute agenda changes land poorly before a locked review.",
+  "region.ie.tip":
+    "Ask what is actually blocking the date. Informal agreement still needs a named owner and a deadline.",
   "region.de.name": "Germany",
   "region.de.tagline": "Low context · Structured planning · Direct feedback",
+  "region.de.communication":
+    "Explicit, objective, detail-oriented. Constructive criticism is treated as professional duty, not personal hostility.",
+  "region.de.meetingNorms":
+    "Agendas distributed 48+ hours ahead. High need for complete data before committing to deadlines.",
+  "region.de.tip":
+    "Avoid ad-hoc schedule changes. Send the analytical pack before the meeting, not during it.",
+  "play.accent.red": "Red",
+  "play.accent.amber": "Amber",
+  "play.accent.emerald": "Emerald",
+  "play.accent.blue": "Blue",
+  "play.accent.purple": "Purple",
+  "play.accent.slate": "Slate",
+  "toast.imported": "Workbook state imported.",
+  "toast.importFail": "Invalid JSON file.",
 
   "briefing.kicker": "Executive briefing & strategic context",
   "briefing.hero": "Accelerating cross-border operational excellence",
@@ -294,6 +332,10 @@ export const en: Record<string, string> = {
     "e.g. Agenda 48 hours ahead. Decisions need a named owner before the call ends.",
   "play.tipExample":
     "e.g. Follow the live call with a short written recap and one named owner per action.",
+  "play.addCategory": "ADD CATEGORIE",
+  "play.categoryName": "ADD CATEGORIE NAME",
+  "play.categoryDetail": "ADD DETAIL",
+  "play.removeCategory": "Remove category",
   "play.stored": "Cards are stored in this browser.",
   "play.emoji": "Region emoji",
   "play.next": "Proceed to Step 6: Pilot & KPI →",
@@ -311,9 +353,12 @@ export const en: Record<string, string> = {
   "pilot.lead":
     "Name the behavioral routines you will test, then quantify estimated efficiency gains.",
   "pilot.routines": "A. Pilot routine commitments",
-  "pilot.c1": "Routine change 1: Email tagging & SLA protocol",
-  "pilot.c2": "Routine change 2: Meeting leadership rotation",
-  "pilot.c3": "Routine change 3: Governance DRI rule",
+  "pilot.c1": "Routine change 1",
+  "pilot.c2": "Routine change 2",
+  "pilot.c3": "Routine change 3",
+  "pilot.c1.example": "Email tagging & SLA protocol",
+  "pilot.c2.example": "Meeting leadership rotation",
+  "pilot.c3.example": "Governance DRI rule",
   "pilot.kpi": "B. Target KPI matrix",
   "pilot.metric": "Metric area",
   "pilot.baseline": "Baseline (current)",
@@ -375,6 +420,8 @@ export const en: Record<string, string> = {
   "sum.targ": "Target",
   "sum.s6": "6. Regional playbook (active sites)",
   "sum.tip": "Tip:",
+  "sum.comm": "Communication:",
+  "sum.meet": "Meetings:",
   "sum.lead": "Team ALP lead",
   "sum.counterpart": "Cross-regional counterpart",
   "sum.facilitator": "Facilitator / coach",
@@ -428,6 +475,7 @@ export const en: Record<string, string> = {
   "pdf.comm": "Communication: {text}",
   "pdf.meet": "Meetings: {text}",
   "pdf.tip": "Tip: {text}",
+  "pdf.category": "{title}: {text}",
   "pdf.counterpart": "Cross-regional counterpart",
   "pdf.coach": "Facilitator / coach",
   "pdf.confirmed": "Confirmed pre-work",
@@ -453,6 +501,7 @@ export const en: Record<string, string> = {
   "admin.googleCreate": "Create facilitator account with Google",
   "admin.back": "Back to the workbook",
   "admin.googleFail": "Google sign-in failed.",
+  "admin.ssoWait": "Completing Google sign-in…",
   "admin.needAccount": "Need an account?",
   "admin.signupLink": "Create one",
   "admin.haveAccount": "Already have an account?",

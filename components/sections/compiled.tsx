@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useWorkbook } from "@/components/workbook-provider";
 import { useLocale } from "@/components/locale-provider";
-import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n";
+import { tCompanyAsName, tRegionField, tRegionName, tRegionTagline } from "@/lib/i18n";
 
 export function CompiledSection() {
   const { locale, t } = useLocale();
@@ -316,9 +316,30 @@ export function CompiledSection() {
                     {tRegionTagline(locale, region)}
                   </p>
                   <p className="mt-2 text-slate-600">
-                    <span className="font-semibold">{t("sum.tip")}</span>{" "}
-                    {region.tip}
+                    <span className="font-semibold">{t("sum.comm")}</span>{" "}
+                    {tRegionField(locale, region, "communication")}
                   </p>
+                  <p className="mt-1 text-slate-600">
+                    <span className="font-semibold">{t("sum.meet")}</span>{" "}
+                    {tRegionField(locale, region, "meetingNorms")}
+                  </p>
+                  <p className="mt-1 text-slate-600">
+                    <span className="font-semibold">{t("sum.tip")}</span>{" "}
+                    {tRegionField(locale, region, "tip")}
+                  </p>
+                  {(region.categories ?? [])
+                    .filter(
+                      (category) =>
+                        category.title.trim() || category.detail.trim(),
+                    )
+                    .map((category) => (
+                      <p key={category.id} className="mt-1 text-slate-600">
+                        <span className="font-semibold">
+                          {category.title.trim() || t("play.categoryName")}:
+                        </span>{" "}
+                        {category.detail}
+                      </p>
+                    ))}
                 </div>
               ))}
           </div>
@@ -328,15 +349,12 @@ export function CompiledSection() {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.lead")}</p>
-              <p className="text-[10px]">{t("sum.confirmed")}</p>
             </div>
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.counterpart")}</p>
-              <p className="text-[10px]">{t("sum.confirmed")}</p>
             </div>
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.facilitator")}</p>
-              <p className="text-[10px]">{t("sum.pending")}</p>
             </div>
           </div>
         </div>

@@ -90,14 +90,52 @@ export const zh: Record<string, string> = {
 
   "region.us.name": "美国",
   "region.us.tagline": "低语境 · 平等主义 · 行动导向",
+  "region.us.communication":
+    "直接、热情、低语境。反馈常采用“肯定—批评—肯定”的三明治结构。",
+  "region.us.meetingNorms":
+    "节奏快、行动导向。无论职级高低，都高度期待个人主动推进。",
+  "region.us.tip":
+    "用明确语言尽早标出风险与延误。每次通话结束时指定下一步负责人。",
   "region.cn.name": "中国",
   "region.cn.tagline": "高语境 · 共识导向 · 隐性层级",
+  "region.cn.communication":
+    "重关系与和谐。公开场合通常避免直接负面反馈，以保全面子。",
+  "region.cn.meetingNorms":
+    "非正式预沟通才真正形成共识。大场合中的沉默常是对层级的尊重，而非同意。",
+  "region.cn.tip":
+    "直播会议后跟进书面要点与负责人名单，使共识被明确确认。",
   "region.sg.name": "新加坡",
   "region.sg.tagline": "高效率 · 多元文化 · 流程严谨",
+  "region.sg.communication":
+    "专业、精准、多语。混合场合仍重视和谐与面子；决策仍需明确流程负责人。",
+  "region.sg.meetingNorms":
+    "期望有议程与会前材料。沉默可能表示决策路径不清，而非大家同意。",
+  "region.sg.tip":
+    "会后书面确认负责人与下一步。不要把安静的房间当作已获批准。",
   "region.ie.name": "爱尔兰",
   "region.ie.tagline": "英语区欧盟 · 非正式 · 坦率",
+  "region.ie.communication":
+    "偏对话与关系，信任建立后会较直接地提出异议。幽默有时会掩盖真实反对。",
+  "region.ie.meetingNorms":
+    "适合短对齐会 + 书面纪要。在已锁定评审前临时改议程效果很差。",
+  "region.ie.tip":
+    "问清真正卡住日期的原因。非正式同意仍需要指定负责人和截止日期。",
   "region.de.name": "德国",
   "region.de.tagline": "低语境 · 结构化规划 · 直接反馈",
+  "region.de.communication":
+    "明确、客观、注重细节。建设性批评被视为职业责任，而非人身敌意。",
+  "region.de.meetingNorms":
+    "议程需提前 48 小时以上发出。在承诺截止日期前需要完整数据。",
+  "region.de.tip":
+    "避免临时改期。分析材料应在会前发出，而不是会中临时抛出。",
+  "play.accent.red": "红色",
+  "play.accent.amber": "琥珀色",
+  "play.accent.emerald": "翠绿",
+  "play.accent.blue": "蓝色",
+  "play.accent.purple": "紫色",
+  "play.accent.slate": "石板灰",
+  "toast.imported": "已导入手册状态。",
+  "toast.importFail": "无效的 JSON 文件。",
 
   "briefing.kicker": "高管简报与战略背景",
   "briefing.hero": "加速跨境运营卓越",
@@ -278,6 +316,10 @@ export const zh: Record<string, string> = {
     "例如：议程提前 48 小时发出。会议结束前必须指定一名负责人。",
   "play.tipExample":
     "例如：会后发一份简短书面纪要，每项行动指定一名负责人。",
+  "play.addCategory": "添加类别",
+  "play.categoryName": "类别名称",
+  "play.categoryDetail": "详细说明",
+  "play.removeCategory": "删除类别",
   "play.stored": "卡片保存在当前浏览器。",
   "play.emoji": "区域表情",
   "play.next": "继续到第 6 步：试点与 KPI →",
@@ -295,9 +337,12 @@ export const zh: Record<string, string> = {
   "pilot.lead":
     "命名将要测试的行为例行事项，并量化预估效率收益。",
   "pilot.routines": "A. 试点例行承诺",
-  "pilot.c1": "例行变化 1：邮件标签与 SLA 协议",
-  "pilot.c2": "例行变化 2：会议主持轮换",
-  "pilot.c3": "例行变化 3：治理 DRI 规则",
+  "pilot.c1": "例行变化 1",
+  "pilot.c2": "例行变化 2",
+  "pilot.c3": "例行变化 3",
+  "pilot.c1.example": "邮件标签与 SLA 协议",
+  "pilot.c2.example": "会议主持轮换",
+  "pilot.c3.example": "治理 DRI 规则",
   "pilot.kpi": "B. 目标 KPI 矩阵",
   "pilot.metric": "指标领域",
   "pilot.baseline": "基线（当前）",
@@ -358,6 +403,8 @@ export const zh: Record<string, string> = {
   "sum.targ": "目标",
   "sum.s6": "6. 区域手册（活跃站点）",
   "sum.tip": "建议：",
+  "sum.comm": "沟通：",
+  "sum.meet": "会议：",
   "sum.lead": "团队 ALP 负责人",
   "sum.counterpart": "跨区域对接人",
   "sum.facilitator": "引导员 / 教练",
@@ -410,6 +457,7 @@ export const zh: Record<string, string> = {
   "pdf.comm": "沟通：{text}",
   "pdf.meet": "会议：{text}",
   "pdf.tip": "建议：{text}",
+  "pdf.category": "{title}：{text}",
   "pdf.counterpart": "跨区域对接人",
   "pdf.coach": "引导员 / 教练",
   "pdf.confirmed": "会前作业已确认",
@@ -435,6 +483,7 @@ export const zh: Record<string, string> = {
   "admin.googleCreate": "用 Google 创建引导员账户",
   "admin.back": "返回手册",
   "admin.googleFail": "Google 登录失败。",
+  "admin.ssoWait": "正在完成 Google 登录…",
   "admin.needAccount": "还没有账户？",
   "admin.signupLink": "创建一个",
   "admin.haveAccount": "已有账户？",

@@ -6,7 +6,12 @@ import { tCompanyInCopy } from "@/lib/i18n";
 
 export function BriefingSection() {
   const { locale, t } = useLocale();
-  const { state, setTab, loadExample } = useWorkbook();
+  const { state, setTab, loadExample, update } = useWorkbook();
+
+  function continueToScope() {
+    update({ briefingComplete: true });
+    setTab("scope");
+  }
 
   return (
     <div className="space-y-6">
@@ -94,7 +99,7 @@ export function BriefingSection() {
             <div className="mt-6 space-y-2 border-t border-slate-100 pt-4">
               <button
                 type="button"
-                onClick={() => setTab("scope")}
+                onClick={continueToScope}
                 className="block w-full rounded-lg bg-navy-900 py-2.5 text-center text-xs font-medium text-white transition hover:bg-slate-800"
               >
                 {t("briefing.continue")}
