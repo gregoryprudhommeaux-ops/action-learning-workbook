@@ -457,7 +457,6 @@ export const zh: Record<string, string> = {
   "admin.accounts.approve": "批准",
   "admin.accounts.reject": "拒绝",
   "admin.accounts.fail": "无法更新该账户。",
-  "admin.role.superAdmin": "超级管理员",
   "admin.stat.packs": "已提交资料包",
   "admin.stat.ready": "可进行现场审核",
   "admin.stat.incomplete": "仍未完成",

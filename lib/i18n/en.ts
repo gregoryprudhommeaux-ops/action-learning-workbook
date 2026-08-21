@@ -476,7 +476,6 @@ export const en: Record<string, string> = {
   "admin.accounts.approve": "Approve",
   "admin.accounts.reject": "Reject",
   "admin.accounts.fail": "Could not update that account.",
-  "admin.role.superAdmin": "Super Admin",
   "admin.stat.packs": "Packs submitted",
   "admin.stat.ready": "Ready for live audit",
   "admin.stat.incomplete": "Still incomplete",
