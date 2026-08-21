@@ -6,6 +6,12 @@ import { useEffect, useRef } from "react";
 
 const AFTER_AUTH = "/admin";
 
+function isComplete(status: string | null | undefined) {
+  // Clerk mutates status after create/update; TS control-flow still
+  // treats the old narrow type, so compare via string.
+  return status === "complete";
+}
+
 export default function SsoCallbackPage() {
   const clerk = useClerk();
   const { signIn } = useSignIn();
@@ -45,14 +51,14 @@ export default function SsoCallbackPage() {
         });
       };
 
-      if (signIn.status === "complete") {
+      if (isComplete(signIn.status)) {
         await finalizeSignIn();
         return;
       }
 
       if (signUp.isTransferable) {
         await signIn.create({ transfer: true });
-        if (signIn.status === "complete") {
+        if (isComplete(signIn.status)) {
           await finalizeSignIn();
           return;
         }
@@ -62,7 +68,7 @@ export default function SsoCallbackPage() {
 
       if (signIn.isTransferable) {
         await signUp.create({ transfer: true });
-        if (signUp.status === "complete") {
+        if (isComplete(signUp.status)) {
           await finalizeSignUp();
           return;
         }
@@ -70,7 +76,7 @@ export default function SsoCallbackPage() {
         return;
       }
 
-      if (signUp.status === "complete") {
+      if (isComplete(signUp.status)) {
         await finalizeSignUp();
         return;
       }
@@ -81,7 +87,7 @@ export default function SsoCallbackPage() {
         } catch {
           // Legal acceptance may already be off on this instance.
         }
-        if (signUp.status === "complete") {
+        if (isComplete(signUp.status)) {
           await finalizeSignUp();
           return;
         }
