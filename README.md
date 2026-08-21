@@ -2,7 +2,17 @@
 
 Interactive 7-step workbench for a cross-border Action Learning Project: scope, cultural diagnostic, SLA / DRI governance, regional playbook, pilot KPIs, and a printable executive summary.
 
-Progress is stored in the browser (`localStorage`). Export JSON for backup or to restore on another machine. Access is gated by **Google sign-in** via Clerk.
+Progress is stored in the browser (`localStorage`). Export JSON for backup or to restore on another machine. **Participant workbook** (`/`) is public (no login). **Facilitator admin** (`/admin`) is gated by **Google sign-in** via Clerk.
+
+## Mainland China (Phase 1)
+
+Participants in mainland China should use the public workbook URL. Phase 1 removes China-hostile dependencies from that path:
+
+- No Clerk JS on `/` (Clerk only on `/admin`, `/sign-in`, `/sign-up`, `/sso-callback`)
+- Self-hosted Noto Sans SC fonts (no `fonts.google.com`)
+- Prefer a **custom domain** over `*.vercel.app` (see Vercel’s China guidance)
+
+Vercel still has no mainland CDN — access can remain slow or intermittent. Phase 2 (mirror / dual deploy) is the next step if Phase 1 is not enough.
 
 ## Local development
 
