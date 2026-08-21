@@ -508,6 +508,7 @@ export const en: Record<string, string> = {
   "admin.submitted": "Submitted",
   "admin.export": "Export PDF",
   "admin.preparing": "Preparing PDF…",
+  "admin.rowActions": "Pack actions",
   "admin.delete": "Delete submission",
   "admin.deleting": "Deleting…",
   "admin.deleteConfirm":
