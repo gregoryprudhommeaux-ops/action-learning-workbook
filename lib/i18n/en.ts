@@ -476,7 +476,6 @@ export const en: Record<string, string> = {
   "admin.accounts.approve": "Approve",
   "admin.accounts.reject": "Reject",
   "admin.accounts.fail": "Could not update that account.",
-  "admin.role.superAdmin": "Super Admin",
   "admin.stat.packs": "Packs submitted",
   "admin.stat.ready": "Ready for live audit",
   "admin.stat.incomplete": "Still incomplete",
@@ -509,6 +508,12 @@ export const en: Record<string, string> = {
   "admin.submitted": "Submitted",
   "admin.export": "Export PDF",
   "admin.preparing": "Preparing PDF…",
+  "admin.rowActions": "Pack actions",
+  "admin.delete": "Delete submission",
+  "admin.deleting": "Deleting…",
+  "admin.deleteConfirm":
+    "Delete the pack for {name}? This cannot be undone.",
+  "admin.deleteFail": "Could not delete that submission.",
   "admin.emptyDetail":
     "Submitted packs will appear here. Export the PDF for any selected pack.",
 };

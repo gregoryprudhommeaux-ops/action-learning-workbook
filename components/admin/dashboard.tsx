@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cohortStats, isPackReady } from "@/lib/cohort-stats";
 import {
   diagnosticCounts,
@@ -28,18 +28,40 @@ export function AdminDashboard({
   initialSubmissions: SubmissionRecord[];
 }) {
   const { locale, t } = useLocale();
-  const [rows] = useState(initialSubmissions);
+  const [rows, setRows] = useState(initialSubmissions);
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(
     initialSubmissions[0]?.id ?? null,
   );
   const [exporting, setExporting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [pdfLocale, setPdfLocale] = useState<Locale>(locale);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setPdfLocale(locale);
   }, [locale]);
+
+  useEffect(() => {
+    if (!menuOpenId) return;
+    function onPointerDown(event: MouseEvent) {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setMenuOpenId(null);
+      }
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setMenuOpenId(null);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpenId]);
 
   const stats = useMemo(() => cohortStats(rows), [rows]);
   const selected = rows.find((row) => row.id === selectedId) ?? null;
@@ -93,6 +115,38 @@ export function AdminDashboard({
       });
     } finally {
       setExporting(false);
+    }
+  }
+
+  async function deleteSubmissionRow(row: SubmissionRecord) {
+    const label = row.authorFullName || row.authorEmail || row.id;
+    if (!window.confirm(t("admin.deleteConfirm", { name: label }))) {
+      setMenuOpenId(null);
+      return;
+    }
+
+    setDeletingId(row.id);
+    setDeleteError(null);
+    setMenuOpenId(null);
+    try {
+      const res = await fetch(`/api/admin/submissions/${row.id}`, {
+        method: "DELETE",
+      });
+      const data = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        setDeleteError(data.error ?? t("admin.deleteFail"));
+        return;
+      }
+      setRows((prev) => prev.filter((item) => item.id !== row.id));
+      setSelectedId((current) => {
+        if (current !== row.id) return current;
+        const remaining = rows.filter((item) => item.id !== row.id);
+        return remaining[0]?.id ?? null;
+      });
+    } catch {
+      setDeleteError(t("admin.deleteFail"));
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -197,6 +251,11 @@ export function AdminDashboard({
               />
             </div>
           </div>
+          {deleteError ? (
+            <p className="border-b border-red-100 bg-red-50 px-4 py-2 text-xs text-red-700">
+              {deleteError}
+            </p>
+          ) : null}
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-xs">
               <thead className="bg-slate-50 text-slate-500">
@@ -231,6 +290,8 @@ export function AdminDashboard({
                     const active = row.id === selectedId;
                     const band = frictionBand(row.frictionPercent);
                     const ready = isPackReady(row);
+                    const menuOpen = menuOpenId === row.id;
+                    const deleting = deletingId === row.id;
                     return (
                       <tr
                         key={row.id}
@@ -265,15 +326,58 @@ export function AdminDashboard({
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          {ready ? (
-                            <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
-                              {t("admin.ready")}
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-800">
-                              {t("admin.incomplete")}
-                            </span>
-                          )}
+                          <div className="flex items-center gap-1">
+                            {ready ? (
+                              <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700">
+                                {t("admin.ready")}
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-800">
+                                {t("admin.incomplete")}
+                              </span>
+                            )}
+                            <div
+                              className="relative"
+                              ref={menuOpen ? menuRef : undefined}
+                            >
+                              <button
+                                type="button"
+                                aria-label={t("admin.rowActions")}
+                                aria-haspopup="menu"
+                                aria-expanded={menuOpen}
+                                disabled={deleting}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setSelectedId(row.id);
+                                  setMenuOpenId(menuOpen ? null : row.id);
+                                }}
+                                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-base leading-none text-slate-500 transition hover:bg-slate-200/80 hover:text-navy-900 disabled:opacity-50"
+                              >
+                                {deleting ? "…" : "⋯"}
+                              </button>
+                              {menuOpen ? (
+                                <div
+                                  role="menu"
+                                  className="absolute top-full right-0 z-20 mt-1 min-w-[10.5rem] rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+                                >
+                                  <button
+                                    type="button"
+                                    role="menuitem"
+                                    disabled={deleting}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      void deleteSubmissionRow(row);
+                                    }}
+                                    className="block w-full px-3 py-2 text-left text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+                                  >
+                                    {deleting
+                                      ? t("admin.deleting")
+                                      : t("admin.delete")}
+                                  </button>
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -347,7 +451,7 @@ export function AdminDashboard({
                 <button
                   type="button"
                   onClick={() => void exportSelectedPdf()}
-                  disabled={exporting}
+                  disabled={exporting || deletingId === selected.id}
                   className="w-full rounded-lg bg-brand-blue px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
                 >
                   {exporting ? t("admin.preparing") : t("admin.export")}

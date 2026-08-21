@@ -457,7 +457,6 @@ export const zh: Record<string, string> = {
   "admin.accounts.approve": "批准",
   "admin.accounts.reject": "拒绝",
   "admin.accounts.fail": "无法更新该账户。",
-  "admin.role.superAdmin": "超级管理员",
   "admin.stat.packs": "已提交资料包",
   "admin.stat.ready": "可进行现场审核",
   "admin.stat.incomplete": "仍未完成",
@@ -490,5 +489,10 @@ export const zh: Record<string, string> = {
   "admin.submitted": "已提交",
   "admin.export": "导出 PDF",
   "admin.preparing": "正在准备 PDF…",
+  "admin.rowActions": "资料包操作",
+  "admin.delete": "删除提交",
+  "admin.deleting": "正在删除…",
+  "admin.deleteConfirm": "删除 {name} 的资料包？此操作无法撤销。",
+  "admin.deleteFail": "无法删除该提交。",
   "admin.emptyDetail": "提交的资料包将显示在这里。可为任一资料包导出 PDF。",
 };
