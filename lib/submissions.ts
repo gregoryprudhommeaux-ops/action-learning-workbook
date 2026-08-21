@@ -111,3 +111,12 @@ export async function getSubmission(
   const row = rows[0] as SubmissionRow | undefined;
   return row ? mapRow(row) : null;
 }
+
+export async function deleteSubmission(id: string): Promise<boolean> {
+  await ensureSubmissionsTable();
+  const db = getSql();
+  const rows = await db`
+    DELETE FROM submissions WHERE id = ${id} RETURNING id
+  `;
+  return rows.length > 0;
+}

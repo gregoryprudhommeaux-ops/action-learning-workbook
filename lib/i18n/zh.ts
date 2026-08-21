@@ -490,5 +490,10 @@ export const zh: Record<string, string> = {
   "admin.submitted": "已提交",
   "admin.export": "导出 PDF",
   "admin.preparing": "正在准备 PDF…",
+  "admin.rowActions": "资料包操作",
+  "admin.delete": "删除提交",
+  "admin.deleting": "正在删除…",
+  "admin.deleteConfirm": "删除 {name} 的资料包？此操作无法撤销。",
+  "admin.deleteFail": "无法删除该提交。",
   "admin.emptyDetail": "提交的资料包将显示在这里。可为任一资料包导出 PDF。",
 };
