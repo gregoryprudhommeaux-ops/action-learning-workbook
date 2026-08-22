@@ -420,6 +420,8 @@ export const zh: Record<string, string> = {
   "pdf.b": "B. 发声与信任",
   "pdf.c": "C. 信息与清晰度",
   "pdf.d": "D. 权力与结构",
+  "pdf.example": "例子：",
+  "pdf.noneChecked": "该维度未勾选任何症状。",
 
   "admin.title": "引导员控制台",
   "admin.workbook": "手册",

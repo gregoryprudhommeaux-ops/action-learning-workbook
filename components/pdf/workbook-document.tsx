@@ -6,6 +6,9 @@ import type { Locale } from "@/lib/i18n/types";
 import { translate } from "@/lib/i18n/translate";
 import { tCompanyAsName, tRegionName, tRegionTagline } from "@/lib/i18n/labels";
 import { PDF_FONT } from "@/lib/pdf-fonts";
+import { DIAGNOSTIC_AXES } from "@/lib/defaults";
+import { diagnosticCounts } from "@/lib/workbook-state";
+import { PdfFrictionRadar } from "@/components/pdf/friction-radar";
 
 const navy = "#0f172a";
 const brand = "#1e40af";
@@ -255,6 +258,81 @@ const styles = StyleSheet.create({
     color: muted,
     marginTop: 2,
   },
+  radarBox: {
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: lineColor,
+    backgroundColor: wash,
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 10,
+  },
+  radarTitle: {
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
+    fontSize: 9,
+    color: navy,
+    marginBottom: 2,
+    textAlign: "center",
+  },
+  radarHelp: {
+    fontSize: 7.5,
+    color: muted,
+    marginBottom: 6,
+    textAlign: "center",
+  },
+  axisBlock: {
+    borderWidth: 1,
+    borderColor: lineColor,
+    backgroundColor: wash,
+    borderRadius: 4,
+    padding: 8,
+    marginBottom: 6,
+  },
+  axisHeader: {
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
+    fontSize: 8,
+    color: navy,
+    marginBottom: 4,
+  },
+  checkRow: {
+    flexDirection: "row",
+    gap: 5,
+    marginBottom: 3,
+    alignItems: "flex-start",
+  },
+  checkBox: {
+    width: 9,
+    height: 9,
+    marginTop: 1,
+    borderWidth: 1,
+    borderColor: brand,
+    backgroundColor: brand,
+  },
+  checkText: {
+    flex: 1,
+    fontSize: 7.5,
+    lineHeight: 1.35,
+    color: slate,
+  },
+  noneChecked: {
+    fontSize: 7.5,
+    color: muted,
+    fontStyle: "italic",
+    marginBottom: 3,
+  },
+  exampleLine: {
+    fontSize: 7.5,
+    lineHeight: 1.35,
+    color: slate,
+    marginTop: 3,
+  },
+  exampleLabel: {
+    fontFamily: PDF_FONT,
+    fontWeight: 700,
+    color: navy,
+  },
 });
 
 type PdfProps = {
@@ -290,6 +368,19 @@ export function WorkbookPdfDocument({
   const activeRegions = state.regions.filter((region) =>
     state.activeRegionIds.includes(region.id),
   );
+  const counts = diagnosticCounts(state.diagnostics);
+  const radarLabels: [string, string, string, string] = [
+    t("radar.clock"),
+    t("radar.voice"),
+    t("radar.message"),
+    t("radar.power"),
+  ];
+  const axisTitleKey = {
+    a: "pdf.a",
+    b: "pdf.b",
+    c: "pdf.c",
+    d: "pdf.d",
+  } as const;
 
   return (
     <Document
@@ -359,26 +450,38 @@ export function WorkbookPdfDocument({
         <Text style={[styles.analysis, { marginTop: 8 }]}>{txt(analysis)}</Text>
 
         <SectionTitle>{t("pdf.s2")}</SectionTitle>
-        <View style={styles.grid2}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>{t("pdf.a")}</Text>
-            <Text style={styles.cardBody}>{txt(state.examples.a)}</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>{t("pdf.b")}</Text>
-            <Text style={styles.cardBody}>{txt(state.examples.b)}</Text>
-          </View>
+        <View style={styles.radarBox} wrap={false}>
+          <Text style={styles.radarTitle}>{t("diag.radar")}</Text>
+          <Text style={styles.radarHelp}>{t("diag.radarHelp")}</Text>
+          <PdfFrictionRadar counts={counts} labels={radarLabels} size={190} />
+          <Text style={[styles.radarHelp, { marginTop: 4, marginBottom: 0 }]}>
+            {txt(frictionText)}
+          </Text>
         </View>
-        <View style={styles.grid2}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>{t("pdf.c")}</Text>
-            <Text style={styles.cardBody}>{txt(state.examples.c)}</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>{t("pdf.d")}</Text>
-            <Text style={styles.cardBody}>{txt(state.examples.d)}</Text>
-          </View>
-        </View>
+        {DIAGNOSTIC_AXES.map((axis) => {
+          const checked = axis.items.filter(
+            (item) => state.diagnostics[item.id],
+          );
+          return (
+            <View key={axis.key} style={styles.axisBlock} wrap={false}>
+              <Text style={styles.axisHeader}>{t(axisTitleKey[axis.key])}</Text>
+              {checked.length === 0 ? (
+                <Text style={styles.noneChecked}>{t("pdf.noneChecked")}</Text>
+              ) : (
+                checked.map((item) => (
+                  <View key={item.id} style={styles.checkRow}>
+                    <View style={styles.checkBox} />
+                    <Text style={styles.checkText}>{t(`diag.${item.id}`)}</Text>
+                  </View>
+                ))
+              )}
+              <Text style={styles.exampleLine}>
+                <Text style={styles.exampleLabel}>{t("pdf.example")} </Text>
+                {txt(state.examples[axis.key])}
+              </Text>
+            </View>
+          );
+        })}
 
         <SectionTitle>{t("pdf.s3")}</SectionTitle>
         <View style={styles.tableHeader}>

@@ -438,6 +438,8 @@ export const en: Record<string, string> = {
   "pdf.b": "B. Voice and trust",
   "pdf.c": "C. Message and clarity",
   "pdf.d": "D. Power and structure",
+  "pdf.example": "Example:",
+  "pdf.noneChecked": "No symptoms checked on this axis.",
 
   "admin.title": "Facilitator dashboard",
   "admin.workbook": "Workbook",
