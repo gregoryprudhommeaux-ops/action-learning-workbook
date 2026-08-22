@@ -27,10 +27,16 @@ body {
   position: relative;
   width: 100%;
   max-width: 550px;
-  height: 320px;
+  height: 240px;
   max-height: 360px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .chart-container {
+    height: 300px;
+  }
 }
 
 @media (min-width: 768px) {

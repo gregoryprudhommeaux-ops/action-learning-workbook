@@ -9,7 +9,7 @@ export function GovernanceSection() {
   const { state, patch, setTab } = useWorkbook();
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
           {t("gov.kicker")}
@@ -21,7 +21,7 @@ export function GovernanceSection() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="space-y-6 lg:col-span-7">
           <div className="rounded-lg border border-red-200 bg-red-50/30 p-4">
-            <div className="mb-2 flex items-center justify-between gap-2">
+            <div className="mb-2 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-red-700">
                 {t("gov.p1")}
               </span>
@@ -67,7 +67,7 @@ export function GovernanceSection() {
           </div>
 
           <div className="rounded-lg border border-amber-200 bg-amber-50/30 p-4">
-            <div className="mb-2 flex items-center justify-between gap-2">
+            <div className="mb-2 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-800">
                 {t("gov.p2")}
               </span>
@@ -113,7 +113,7 @@ export function GovernanceSection() {
           </div>
 
           <div className="rounded-lg border border-blue-200 bg-blue-50/30 p-4">
-            <div className="mb-2 flex items-center justify-between gap-2">
+            <div className="mb-2 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-800">
                 {t("gov.p3")}
               </span>
@@ -186,7 +186,7 @@ export function GovernanceSection() {
         </div>
 
         <div className="space-y-6 lg:col-span-5">
-          <div className="sticky top-36 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 lg:sticky lg:top-40">
             <h3 className="mb-1 text-center text-sm font-bold text-slate-800">
               {t("gov.chart")}
             </h3>
@@ -202,7 +202,7 @@ export function GovernanceSection() {
                 {t("gov.path")}
               </span>
               <div className="space-y-1.5 text-xs">
-                <div className="flex items-center justify-between rounded border border-slate-200 bg-slate-50 p-2">
+                <div className="flex flex-col gap-0.5 rounded border border-slate-200 bg-slate-50 p-2 sm:flex-row sm:items-center sm:justify-between">
                   <span className="font-semibold text-slate-700">
                     {t("gov.l1")}
                   </span>
@@ -211,7 +211,7 @@ export function GovernanceSection() {
                 <div className="text-center text-xs font-bold text-slate-400">
                   {t("gov.exceeded")}
                 </div>
-                <div className="flex items-center justify-between rounded border border-blue-200 bg-blue-50 p-2">
+                <div className="flex flex-col gap-0.5 rounded border border-blue-200 bg-blue-50 p-2 sm:flex-row sm:items-center sm:justify-between">
                   <span className="font-semibold text-brand-blue">
                     {t("gov.l2")}
                   </span>
@@ -220,7 +220,7 @@ export function GovernanceSection() {
                 <div className="text-center text-xs font-bold text-slate-400">
                   {t("gov.deadlock")}
                 </div>
-                <div className="flex items-center justify-between rounded border border-red-200 bg-red-50 p-2">
+                <div className="flex flex-col gap-0.5 rounded border border-red-200 bg-red-50 p-2 sm:flex-row sm:items-center sm:justify-between">
                   <span className="font-semibold text-red-700">
                     {t("gov.l3")}
                   </span>

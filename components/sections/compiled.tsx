@@ -34,7 +34,7 @@ export function CompiledSection() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="no-print mb-6 flex flex-col gap-4 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
@@ -45,19 +45,19 @@ export function CompiledSection() {
             {readyForAudit && pdfReady ? t("sum.ready") : t("sum.finish")}
           </p>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <button
             type="button"
             onClick={() => void downloadPdf()}
             disabled={exporting}
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-navy-900 transition hover:bg-slate-50 disabled:opacity-60"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-xs font-medium text-navy-900 transition hover:bg-slate-50 disabled:opacity-60 sm:w-auto"
           >
             {exporting ? t("sum.preparing") : t("sum.downloadPdf")}
           </button>
           <button
             type="button"
             onClick={() => void submitPack()}
-            className="rounded-lg bg-brand-blue px-4 py-2 text-xs font-medium text-white transition hover:bg-blue-700"
+            className="w-full rounded-lg bg-brand-blue px-4 py-2.5 text-xs font-medium text-white transition hover:bg-blue-700 sm:w-auto"
           >
             {t("app.submit")}
           </button>
@@ -86,16 +86,16 @@ export function CompiledSection() {
 
       <div className="space-y-6 text-slate-800">
         <div className="border-b-2 border-navy-900 pb-4">
-          <div className="flex items-start justify-between">
-            <div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
               <span className="text-xs font-bold uppercase tracking-widest text-brand-blue">
                 {t("sum.alp", { company })}
               </span>
-              <h1 className="mt-1 text-2xl font-bold text-navy-900">
+              <h1 className="mt-1 text-xl font-bold text-navy-900 sm:text-2xl">
                 {state.projectName || t("sum.untitled")}
               </h1>
               {state.authorFullName ? (
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 break-words text-xs text-slate-500">
                   {t("sum.prepared")} {state.authorFullName}
                   {state.authorPosition ? ` · ${state.authorPosition}` : ""}
                   {state.companyName ? ` · ${state.companyName}` : ""}
@@ -103,7 +103,7 @@ export function CompiledSection() {
                 </p>
               ) : null}
             </div>
-            <div className="text-right text-xs text-slate-500">
+            <div className="shrink-0 text-left text-xs text-slate-500 sm:text-right">
               <p>
                 <strong>{t("sum.status")}</strong> {packStatus}
               </p>
@@ -230,9 +230,13 @@ export function CompiledSection() {
           <h3 className="border-b border-slate-200 pb-1 text-xs font-bold uppercase tracking-wider text-slate-500">
             {t("sum.s4")}
           </h3>
-          <div className="flex items-center justify-between rounded bg-slate-900 p-3 text-xs text-white">
-            <span>{t("sum.deliverable", { task: state.dri.task })}</span>
-            <span className="font-bold text-sky-300">{state.dri.owner}</span>
+          <div className="flex flex-col gap-2 rounded bg-slate-900 p-3 text-xs text-white sm:flex-row sm:items-center sm:justify-between">
+            <span className="min-w-0 break-words">
+              {t("sum.deliverable", { task: state.dri.task })}
+            </span>
+            <span className="shrink-0 font-bold text-sky-300">
+              {state.dri.owner}
+            </span>
           </div>
         </div>
 
@@ -325,7 +329,7 @@ export function CompiledSection() {
         </div>
 
         <div className="space-y-4 border-t border-slate-300 pt-6 text-xs text-slate-500">
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
             <div className="border-t border-slate-300 pt-2">
               <p className="font-bold text-slate-700">{t("sum.lead")}</p>
               <p className="text-[10px]">{t("sum.confirmed")}</p>

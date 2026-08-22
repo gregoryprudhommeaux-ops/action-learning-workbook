@@ -34,6 +34,9 @@ export function FrictionRadar({
     ];
     const datasetLabel = t("radar.dataset");
 
+    const labelSize =
+      typeof window !== "undefined" && window.innerWidth < 480 ? 9 : 11;
+
     if (!chartRef.current) {
       chartRef.current = new Chart(canvas, {
         type: "radar",
@@ -63,7 +66,7 @@ export function FrictionRadar({
               ticks: { display: false, stepSize: 25 },
               grid: { color: "#e2e8f0" },
               pointLabels: {
-                font: { size: 11, weight: 600 },
+                font: { size: labelSize, weight: 600 },
                 color: "#334155",
               },
             },
@@ -77,6 +80,10 @@ export function FrictionRadar({
       if (chart.data.datasets[0]) {
         chart.data.datasets[0].label = datasetLabel;
         chart.data.datasets[0].data = counts.map((count) => count * 33.3);
+      }
+      const scale = chart.options.scales?.r;
+      if (scale && "pointLabels" in scale && scale.pointLabels) {
+        scale.pointLabels.font = { size: labelSize, weight: 600 };
       }
       chart.update();
     }

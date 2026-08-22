@@ -26,23 +26,23 @@ function WorkbookShell() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
       {toast ? (
-        <div className="fixed right-5 bottom-5 z-50 flex items-center space-x-2 rounded-lg bg-navy-900 px-4 py-3 text-xs text-white shadow-xl">
+        <div className="fixed bottom-5 left-4 right-4 z-50 flex max-w-sm items-center space-x-2 rounded-lg bg-navy-900 px-4 py-3 text-xs text-white shadow-xl sm:left-auto sm:right-5">
           <span>{toast.icon}</span>
-          <span>{toast.message}</span>
+          <span className="min-w-0 break-words">{toast.message}</span>
         </div>
       ) : null}
 
       <header className="no-print sticky top-0 z-50 border-b border-slate-700 bg-navy-900 text-white shadow-md">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <span className="rounded bg-brand-blue px-2.5 py-1 text-xs font-bold tracking-wider text-white uppercase">
+            <div className="flex min-w-0 items-center space-x-2 sm:space-x-3">
+              <span className="shrink-0 rounded bg-brand-blue px-2.5 py-1 text-xs font-bold tracking-wider text-white uppercase">
                 ALP
               </span>
               <h1 className="hidden text-lg font-semibold tracking-tight text-slate-100 md:block">
                 {t("app.title")}
               </h1>
-              <h1 className="text-base font-semibold tracking-tight text-slate-100 md:hidden">
+              <h1 className="truncate text-sm font-semibold tracking-tight text-slate-100 sm:text-base md:hidden">
                 {t("app.titleShort")}
               </h1>
               {state.authorFullName ? (
@@ -74,7 +74,7 @@ function WorkbookShell() {
 
       <StepNav tab={tab} setTab={setTab} stepStatusFor={stepStatusFor} />
 
-      <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-6 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl flex-grow px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         {tab === "briefing" ? <BriefingSection /> : null}
         {tab === "scope" ? <ScopeSection /> : null}
         {tab === "diagnostic" ? <DiagnosticSection /> : null}

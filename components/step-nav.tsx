@@ -43,11 +43,11 @@ export function StepNav({
       className="no-print sticky top-16 z-40 border-b border-slate-200 bg-white"
       aria-label={t("nav.aria")}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ol className="relative grid grid-cols-7 gap-0 py-3">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <ol className="relative grid grid-cols-7 gap-0 py-2.5 sm:py-3">
           <span
             aria-hidden="true"
-            className="absolute top-[22px] right-[calc(100%/14)] left-[calc(100%/14)] h-px bg-slate-200"
+            className="absolute top-[20px] right-[calc(100%/14)] left-[calc(100%/14)] h-px bg-slate-200 sm:top-[22px]"
           />
           {TABS.map((item, stepIndex) => {
             const active = tab === item.id;
@@ -69,10 +69,10 @@ export function StepNav({
                     status: t(statusKey(status)),
                   })}
                   title={label}
-                  className="group flex w-full max-w-[7.5rem] flex-col items-center gap-1.5"
+                  className="group flex w-full max-w-[7.5rem] flex-col items-center gap-1 py-0.5 sm:gap-1.5"
                 >
                   <span
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-semibold transition ${circleClass(active, completedThisVisit)}`}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-semibold transition sm:h-7 sm:w-7 ${circleClass(active, completedThisVisit)}`}
                   >
                     {completedThisVisit && !active ? (
                       <CheckIcon />
@@ -95,23 +95,23 @@ export function StepNav({
           })}
         </ol>
 
-        <div className="flex items-center justify-between gap-3 border-t border-slate-100 py-2 md:hidden">
+        <div className="flex items-center justify-between gap-2 border-t border-slate-100 py-1.5 md:hidden">
           <button
             type="button"
             disabled={!prev}
             onClick={() => prev && setTab(prev.id)}
-            className="rounded-md px-2 py-1 text-xs font-medium text-slate-600 disabled:opacity-30"
+            className="min-h-10 min-w-14 rounded-md px-3 py-2 text-xs font-medium text-slate-600 disabled:opacity-30"
           >
             {t("nav.prev")}
           </button>
-          <p className="min-w-0 truncate text-center text-xs font-semibold text-navy-900">
+          <p className="min-w-0 flex-1 truncate px-1 text-center text-xs font-semibold text-navy-900">
             {index + 1} / {TABS.length} · {t(`tab.${current.id}`)}
           </p>
           <button
             type="button"
             disabled={!next}
             onClick={() => next && setTab(next.id)}
-            className="rounded-md px-2 py-1 text-xs font-medium text-brand-blue disabled:opacity-30"
+            className="min-h-10 min-w-14 rounded-md px-3 py-2 text-xs font-medium text-brand-blue disabled:opacity-30"
           >
             {t("nav.next")}
           </button>
