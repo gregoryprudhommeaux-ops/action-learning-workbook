@@ -6,6 +6,11 @@ const isAdminRoute = createRouteMatcher([
   "/api/admin(.*)",
 ]);
 
+/**
+ * Clerk middleware only on facilitator routes.
+ * The public workbook (`/`) must not depend on Clerk edge/network calls
+ * so participants in mainland China can load the pack without VPN.
+ */
 export default clerkMiddleware(async (auth, req) => {
   if (!isAdminRoute(req)) return;
 
@@ -19,7 +24,11 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
+    "/admin/:path*",
+    "/api/admin/:path*",
+    "/sign-in/:path*",
+    "/sign-up/:path*",
+    "/sso-callback",
+    "/sso-callback/:path*",
   ],
 };

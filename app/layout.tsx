@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
+import localFont from "next/font/local";
 import { LocaleProvider } from "@/components/locale-provider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const notoSansSc = Noto_Sans_SC({
+/** Self-hosted — no fonts.google.com (important for mainland China). */
+const notoSansSc = localFont({
+  src: [
+    {
+      path: "../public/fonts/NotoSansSC-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/NotoSansSC-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-noto-sc",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -28,20 +30,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSc.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-800">
-        <ClerkProvider
-          signInUrl="/sign-in"
-          signUpUrl="/sign-up"
-          afterSignOutUrl="/sign-in"
-          signInFallbackRedirectUrl="/admin"
-          signUpFallbackRedirectUrl="/admin"
-        >
-          <LocaleProvider>{children}</LocaleProvider>
-        </ClerkProvider>
+    <html lang="en" className={`${notoSansSc.variable} h-full antialiased`}>
+      <body
+        className={`${notoSansSc.className} flex min-h-full flex-col bg-slate-50 text-slate-800`}
+      >
+        <LocaleProvider>{children}</LocaleProvider>
       </body>
     </html>
   );
