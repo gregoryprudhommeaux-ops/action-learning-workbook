@@ -10,7 +10,7 @@ export function BriefingSection() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl bg-gradient-to-r from-navy-900 via-navy-800 to-brand-blue p-6 text-white shadow-md">
+      <div className="rounded-xl bg-gradient-to-r from-navy-900 via-navy-800 to-brand-blue p-4 text-white shadow-md sm:p-6">
         <div className="max-w-3xl">
           <span className="text-xs font-semibold uppercase tracking-widest text-sky-300">
             {t("briefing.kicker")}
@@ -28,7 +28,7 @@ export function BriefingSection() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
             <h3 className="mb-4 flex items-center space-x-2 border-b border-slate-100 pb-3 text-lg font-bold text-slate-900">
               <span>{t("briefing.why")}</span>
             </h3>
@@ -43,7 +43,7 @@ export function BriefingSection() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
             <h3 className="mb-4 border-b border-slate-100 pb-3 text-lg font-bold text-slate-900">
               {t("briefing.roadmap")}
             </h3>
@@ -74,7 +74,7 @@ export function BriefingSection() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
             <h3 className="mb-4 border-b border-slate-100 pb-3 text-base font-bold text-slate-900">
               {t("briefing.workspace")}
             </h3>

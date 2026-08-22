@@ -10,7 +10,7 @@ export function ScopeSection() {
   const { state, update, toggleRegion, setTab, showToast } = useWorkbook();
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
           {t("scope.kicker")}

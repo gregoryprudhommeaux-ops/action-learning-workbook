@@ -28,7 +28,7 @@ export function PlaybookSection() {
 
   if (!selected) {
     return (
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <p className="text-sm text-slate-600">{t("play.empty")}</p>
         <button
           type="button"
@@ -48,7 +48,7 @@ export function PlaybookSection() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
           {t("play.kicker")}
@@ -58,7 +58,7 @@ export function PlaybookSection() {
       </div>
 
       <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-center">
-        <div className="flex w-full space-x-2 overflow-x-auto sm:w-auto">
+        <div className="flex w-full space-x-2 overflow-x-auto no-scrollbar sm:w-auto">
           {state.regions.map((region) => {
             const active = region.id === selected.id;
             return (
@@ -91,14 +91,14 @@ export function PlaybookSection() {
       <div className="mt-6">
         <div className={`space-y-4 rounded-xl border p-5 ${styles.wrap}`}>
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
-            <div className="flex items-center space-x-3">
+            <div className="flex min-w-0 flex-1 items-start space-x-3">
               <input
                 value={selected.flag}
                 onChange={(event) => edit("flag", event.target.value)}
-                className="w-16 rounded border border-white/80 bg-white p-2 text-center text-2xl"
+                className="w-16 shrink-0 rounded border border-white/80 bg-white p-2 text-center text-2xl"
                 aria-label={t("play.emoji")}
               />
-              <div className="space-y-1">
+              <div className="min-w-0 flex-1 space-y-1">
                 <input
                   value={selected.name}
                   onChange={(event) => edit("name", event.target.value)}
@@ -111,7 +111,7 @@ export function PlaybookSection() {
                 />
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <label className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 {t("play.code")}
               </label>

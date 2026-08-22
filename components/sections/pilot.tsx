@@ -8,7 +8,7 @@ export function PilotSection() {
   const { state, patch, roi, setTab } = useWorkbook();
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
           {t("pilot.kicker")}
@@ -111,7 +111,7 @@ export function PilotSection() {
         </div>
 
         <div className="space-y-6 lg:col-span-5">
-          <div className="sticky top-36 space-y-4 rounded-xl bg-slate-900 p-5 text-white shadow-sm">
+          <div className="space-y-4 rounded-xl bg-slate-900 p-4 text-white shadow-sm sm:p-5 lg:sticky lg:top-40">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-sm font-bold text-sky-400">
                 {t("pilot.gain")}

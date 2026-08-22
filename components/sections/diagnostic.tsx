@@ -10,7 +10,7 @@ export function DiagnosticSection() {
   const { state, patch, toggleDiagnostic, friction, setTab } = useWorkbook();
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6 flex flex-col gap-4 border-b border-slate-100 pb-4 md:flex-row md:items-center md:justify-between">
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-brand-blue">
@@ -81,7 +81,7 @@ export function DiagnosticSection() {
         </div>
 
         <div className="space-y-6 lg:col-span-5">
-          <div className="sticky top-36 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 lg:sticky lg:top-40">
             <h3 className="mb-1 text-center text-sm font-bold text-slate-800">
               {t("diag.radar")}
             </h3>
