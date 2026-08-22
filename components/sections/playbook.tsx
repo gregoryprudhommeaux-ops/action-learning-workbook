@@ -184,12 +184,12 @@ export function PlaybookSection() {
         </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-4">
+      <div className="mt-8 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
         <span className="text-xs text-slate-400">{t("play.stored")}</span>
         <button
           type="button"
           onClick={() => setTab("pilot")}
-          className="rounded-lg bg-brand-blue px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700"
+          className="w-full rounded-lg bg-brand-blue px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-700 sm:w-auto"
         >
           {t("play.next")}
         </button>
