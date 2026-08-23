@@ -26,9 +26,11 @@ Architecture, code quality, auth, Vercel deploy, performance. French, structured
 
 1. Minimal diff, root cause
 2. Secrets only in Vercel env / `.env.local` (never commit, never echo)
-3. Public routes: `/sign-in`, `/sign-up`, `/sso-callback` — everything else requires a session
-4. Unauthenticated users **redirect to `/sign-in`**, never 404 via `auth.protect()` rewrite
-5. Keep the workbook generic (no WuXi branding)
+3. Public routes: `/`, `/sign-in`, `/sign-up`, `/sso-callback` — workbook has **no** ClerkProvider; Clerk only wraps facilitator auth + `/admin`
+4. Unauthenticated users hitting `/admin` **redirect to `/sign-in`**, never 404 via `auth.protect()` rewrite
+5. Facilitators self-register at `/sign-up` (Google); Super Admin (`SUPER_ADMIN_EMAILS`) must approve before pack access
+6. Keep the workbook generic (no WuXi branding)
+7. Mainland China Phase 1: self-hosted fonts; no Google Fonts; Clerk off the participant path
 
 ## Out of scope
 

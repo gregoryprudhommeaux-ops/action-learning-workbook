@@ -8,8 +8,8 @@
   --color-brand-light: #3b82f6;
   --color-brand-accent: #0284c7;
   --color-brand-soft: #f0f9ff;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-noto-sc);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 html,
@@ -19,18 +19,24 @@ body {
 }
 
 body {
-  font-family: var(--font-geist-sans), var(--font-noto-sc), "PingFang SC",
-    "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-noto-sc), "PingFang SC", "Microsoft YaHei",
+    ui-sans-serif, system-ui, sans-serif;
 }
 
 .chart-container {
   position: relative;
   width: 100%;
   max-width: 550px;
-  height: 320px;
+  height: 240px;
   max-height: 360px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .chart-container {
+    height: 300px;
+  }
 }
 
 @media (min-width: 768px) {
