@@ -13,6 +13,7 @@ export const en: Record<string, string> = {
   "app.save": "Save on this device",
   "app.saveShort": "Save here",
   "app.saveTitle": "Saves in this browser only",
+  "app.savedAt": "Saved on this device · {time}",
   "app.submit": "Submit pack",
   "app.footerStatus":
     "Complete the full questionnaire to print your personalized report at the end.",
@@ -355,6 +356,8 @@ export const en: Record<string, string> = {
   "sum.status": "Status:",
   "sum.date": "Date:",
   "sum.downloadPdf": "Download PDF",
+  "sum.pdfNeedsIdentity":
+    "Add your name, email, company, and position in Step 2 to download your personalized PDF.",
   "sum.preparing": "Preparing PDF…",
   "sum.initiative": "Selected initiative",
   "sum.regions": "Active regions",

@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -64,6 +65,7 @@ type WorkbookContextValue = {
   addRegion: () => string;
   removeRegion: (id: string) => void;
   saveManual: () => void;
+  lastSavedAt: number | null;
   loadExample: () => void;
   submitPack: () => Promise<void>;
   exportPdf: () => Promise<void>;
@@ -96,7 +98,25 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
   );
   const [tab, setTabState] = useState<TabId>("briefing");
   const [toast, setToast] = useState<ToastPayload | null>(null);
+  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const toastTimer = useRef<number | null>(null);
+  const saveUiTimer = useRef<number | null>(null);
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (!hydrated.current) {
+      hydrated.current = true;
+      setLastSavedAt(Date.now());
+      return;
+    }
+    if (saveUiTimer.current) window.clearTimeout(saveUiTimer.current);
+    saveUiTimer.current = window.setTimeout(() => {
+      setLastSavedAt(Date.now());
+    }, 400);
+    return () => {
+      if (saveUiTimer.current) window.clearTimeout(saveUiTimer.current);
+    };
+  }, [state]);
 
   const showToast = useCallback((message: string, icon = "✅") => {
     setToast({ message, icon });
@@ -205,6 +225,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
 
   const saveManual = useCallback(() => {
     persistWorkbook();
+    setLastSavedAt(Date.now());
     showToast(t("toast.saved"));
   }, [showToast, t]);
 
@@ -352,6 +373,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       addRegion,
       removeRegion,
       saveManual,
+      lastSavedAt,
       loadExample,
       submitPack,
       exportPdf,
@@ -384,6 +406,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       removeRegion,
       roi,
       loadExample,
+      lastSavedAt,
       saveManual,
       setTab,
       showToast,

@@ -46,14 +46,22 @@ export function CompiledSection() {
           </p>
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-          <button
-            type="button"
-            onClick={() => void downloadPdf()}
-            disabled={exporting}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-xs font-medium text-navy-900 transition hover:bg-slate-50 disabled:opacity-60 sm:w-auto"
-          >
-            {exporting ? t("sum.preparing") : t("sum.downloadPdf")}
-          </button>
+          <div className="flex w-full flex-col gap-1 sm:w-auto">
+            <button
+              type="button"
+              onClick={() => void downloadPdf()}
+              disabled={exporting || !pdfReady}
+              title={!pdfReady ? t("sum.pdfNeedsIdentity") : undefined}
+              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-xs font-medium text-navy-900 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            >
+              {exporting ? t("sum.preparing") : t("sum.downloadPdf")}
+            </button>
+            {!pdfReady ? (
+              <p className="text-[11px] leading-snug text-slate-500 sm:max-w-xs">
+                {t("sum.pdfNeedsIdentity")}
+              </p>
+            ) : null}
+          </div>
           <button
             type="button"
             onClick={() => void submitPack()}

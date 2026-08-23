@@ -13,15 +13,25 @@ import { useLocale } from "@/components/locale-provider";
 import { useWorkbook, WorkbookProvider } from "@/components/workbook-provider";
 
 function WorkbookShell() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const {
     tab,
     setTab,
     toast,
     saveManual,
+    lastSavedAt,
     state,
     stepStatusFor,
   } = useWorkbook();
+
+  const savedAtLabel = lastSavedAt
+    ? t("app.savedAt", {
+        time: new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(lastSavedAt),
+      })
+    : null;
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-800 antialiased">
@@ -58,15 +68,25 @@ function WorkbookShell() {
             </div>
             <div className="flex items-center space-x-2 text-xs sm:space-x-3">
               <LocaleSwitcher />
-              <button
-                type="button"
-                onClick={saveManual}
-                title={t("app.saveTitle")}
-                className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
-              >
-                <span className="sm:hidden">{t("app.saveShort")}</span>
-                <span className="hidden sm:inline">{t("app.save")}</span>
-              </button>
+              <div className="flex flex-col items-end gap-0.5">
+                {savedAtLabel ? (
+                  <span
+                    className="max-w-[9rem] truncate text-[10px] leading-tight text-slate-400 sm:max-w-[11rem]"
+                    title={savedAtLabel}
+                  >
+                    {savedAtLabel}
+                  </span>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={saveManual}
+                  title={t("app.saveTitle")}
+                  className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
+                >
+                  <span className="sm:hidden">{t("app.saveShort")}</span>
+                  <span className="hidden sm:inline">{t("app.save")}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

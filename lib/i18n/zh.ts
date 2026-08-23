@@ -13,6 +13,7 @@ export const zh: Record<string, string> = {
   "app.save": "保存在本设备",
   "app.saveShort": "保存在此",
   "app.saveTitle": "仅保存在当前浏览器",
+  "app.savedAt": "已保存在本设备 · {time}",
   "app.submit": "提交资料包",
   "app.footerStatus":
     "请完成全部问卷，才能在最后打印个性化报告。",
@@ -338,6 +339,8 @@ export const zh: Record<string, string> = {
   "sum.status": "状态：",
   "sum.date": "日期：",
   "sum.downloadPdf": "下载 PDF",
+  "sum.pdfNeedsIdentity":
+    "请在第 2 步填写姓名、邮箱、公司和职位后再下载个性化 PDF。",
   "sum.preparing": "正在准备 PDF…",
   "sum.initiative": "所选倡议",
   "sum.regions": "活跃区域",
