@@ -74,20 +74,20 @@ export function ScopeSection() {
 
         <div className="space-y-6">
           <div className="rounded-lg border border-brand-blue/30 bg-brand-soft p-4">
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div>
-                <span className="block text-xs font-bold uppercase tracking-wider text-slate-800">
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
                   {t("scope.yourDetails")}
                 </span>
-                <p className="mt-1 text-xs text-slate-600">
-                  {t("scope.yourDetailsHelp")}
-                </p>
+                {!identityDone ? (
+                  <span className="shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
+                    {t("scope.requiredBadge")}
+                  </span>
+                ) : null}
               </div>
-              {!identityDone ? (
-                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
-                  {t("scope.requiredBadge")}
-                </span>
-              ) : null}
+              <p className="mt-1 text-xs text-slate-600">
+                {t("scope.yourDetailsHelp")}
+              </p>
             </div>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
