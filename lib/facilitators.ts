@@ -51,19 +51,36 @@ export async function ensureFacilitatorsTable() {
   await db`CREATE INDEX IF NOT EXISTS facilitators_status_idx ON facilitators (status)`;
 }
 
-/** First visit creates a pending row; later visits refresh email and keep status. */
+/** First visit creates a pending row; super admins are auto-approved on login. */
 export async function upsertFacilitator(opts: {
   clerkUserId: string;
   email: string;
+  initialStatus?: FacilitatorStatus;
 }): Promise<FacilitatorRecord> {
   await ensureFacilitatorsTable();
   const db = getSql();
   const email = opts.email.trim().toLowerCase();
+  const status = opts.initialStatus ?? "pending";
   const rows = await db`
     INSERT INTO facilitators (clerk_user_id, email, status)
-    VALUES (${opts.clerkUserId}, ${email}, 'pending')
+    VALUES (${opts.clerkUserId}, ${email}, ${status})
     ON CONFLICT (clerk_user_id) DO UPDATE SET
-      email = EXCLUDED.email
+      email = EXCLUDED.email,
+      status = CASE
+        WHEN facilitators.status = 'approved' THEN facilitators.status
+        WHEN ${status} = 'approved' THEN 'approved'
+        ELSE facilitators.status
+      END,
+      reviewed_at = CASE
+        WHEN facilitators.status = 'approved' THEN facilitators.reviewed_at
+        WHEN ${status} = 'approved' THEN now()
+        ELSE facilitators.reviewed_at
+      END,
+      reviewed_by_email = CASE
+        WHEN facilitators.status = 'approved' THEN facilitators.reviewed_by_email
+        WHEN ${status} = 'approved' THEN ${email}
+        ELSE facilitators.reviewed_by_email
+      END
     RETURNING *
   `;
   return mapRow(rows[0] as FacilitatorRow);

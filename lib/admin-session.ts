@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import {
   canReadPacks,
+  isSuperAdmin,
   resolveAdminRole,
   superAdminEmailsEnv,
   type AdminRole,
@@ -27,10 +28,13 @@ export async function loadAdminSession(): Promise<AdminSession | null> {
     user.fullName ||
     "Facilitator";
 
+  const isSuper = isSuperAdmin(email);
+
   const facilitator = email
     ? await upsertFacilitator({
         clerkUserId: user.id,
         email,
+        initialStatus: isSuper ? "approved" : "pending",
       })
     : null;
 

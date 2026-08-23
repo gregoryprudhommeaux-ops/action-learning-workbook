@@ -10,16 +10,25 @@ export function AdminWaiting({
   name,
   email,
   role,
+  superAdminEmailsConfigured,
 }: {
   name: string;
   email: string;
   role: Extract<AdminRole, "pending" | "rejected">;
+  superAdminEmailsConfigured: boolean;
 }) {
   const { t } = useLocale();
-  const title =
-    role === "rejected" ? t("admin.waiting.rejectedTitle") : t("admin.waiting.pendingTitle");
-  const body =
-    role === "rejected" ? t("admin.waiting.rejectedBody") : t("admin.waiting.pendingBody");
+  const needsConfig = !superAdminEmailsConfigured && role === "pending";
+  const title = needsConfig
+    ? t("admin.waiting.configTitle")
+    : role === "rejected"
+      ? t("admin.waiting.rejectedTitle")
+      : t("admin.waiting.pendingTitle");
+  const body = needsConfig
+    ? t("admin.waiting.configBody")
+    : role === "rejected"
+      ? t("admin.waiting.rejectedBody")
+      : t("admin.waiting.pendingBody");
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
@@ -54,7 +63,7 @@ export function AdminWaiting({
       <main className="mx-auto max-w-lg px-4 py-16 sm:px-6">
         <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
           <p className="text-xs font-semibold tracking-widest text-brand-blue uppercase">
-            {t("admin.waiting.badge")}
+            {needsConfig ? t("admin.waiting.configBadge") : t("admin.waiting.badge")}
           </p>
           <h2 className="mt-3 text-xl font-bold text-navy-900">{title}</h2>
           <p className="mt-3 text-sm text-slate-600">{body}</p>

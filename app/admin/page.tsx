@@ -17,6 +17,7 @@ export default async function AdminPage() {
         name={session.name}
         email={session.email}
         role={session.role === "rejected" ? "rejected" : "pending"}
+        superAdminEmailsConfigured={Boolean(superAdminEmailsEnv()?.trim())}
       />
     );
   }
@@ -28,6 +29,7 @@ export default async function AdminPage() {
         name={session.name}
         email={session.email}
         role="pending"
+        superAdminEmailsConfigured={Boolean(superAdminEmailsEnv()?.trim())}
       />
     );
   }

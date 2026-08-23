@@ -475,6 +475,10 @@ export const zh: Record<string, string> = {
   "admin.signinLink": "登录",
   "admin.role.superAdmin": "超级管理员",
   "admin.waiting.badge": "访问权限",
+  "admin.waiting.configBadge": "配置",
+  "admin.waiting.configTitle": "未配置超级管理员邮箱",
+  "admin.waiting.configBody":
+    "请在 Vercel 项目设置中添加 SUPER_ADMIN_EMAILS=你的 Google 邮箱，重新部署后刷新此页面。在此之前，任何人都无法批准引导员账户——包括您本人。",
   "admin.waiting.pendingTitle": "等待超级管理员批准",
   "admin.waiting.pendingBody":
     "你的引导员账户已创建。需超级管理员批准后才能打开资料包，然后刷新本页。",
