@@ -73,8 +73,8 @@ Required env vars (auto-provisioned by Clerk on Vercel):
 - `DATABASE_URL` (Neon)
 - `SUPER_ADMIN_EMAILS` — your Google email (Super Admin). Only this account can approve or reject facilitators. `DEVELOPER_EMAILS` still works as a legacy alias.
 - `FACILITATOR_NOTIFY_EMAILS` — comma-separated emails notified when a participant submits a pack (e.g. `ana.ramos.cn@gmail.com`).
-- `RESEND_API_KEY` — required to send those emails ([Resend](https://resend.com)). Until set, submissions still save; no email is sent.
-- `EMAIL_FROM` — optional sender (default `ALP Workbook <onboarding@resend.dev>` for Resend sandbox).
+- `BREVO_API_KEY` — Brevo transactional API key ([SMTP & API → API keys](https://app.brevo.com/settings/keys/api)). Until set, submissions still save; no email is sent.
+- `EMAIL_FROM` — optional sender as `ALP Workbook <notifications@yourdomain.com>` (must be a verified sender in Brevo). Or set `BREVO_SENDER_EMAIL` + `BREVO_SENDER_NAME`.
 - `NEXT_PUBLIC_APP_URL` — optional public app URL for links in notification emails (e.g. `https://action-learning-workbook.vercel.app`).
 
 ### Roles

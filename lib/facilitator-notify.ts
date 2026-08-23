@@ -8,6 +8,29 @@ function parseNotifyEmails(raw: string | undefined): string[] {
     .filter(Boolean);
 }
 
+function parseSender():
+  | {
+      name: string;
+      email: string;
+    }
+  | null {
+  const from = process.env.EMAIL_FROM?.trim();
+  if (from) {
+    const bracketed = from.match(/^(.+?)\s*<([^>]+)>$/);
+    if (bracketed) {
+      return { name: bracketed[1].trim(), email: bracketed[2].trim() };
+    }
+    return { name: "ALP Workbook", email: from };
+  }
+
+  const email = process.env.BREVO_SENDER_EMAIL?.trim();
+  if (!email) return null;
+  return {
+    name: process.env.BREVO_SENDER_NAME?.trim() ?? "ALP Workbook",
+    email,
+  };
+}
+
 export function facilitatorNotifyEmails(): string[] {
   return parseNotifyEmails(process.env.FACILITATOR_NOTIFY_EMAILS);
 }
@@ -17,15 +40,12 @@ export async function notifyFacilitatorsOfSubmission(
   adminUrl: string,
 ): Promise<void> {
   const to = facilitatorNotifyEmails();
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  if (to.length === 0 || !apiKey) return;
-
-  const from =
-    process.env.EMAIL_FROM?.trim() ??
-    "ALP Workbook <onboarding@resend.dev>";
+  const apiKey = process.env.BREVO_API_KEY?.trim();
+  const sender = parseSender();
+  if (to.length === 0 || !apiKey || !sender) return;
 
   const subject = `New pack submitted — ${record.authorFullName || record.authorEmail}`;
-  const text = [
+  const textContent = [
     "A participant just submitted an Action Learning pack.",
     "",
     `Name: ${record.authorFullName || "—"}`,
@@ -39,13 +59,20 @@ export async function notifyFacilitatorsOfSubmission(
     `Open the facilitator dashboard: ${adminUrl}`,
   ].join("\n");
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      "api-key": apiKey,
       "Content-Type": "application/json",
+      accept: "application/json",
     },
-    body: JSON.stringify({ from, to, subject, text }),
+    body: JSON.stringify({
+      sender,
+      to: to.map((email) => ({ email })),
+      subject,
+      textContent,
+      tags: ["alp-workbook", "pack-submitted"],
+    }),
   });
 
   if (!res.ok) {
