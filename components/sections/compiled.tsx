@@ -201,7 +201,10 @@ export function CompiledSection() {
               {t("sum.p1sla")}
             </span>
             <span className="font-bold text-red-600">
-              {t("sum.hours", { n: state.sla.p1Hours })}
+              {t("sum.slaArrow", {
+                before: t("sum.hours", { n: state.sla.p1BaselineHours }),
+                after: t("sum.hours", { n: state.sla.p1Hours }),
+              })}
             </span>
           </div>
         </div>
@@ -255,7 +258,7 @@ export function CompiledSection() {
                   <tr>
                     <th className="border-b p-2">{t("sum.priority")}</th>
                     <th className="border-b p-2">{t("sum.channel")}</th>
-                    <th className="border-b p-2">{t("sum.sla")}</th>
+                    <th className="border-b p-2">{t("sum.slaBefore")}</th>
                     <th className="border-b p-2">{t("sum.expect")}</th>
                   </tr>
                 </thead>
@@ -264,7 +267,12 @@ export function CompiledSection() {
                     <td className="p-2 font-bold text-red-700">{t("gov.p1")}</td>
                     <td className="p-2">{state.sla.p1Channel}</td>
                     <td className="p-2 font-bold">
-                      {t("sum.hours", { n: state.sla.p1Hours })}
+                      {t("sum.slaArrow", {
+                        before: t("sum.hours", {
+                          n: state.sla.p1BaselineHours,
+                        }),
+                        after: t("sum.hours", { n: state.sla.p1Hours }),
+                      })}
                     </td>
                     <td className="p-2">{t("gov.p1.expect")}</td>
                   </tr>
@@ -274,7 +282,12 @@ export function CompiledSection() {
                     </td>
                     <td className="p-2">{state.sla.p2Channel}</td>
                     <td className="p-2 font-bold">
-                      {t("sum.days", { n: state.sla.p2Days })}
+                      {t("sum.slaArrow", {
+                        before: t("sum.days", {
+                          n: state.sla.p2BaselineDays,
+                        }),
+                        after: t("sum.days", { n: state.sla.p2Days }),
+                      })}
                     </td>
                     <td className="p-2">{t("gov.p2.expect")}</td>
                   </tr>

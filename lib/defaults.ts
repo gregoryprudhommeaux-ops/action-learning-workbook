@@ -8,6 +8,12 @@ import type {
 
 export const STORAGE_KEY = "alp_workbook_state_v4";
 
+/** Facilitator cohort defaults — pre-filled; participants may edit for their team. */
+export const SLA_COHORT_BASELINE = {
+  p1BaselineHours: 24,
+  p2BaselineDays: 4,
+} as const;
+
 export const TABS: { id: TabId; label: string; short: string }[] = [
   { id: "briefing", label: "Strategic Purpose", short: "Purpose" },
   { id: "scope", label: "Initiative Scope", short: "Scope" },
@@ -291,8 +297,10 @@ export const defaultState: WorkbookState = {
   examples: { a: "", b: "", c: "", d: "" },
   sla: {
     p1Channel: "",
+    p1BaselineHours: SLA_COHORT_BASELINE.p1BaselineHours,
     p1Hours: 0,
     p2Channel: "",
+    p2BaselineDays: SLA_COHORT_BASELINE.p2BaselineDays,
     p2Days: 0,
     p3Channel: "",
   },
@@ -352,8 +360,10 @@ export const exampleState: WorkbookState = {
   },
   sla: {
     p1Channel: "Voice call + emergency email",
+    p1BaselineHours: SLA_COHORT_BASELINE.p1BaselineHours,
     p1Hours: 4,
     p2Channel: "Shared board tag or [ACTION REQUIRED] email",
+    p2BaselineDays: SLA_COHORT_BASELINE.p2BaselineDays,
     p2Days: 2,
     p3Channel: "Asynchronous video update / digest",
   },

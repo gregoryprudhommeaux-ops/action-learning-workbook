@@ -21,8 +21,10 @@ export function scopeComplete(state: WorkbookState): boolean {
 export function governanceComplete(state: WorkbookState): boolean {
   return (
     filled(state.sla.p1Channel) &&
+    filled(state.sla.p1BaselineHours) &&
     filled(state.sla.p1Hours) &&
     filled(state.sla.p2Channel) &&
+    filled(state.sla.p2BaselineDays) &&
     filled(state.sla.p2Days) &&
     filled(state.sla.p3Channel) &&
     filled(state.dri.task) &&
@@ -58,6 +60,8 @@ export function workbookHasDraft(state: WorkbookState): boolean {
     filled(state.sla.p1Channel) ||
     filled(state.sla.p2Channel) ||
     filled(state.sla.p3Channel) ||
+    filled(state.sla.p1BaselineHours) ||
+    filled(state.sla.p2BaselineDays) ||
     filled(state.dri.task) ||
     filled(state.dri.owner)
   ) {
@@ -174,10 +178,18 @@ export function missingAuditItems(state: WorkbookState): {
   if (state.activeRegionIds.length < 1) {
     items.push({ tab: "scope", id: "region", label: "At least one region" });
   }
-  if (!filled(state.sla.p1Channel) || !filled(state.sla.p1Hours)) {
+  if (
+    !filled(state.sla.p1Channel) ||
+    !filled(state.sla.p1BaselineHours) ||
+    !filled(state.sla.p1Hours)
+  ) {
     items.push({ tab: "governance", id: "p1", label: "P1 SLA" });
   }
-  if (!filled(state.sla.p2Channel) || !filled(state.sla.p2Days)) {
+  if (
+    !filled(state.sla.p2Channel) ||
+    !filled(state.sla.p2BaselineDays) ||
+    !filled(state.sla.p2Days)
+  ) {
     items.push({ tab: "governance", id: "p2", label: "P2 SLA" });
   }
   if (!filled(state.sla.p3Channel)) {

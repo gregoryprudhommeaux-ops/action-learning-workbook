@@ -16,6 +16,7 @@ export function GovernanceSection() {
         </span>
         <h2 className="text-xl font-bold text-slate-900">{t("gov.title")}</h2>
         <p className="mt-1 text-xs text-slate-500 sm:text-sm">{t("gov.lead")}</p>
+        <p className="mt-2 text-xs text-slate-500">{t("gov.baselineHelp")}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -29,7 +30,7 @@ export function GovernanceSection() {
                 {t("gov.p1.when")}
               </span>
             </div>
-            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-700">
                   {t("gov.channel")}
@@ -42,6 +43,23 @@ export function GovernanceSection() {
                   }
                   placeholder={t("gov.p1Channel.ph")}
                   className="w-full rounded border border-slate-300 p-2 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-red-500"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-700">
+                  {t("gov.baselineHours")}
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={168}
+                  value={state.sla.p1BaselineHours}
+                  onChange={(event) =>
+                    patch("sla", {
+                      p1BaselineHours: Number(event.target.value) || 1,
+                    })
+                  }
+                  className="w-full rounded border border-slate-300 p-2 text-xs font-medium text-slate-600 focus:ring-1 focus:ring-red-500"
                 />
               </div>
               <div>
@@ -76,7 +94,7 @@ export function GovernanceSection() {
                 {t("gov.p2.when")}
               </span>
             </div>
-            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-700">
                   {t("gov.channel")}
@@ -89,6 +107,23 @@ export function GovernanceSection() {
                   }
                   placeholder={t("gov.p2Channel.ph")}
                   className="w-full rounded border border-slate-300 p-2 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-700">
+                  {t("gov.baselineDays")}
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={30}
+                  value={state.sla.p2BaselineDays}
+                  onChange={(event) =>
+                    patch("sla", {
+                      p2BaselineDays: Number(event.target.value) || 1,
+                    })
+                  }
+                  className="w-full rounded border border-slate-300 p-2 text-xs font-medium text-slate-600 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
               <div>
@@ -196,7 +231,12 @@ export function GovernanceSection() {
             <p className="mb-4 text-center text-xs text-slate-500">
               {t("gov.chartHelp")}
             </p>
+            <p className="mb-4 text-center text-[11px] leading-snug text-slate-500">
+              {t("gov.chartBeforeAfter")}
+            </p>
             <SlaBarChart
+              p1BaselineHours={state.sla.p1BaselineHours}
+              p2BaselineDays={state.sla.p2BaselineDays}
               p1Hours={state.sla.p1Hours}
               p2Days={state.sla.p2Days}
             />

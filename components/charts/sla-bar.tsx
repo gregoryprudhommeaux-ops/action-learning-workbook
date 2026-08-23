@@ -15,9 +15,13 @@ import { useLocale } from "@/components/locale-provider";
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Legend, Tooltip);
 
 export function SlaBarChart({
+  p1BaselineHours,
+  p2BaselineDays,
   p1Hours,
   p2Days,
 }: {
+  p1BaselineHours: number;
+  p2BaselineDays: number;
   p1Hours: number;
   p2Days: number;
 }) {
@@ -42,7 +46,7 @@ export function SlaBarChart({
           datasets: [
             {
               label: baseline,
-              data: [24, 32],
+              data: [p1BaselineHours, p2BaselineDays * 8],
               backgroundColor: "#94a3b8",
             },
             {
@@ -75,7 +79,10 @@ export function SlaBarChart({
     } else {
       const chart = chartRef.current;
       chart.data.labels = labels;
-      if (chart.data.datasets[0]) chart.data.datasets[0].label = baseline;
+      if (chart.data.datasets[0]) {
+        chart.data.datasets[0].label = baseline;
+        chart.data.datasets[0].data = [p1BaselineHours, p2BaselineDays * 8];
+      }
       if (chart.data.datasets[1]) {
         chart.data.datasets[1].label = target;
         chart.data.datasets[1].data = [p1Hours, p2Days * 8];
@@ -86,7 +93,7 @@ export function SlaBarChart({
       }
       chart.update();
     }
-  }, [p1Hours, p2Days, locale, t]);
+  }, [p1BaselineHours, p2BaselineDays, p1Hours, p2Days, locale, t]);
 
   useEffect(() => {
     return () => {

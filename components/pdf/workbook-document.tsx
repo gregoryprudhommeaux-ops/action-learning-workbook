@@ -487,14 +487,17 @@ export function WorkbookPdfDocument({
         <View style={styles.tableHeader}>
           <Text style={[styles.th, styles.colPri]}>{t("pdf.priority")}</Text>
           <Text style={[styles.th, styles.colCh]}>{t("pdf.channel")}</Text>
-          <Text style={[styles.th, styles.colSla]}>{t("pdf.sla")}</Text>
+          <Text style={[styles.th, styles.colSla]}>{t("pdf.slaBefore")}</Text>
           <Text style={[styles.th, styles.colExp]}>{t("pdf.expect")}</Text>
         </View>
         <View style={styles.tableRow}>
           <Text style={[styles.tdBold, styles.colPri]}>{t("pdf.p1row")}</Text>
           <Text style={[styles.td, styles.colCh]}>{txt(state.sla.p1Channel)}</Text>
           <Text style={[styles.td, styles.colSla]}>
-            {t("pdf.hours", { n: state.sla.p1Hours })}
+            {t("pdf.slaArrowHours", {
+              before: t("pdf.hours", { n: state.sla.p1BaselineHours }),
+              after: t("pdf.hours", { n: state.sla.p1Hours }),
+            })}
           </Text>
           <Text style={[styles.td, styles.colExp]}>{t("pdf.p1exp")}</Text>
         </View>
@@ -502,7 +505,10 @@ export function WorkbookPdfDocument({
           <Text style={[styles.tdBold, styles.colPri]}>{t("pdf.p2row")}</Text>
           <Text style={[styles.td, styles.colCh]}>{txt(state.sla.p2Channel)}</Text>
           <Text style={[styles.td, styles.colSla]}>
-            {t("pdf.days", { n: state.sla.p2Days })}
+            {t("pdf.slaArrowDays", {
+              before: t("pdf.days", { n: state.sla.p2BaselineDays }),
+              after: t("pdf.days", { n: state.sla.p2Days }),
+            })}
           </Text>
           <Text style={[styles.td, styles.colExp]}>{t("pdf.p2exp")}</Text>
         </View>

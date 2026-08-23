@@ -71,8 +71,10 @@ export interface WorkbookState {
   };
   sla: {
     p1Channel: string;
+    p1BaselineHours: number;
     p1Hours: number;
     p2Channel: string;
+    p2BaselineDays: number;
     p2Days: number;
     p3Channel: string;
   };
