@@ -32,9 +32,13 @@ export function AdminShell({
       <header className="border-b border-slate-700 bg-navy-900 text-white">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <span className="rounded bg-brand-blue px-2.5 py-1 text-xs font-bold tracking-wider uppercase">
+            <Link
+              href="/"
+              className="rounded bg-brand-blue px-2.5 py-1 text-xs font-bold tracking-wider uppercase transition hover:bg-blue-700"
+              aria-label={t("admin.workbook")}
+            >
               ALP
-            </span>
+            </Link>
             <div>
               <h1 className="text-sm font-semibold sm:text-base">
                 {t("admin.title")}

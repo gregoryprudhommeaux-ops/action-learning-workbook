@@ -485,12 +485,21 @@ export const zh: Record<string, string> = {
   "admin.waiting.rejectedTitle": "访问被拒绝",
   "admin.waiting.rejectedBody":
     "此引导员账户未获批准。如有疑问，请联系超级管理员。",
-  "admin.accounts.title": "待批准的引导员",
+  "admin.accounts.title": "引导员账户",
+  "admin.accounts.lead":
+    "所有通过 Google 登录 /admin 的账户。已批准账户可查看已提交的资料包。",
   "admin.accounts.help": "只有你（超级管理员）可以批准或拒绝引导员访问。",
   "admin.accounts.config":
     "请在 Vercel 中设置 SUPER_ADMIN_EMAILS 为你的 Google 邮箱，以启用批准。",
-  "admin.accounts.empty": "没有待处理或已拒绝的账户。",
+  "admin.accounts.none":
+    "尚无引导员账户。首次 Google 登录后会显示在此处。",
+  "admin.accounts.pendingNotice": "{n} 个账户等待您批准。",
+  "admin.accounts.colEmail": "邮箱",
+  "admin.accounts.colStatus": "状态",
+  "admin.accounts.colSince": "首次登录",
+  "admin.accounts.colActions": "操作",
   "admin.accounts.pending": "待处理",
+  "admin.accounts.approved": "已批准",
   "admin.accounts.rejected": "已拒绝",
   "admin.accounts.approve": "批准",
   "admin.accounts.reject": "拒绝",

@@ -4,6 +4,17 @@ import { useState } from "react";
 import { useLocale } from "@/components/locale-provider";
 import type { FacilitatorRecord } from "@/lib/facilitators";
 
+function statusBadgeClass(status: FacilitatorRecord["status"]) {
+  switch (status) {
+    case "approved":
+      return "bg-emerald-50 text-emerald-700";
+    case "rejected":
+      return "bg-red-50 text-red-700";
+    default:
+      return "bg-amber-50 text-amber-800";
+  }
+}
+
 export function AccountsQueue({
   initialFacilitators,
   superAdminEmailsConfigured,
@@ -27,7 +38,7 @@ export function AccountsQueue({
     );
   }
 
-  const reviewable = rows.filter((row) => row.status !== "approved");
+  const pendingCount = rows.filter((row) => row.status === "pending").length;
 
   async function setStatus(id: string, status: "approved" | "rejected") {
     setBusyId(id);
@@ -61,53 +72,91 @@ export function AccountsQueue({
   return (
     <section className="mb-8 rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-sm font-semibold text-navy-900">
-          {t("admin.accounts.title")}
-        </h2>
+        <div>
+          <h2 className="text-sm font-semibold text-navy-900">
+            {t("admin.accounts.title")}
+          </h2>
+          <p className="mt-0.5 text-xs text-slate-500">{t("admin.accounts.lead")}</p>
+        </div>
         <p className="text-xs text-slate-500">{t("admin.accounts.help")}</p>
       </div>
       {error ? (
         <p className="mt-2 text-xs text-red-600">{error}</p>
       ) : null}
-      {reviewable.length === 0 ? (
-        <p className="mt-3 text-sm text-slate-500">{t("admin.accounts.empty")}</p>
+      {pendingCount > 0 ? (
+        <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          {t("admin.accounts.pendingNotice", { n: pendingCount })}
+        </p>
+      ) : null}
+      {rows.length === 0 ? (
+        <p className="mt-3 text-sm text-slate-500">{t("admin.accounts.none")}</p>
       ) : (
-        <ul className="mt-4 divide-y divide-slate-100">
-          {reviewable.map((row) => (
-            <li
-              key={row.id}
-              className="flex flex-wrap items-center justify-between gap-3 py-3"
-            >
-              <div>
-                <p className="text-sm font-medium text-slate-800">{row.email}</p>
-                <p className="text-xs text-slate-500">
-                  {row.status === "rejected"
-                    ? t("admin.accounts.rejected")
-                    : t("admin.accounts.pending")}{" "}
-                  · {new Date(row.createdAt).toLocaleString()}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  disabled={busyId === row.id}
-                  onClick={() => void setStatus(row.id, "approved")}
-                  className="rounded-lg bg-brand-blue px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60"
-                >
-                  {t("admin.accounts.approve")}
-                </button>
-                <button
-                  type="button"
-                  disabled={busyId === row.id || row.status === "rejected"}
-                  onClick={() => void setStatus(row.id, "rejected")}
-                  className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                >
-                  {t("admin.accounts.reject")}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-4 overflow-x-auto">
+          <table className="min-w-full text-left text-xs">
+            <thead className="border-b border-slate-100 text-slate-500">
+              <tr>
+                <th className="px-2 py-2 font-medium">{t("admin.accounts.colEmail")}</th>
+                <th className="px-2 py-2 font-medium">{t("admin.accounts.colStatus")}</th>
+                <th className="px-2 py-2 font-medium">{t("admin.accounts.colSince")}</th>
+                <th className="px-2 py-2 font-medium">{t("admin.accounts.colActions")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {rows.map((row) => {
+                const busy = busyId === row.id;
+                const statusLabel =
+                  row.status === "approved"
+                    ? t("admin.accounts.approved")
+                    : row.status === "rejected"
+                      ? t("admin.accounts.rejected")
+                      : t("admin.accounts.pending");
+                return (
+                  <tr key={row.id}>
+                    <td className="px-2 py-3 font-medium text-slate-800">
+                      {row.email}
+                    </td>
+                    <td className="px-2 py-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${statusBadgeClass(row.status)}`}
+                      >
+                        {statusLabel}
+                      </span>
+                    </td>
+                    <td className="px-2 py-3 whitespace-nowrap text-slate-500">
+                      {new Date(row.createdAt).toLocaleString()}
+                    </td>
+                    <td className="px-2 py-3">
+                      {row.status === "approved" ? (
+                        <span className="text-slate-400">—</span>
+                      ) : (
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            disabled={busy}
+                            onClick={() => void setStatus(row.id, "approved")}
+                            className="rounded-lg bg-brand-blue px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60"
+                          >
+                            {t("admin.accounts.approve")}
+                          </button>
+                          {row.status === "pending" ? (
+                            <button
+                              type="button"
+                              disabled={busy}
+                              onClick={() => void setStatus(row.id, "rejected")}
+                              className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                            >
+                              {t("admin.accounts.reject")}
+                            </button>
+                          ) : null}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );

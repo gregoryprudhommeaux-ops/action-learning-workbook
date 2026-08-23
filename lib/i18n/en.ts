@@ -503,13 +503,23 @@ export const en: Record<string, string> = {
   "admin.waiting.rejectedTitle": "Access declined",
   "admin.waiting.rejectedBody":
     "This facilitator account was not approved. Contact the Super Admin if that looks wrong.",
-  "admin.accounts.title": "Facilitators to approve",
+  "admin.accounts.title": "Facilitator accounts",
+  "admin.accounts.lead":
+    "Everyone who signed in with Google for /admin. Approved accounts can open submitted packs.",
   "admin.accounts.help":
     "Only you (Super Admin) can approve or reject facilitator access.",
   "admin.accounts.config":
     "Set SUPER_ADMIN_EMAILS in Vercel to your Google email to enable approvals.",
-  "admin.accounts.empty": "No pending or rejected accounts.",
+  "admin.accounts.none":
+    "No facilitator accounts yet. They appear here after their first Google sign-in.",
+  "admin.accounts.pendingNotice":
+    "{n} account(s) waiting for your approval.",
+  "admin.accounts.colEmail": "Email",
+  "admin.accounts.colStatus": "Status",
+  "admin.accounts.colSince": "First sign-in",
+  "admin.accounts.colActions": "Actions",
   "admin.accounts.pending": "Pending",
+  "admin.accounts.approved": "Approved",
   "admin.accounts.rejected": "Rejected",
   "admin.accounts.approve": "Approve",
   "admin.accounts.reject": "Reject",
