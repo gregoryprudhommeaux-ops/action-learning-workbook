@@ -40,7 +40,8 @@ export function GovernanceSection() {
                   onChange={(event) =>
                     patch("sla", { p1Channel: event.target.value })
                   }
-                  className="w-full rounded border border-slate-300 p-2 text-xs focus:ring-1 focus:ring-red-500"
+                  placeholder={t("gov.p1Channel.ph")}
+                  className="w-full rounded border border-slate-300 p-2 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-red-500"
                 />
               </div>
               <div>
@@ -86,7 +87,8 @@ export function GovernanceSection() {
                   onChange={(event) =>
                     patch("sla", { p2Channel: event.target.value })
                   }
-                  className="w-full rounded border border-slate-300 p-2 text-xs focus:ring-1 focus:ring-amber-500"
+                  placeholder={t("gov.p2Channel.ph")}
+                  className="w-full rounded border border-slate-300 p-2 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
               <div>
@@ -132,7 +134,8 @@ export function GovernanceSection() {
                   onChange={(event) =>
                     patch("sla", { p3Channel: event.target.value })
                   }
-                  className="w-full rounded border border-slate-300 p-2 text-xs focus:ring-1 focus:ring-blue-500"
+                  placeholder={t("gov.p3Channel.ph")}
+                  className="w-full rounded border border-slate-300 p-2 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -169,8 +172,8 @@ export function GovernanceSection() {
                 type="text"
                 value={state.dri.task}
                 onChange={(event) => patch("dri", { task: event.target.value })}
-                placeholder={t("gov.dri.task")}
-                className="rounded border border-slate-700 bg-slate-800 p-2 text-xs text-white focus:ring-1 focus:ring-sky-400"
+                placeholder={t("gov.dri.task.ph")}
+                className="rounded border border-slate-700 bg-slate-800 p-2 text-xs text-white placeholder:text-slate-500 focus:ring-1 focus:ring-sky-400"
               />
               <input
                 type="text"
@@ -178,8 +181,8 @@ export function GovernanceSection() {
                 onChange={(event) =>
                   patch("dri", { owner: event.target.value })
                 }
-                placeholder={t("gov.dri.owner")}
-                className="rounded border border-slate-700 bg-slate-800 p-2 text-xs font-semibold text-sky-300 focus:ring-1 focus:ring-sky-400"
+                placeholder={t("gov.dri.owner.ph")}
+                className="rounded border border-slate-700 bg-slate-800 p-2 text-xs font-semibold text-sky-300 placeholder:text-slate-500 focus:ring-1 focus:ring-sky-400"
               />
             </div>
           </div>

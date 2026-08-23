@@ -37,6 +37,50 @@ export function diagnosticStarted(state: WorkbookState): boolean {
   );
 }
 
+export function workbookHasDraft(state: WorkbookState): boolean {
+  if (
+    filled(state.projectName) ||
+    filled(state.impactNarrative) ||
+    filled(state.customInitiative)
+  ) {
+    return true;
+  }
+  if (
+    filled(state.authorFullName) ||
+    filled(state.authorEmail) ||
+    filled(state.authorPosition) ||
+    isNamedCompany(state.companyName)
+  ) {
+    return true;
+  }
+  if (diagnosticStarted(state)) return true;
+  if (
+    filled(state.sla.p1Channel) ||
+    filled(state.sla.p2Channel) ||
+    filled(state.sla.p3Channel) ||
+    filled(state.dri.task) ||
+    filled(state.dri.owner)
+  ) {
+    return true;
+  }
+  if (
+    filled(state.pilot.change1) ||
+    filled(state.pilot.change2) ||
+    filled(state.pilot.change3) ||
+    filled(state.pilot.kpiBase1) ||
+    filled(state.pilot.kpiTarg1)
+  ) {
+    return true;
+  }
+  return state.regions.some(
+    (region) =>
+      state.activeRegionIds.includes(region.id) &&
+      (filled(region.communication) ||
+        filled(region.meetingNorms) ||
+        filled(region.tip)),
+  );
+}
+
 export function playbookComplete(state: WorkbookState): boolean {
   const active = state.regions.filter((region) =>
     state.activeRegionIds.includes(region.id),

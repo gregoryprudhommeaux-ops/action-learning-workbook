@@ -78,18 +78,9 @@ function AdminSignIn() {
         </div>
         <button
           type="button"
-          onClick={() => void startGoogle("sign-up")}
-          disabled={!ready}
-          className="flex w-full items-center justify-center gap-3 rounded-lg bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
-        >
-          <GoogleMark />
-          {t("admin.googleCreate")}
-        </button>
-        <button
-          type="button"
           onClick={() => void startGoogle("sign-in")}
           disabled={!ready}
-          className="mt-3 flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-3 rounded-lg bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
         >
           <GoogleMark />
           {t("admin.google")}

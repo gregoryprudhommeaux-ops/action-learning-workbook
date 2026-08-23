@@ -147,7 +147,8 @@ export const en: Record<string, string> = {
     "Submissions feed a living collaboration playbook for the organization.",
   "briefing.continue": "Continue to 2 · Scope",
   "briefing.example": "Load example pack",
-
+  "briefing.exampleConfirm":
+    "Replace your current draft with the example pack? Any unsaved work on this device will be overwritten.",
   "toast.example":
     "Example pack loaded. Replace it with your own initiative.",
   "toast.saved": "Saved on this device. It does not sync to other browsers.",
@@ -248,6 +249,9 @@ export const en: Record<string, string> = {
   "gov.p3": "Priority 3: Info-only",
   "gov.p3.when": "Weekly status, general progress",
   "gov.channel": "Primary channel",
+  "gov.p1Channel.ph": "Voice call + emergency email",
+  "gov.p2Channel.ph": "Email [ACTION REQUIRED] or shared board tag",
+  "gov.p3Channel.ph": "Asynchronous video update / digest",
   "gov.slaHours": "Target SLA (hours)",
   "gov.slaDays": "Target SLA (business days)",
   "gov.sla": "Target SLA",
@@ -265,6 +269,8 @@ export const en: Record<string, string> = {
     "Every cross-regional deliverable has one named DRI. Co-ownership across sites creates accountability voids when friction hits.",
   "gov.dri.task": "Deliverable",
   "gov.dri.owner": "Named DRI",
+  "gov.dri.task.ph": "Cross-site SOP validation",
+  "gov.dri.owner.ph": "DRI: Alex Chen (US QA Lead)",
   "gov.chart": "Baseline vs. target response times",
   "gov.chartHelp": "Targeted reduction in communication friction (hours)",
   "gov.path": "3-tier cross-border escalation path",
@@ -358,6 +364,10 @@ export const en: Record<string, string> = {
   "sum.downloadPdf": "Download PDF",
   "sum.pdfNeedsIdentity":
     "Add your name, email, company, and position in Step 2 to download your personalized PDF.",
+  "sum.submitPrivacy":
+    "Your pack is sent to the session facilitator. No participant account is created. Data is stored for this Action Learning Project only.",
+  "sum.notCompleted": "Not completed yet.",
+  "sum.gotoStep": "Complete in {step} →",
   "sum.preparing": "Preparing PDF…",
   "sum.initiative": "Selected initiative",
   "sum.regions": "Active regions",

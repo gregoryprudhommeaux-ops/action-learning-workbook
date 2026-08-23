@@ -20,6 +20,7 @@ import {
   missingAuditItems,
   pdfExportReady,
   stepStatus,
+  workbookHasDraft,
   type MissingItemId,
   type StepStatus,
 } from "@/lib/completeness";
@@ -230,11 +231,18 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
   }, [showToast, t]);
 
   const loadExample = useCallback(() => {
+    if (
+      workbookHasDraft(state) &&
+      typeof window !== "undefined" &&
+      !window.confirm(t("briefing.exampleConfirm"))
+    ) {
+      return;
+    }
     setWorkbookState(
       JSON.parse(JSON.stringify(exampleState)) as WorkbookState,
     );
     showToast(t("toast.example"));
-  }, [showToast, t]);
+  }, [showToast, state, t]);
 
   const submitPack = useCallback(async () => {
     if (!identityComplete(state)) {

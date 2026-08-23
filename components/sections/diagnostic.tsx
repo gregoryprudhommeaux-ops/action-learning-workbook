@@ -30,7 +30,7 @@ export function DiagnosticSection() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        <div className="space-y-6 lg:col-span-7">
+        <div className="order-2 space-y-6 lg:order-none lg:col-span-7">
           {DIAGNOSTIC_AXES.map((axis) => (
             <div
               key={axis.key}
@@ -80,7 +80,7 @@ export function DiagnosticSection() {
           ))}
         </div>
 
-        <div className="space-y-6 lg:col-span-5">
+        <div className="order-1 space-y-6 lg:order-none lg:col-span-5">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 lg:sticky lg:top-40">
             <h3 className="mb-1 text-center text-sm font-bold text-slate-800">
               {t("diag.radar")}

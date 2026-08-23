@@ -81,10 +81,10 @@ export function StepNav({
                     )}
                   </span>
                   <span
-                    className={`hidden text-center text-[11px] leading-tight md:block ${
+                    className={`text-center text-[10px] leading-tight sm:text-[11px] ${
                       active
-                        ? "font-semibold text-brand-blue"
-                        : "font-medium text-slate-500 group-hover:text-navy-900"
+                        ? "block font-semibold text-brand-blue"
+                        : "hidden font-medium text-slate-500 md:block group-hover:text-navy-900"
                     }`}
                   >
                     {t(`tab.short.${item.id}`)}

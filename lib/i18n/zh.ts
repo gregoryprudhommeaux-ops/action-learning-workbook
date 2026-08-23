@@ -138,7 +138,8 @@ export const zh: Record<string, string> = {
   "briefing.w4.body": "提交内容汇入组织的活协作手册。",
   "briefing.continue": "继续到 2 · 范围",
   "briefing.example": "加载示例资料包",
-
+  "briefing.exampleConfirm":
+    "用示例资料包替换当前草稿？本设备上的未提交内容将被覆盖。",
   "toast.example": "已加载示例资料包。请替换为你自己的倡议。",
   "toast.saved": "已保存在本设备。不会同步到其他浏览器。",
   "toast.identity": "请填写姓名、邮箱、公司和职位后再提交资料包。",
@@ -235,6 +236,9 @@ export const zh: Record<string, string> = {
   "gov.p3": "优先级 3：仅供参考",
   "gov.p3.when": "周状态、一般进展",
   "gov.channel": "主要渠道",
+  "gov.p1Channel.ph": "语音通话 + 紧急邮件",
+  "gov.p2Channel.ph": "邮件 [ACTION REQUIRED] 或共享看板标签",
+  "gov.p3Channel.ph": "异步视频更新 / 摘要",
   "gov.slaHours": "目标 SLA（小时）",
   "gov.slaDays": "目标 SLA（工作日）",
   "gov.sla": "目标 SLA",
@@ -249,6 +253,8 @@ export const zh: Record<string, string> = {
     "每一项跨区域交付都有一名指定 DRI。站点共有所有权会在摩擦出现时造成问责真空。",
   "gov.dri.task": "交付物",
   "gov.dri.owner": "指定 DRI",
+  "gov.dri.task.ph": "跨站点 SOP 验证",
+  "gov.dri.owner.ph": "DRI：Alex Chen（美国 QA 负责人）",
   "gov.chart": "基线 vs 目标响应时间",
   "gov.chartHelp": "沟通摩擦的目标降幅（小时）",
   "gov.path": "三层跨境升级路径",
@@ -341,6 +347,10 @@ export const zh: Record<string, string> = {
   "sum.downloadPdf": "下载 PDF",
   "sum.pdfNeedsIdentity":
     "请在第 2 步填写姓名、邮箱、公司和职位后再下载个性化 PDF。",
+  "sum.submitPrivacy":
+    "您的资料包将发送给本次引导员。不会创建参与者账户。数据仅用于本行动学习项目。",
+  "sum.notCompleted": "尚未完成。",
+  "sum.gotoStep": "在{step}中完成 →",
   "sum.preparing": "正在准备 PDF…",
   "sum.initiative": "所选倡议",
   "sum.regions": "活跃区域",
