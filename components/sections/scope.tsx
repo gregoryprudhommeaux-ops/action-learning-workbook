@@ -23,84 +23,6 @@ export function ScopeSection() {
         </p>
       </div>
 
-      <div className="mb-8 rounded-lg border border-brand-blue/30 bg-brand-soft p-4">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <span className="block text-xs font-bold uppercase tracking-wider text-slate-800">
-              {t("scope.yourDetails")}
-            </span>
-            <p className="mt-1 text-xs text-slate-600">{t("scope.yourDetailsHelp")}</p>
-          </div>
-          {!identityDone ? (
-            <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
-              {t("scope.requiredBadge")}
-            </span>
-          ) : null}
-        </div>
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              {t("scope.fullName")}
-            </label>
-            <input
-              type="text"
-              autoComplete="name"
-              value={state.authorFullName}
-              onChange={(event) =>
-                update({ authorFullName: event.target.value })
-              }
-              className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder="Alex Chen"
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              {t("scope.email")}
-            </label>
-            <input
-              type="email"
-              autoComplete="email"
-              value={state.authorEmail}
-              onChange={(event) =>
-                update({ authorEmail: event.target.value })
-              }
-              className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder="alex.chen@company.com"
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              {t("scope.company")}
-            </label>
-            <input
-              type="text"
-              autoComplete="organization"
-              value={state.companyName}
-              onChange={(event) =>
-                update({ companyName: event.target.value })
-              }
-              className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder={t("scope.companyPh")}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">
-              {t("scope.position")}
-            </label>
-            <input
-              type="text"
-              autoComplete="organization-title"
-              value={state.authorPosition}
-              onChange={(event) =>
-                update({ authorPosition: event.target.value })
-              }
-              className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
-              placeholder={t("scope.positionPh")}
-            />
-          </div>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="space-y-4">
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
@@ -151,6 +73,86 @@ export function ScopeSection() {
         </div>
 
         <div className="space-y-6">
+          <div className="rounded-lg border border-brand-blue/30 bg-brand-soft p-4">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <span className="block text-xs font-bold uppercase tracking-wider text-slate-800">
+                  {t("scope.yourDetails")}
+                </span>
+                <p className="mt-1 text-xs text-slate-600">
+                  {t("scope.yourDetailsHelp")}
+                </p>
+              </div>
+              {!identityDone ? (
+                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
+                  {t("scope.requiredBadge")}
+                </span>
+              ) : null}
+            </div>
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  {t("scope.fullName")}
+                </label>
+                <input
+                  type="text"
+                  autoComplete="name"
+                  value={state.authorFullName}
+                  onChange={(event) =>
+                    update({ authorFullName: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="Alex Chen"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  {t("scope.email")}
+                </label>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={state.authorEmail}
+                  onChange={(event) =>
+                    update({ authorEmail: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder="alex.chen@company.com"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  {t("scope.company")}
+                </label>
+                <input
+                  type="text"
+                  autoComplete="organization"
+                  value={state.companyName}
+                  onChange={(event) =>
+                    update({ companyName: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder={t("scope.companyPh")}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  {t("scope.position")}
+                </label>
+                <input
+                  type="text"
+                  autoComplete="organization-title"
+                  value={state.authorPosition}
+                  onChange={(event) =>
+                    update({ authorPosition: event.target.value })
+                  }
+                  className="w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue"
+                  placeholder={t("scope.positionPh")}
+                />
+              </div>
+            </div>
+          </div>
+
           <div>
             <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
               {t("scope.project")}
