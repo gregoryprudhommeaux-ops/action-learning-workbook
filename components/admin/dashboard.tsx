@@ -38,8 +38,17 @@ export function AdminDashboard({
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const [pdfLocale, setPdfLocale] = useState<Locale>(locale);
   const menuRef = useRef<HTMLDivElement | null>(null);
+
+  function closeRowMenu() {
+    setMenuOpenId(null);
+    setMenuPosition(null);
+  }
 
   useEffect(() => {
     setPdfLocale(locale);
@@ -49,17 +58,17 @@ export function AdminDashboard({
     if (!menuOpenId) return;
     function onPointerDown(event: MouseEvent) {
       if (!menuRef.current?.contains(event.target as Node)) {
-        setMenuOpenId(null);
+        closeRowMenu();
       }
     }
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setMenuOpenId(null);
+      if (event.key === "Escape") closeRowMenu();
     }
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("mousedown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("mousedown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [menuOpenId]);
 
@@ -121,13 +130,13 @@ export function AdminDashboard({
   async function deleteSubmissionRow(row: SubmissionRecord) {
     const label = row.authorFullName || row.authorEmail || row.id;
     if (!window.confirm(t("admin.deleteConfirm", { name: label }))) {
-      setMenuOpenId(null);
+      closeRowMenu();
       return;
     }
 
     setDeletingId(row.id);
     setDeleteError(null);
-    setMenuOpenId(null);
+    closeRowMenu();
     try {
       const res = await fetch(`/api/admin/submissions/${row.id}`, {
         method: "DELETE",
@@ -137,11 +146,12 @@ export function AdminDashboard({
         setDeleteError(data.error ?? t("admin.deleteFail"));
         return;
       }
-      setRows((prev) => prev.filter((item) => item.id !== row.id));
-      setSelectedId((current) => {
-        if (current !== row.id) return current;
-        const remaining = rows.filter((item) => item.id !== row.id);
-        return remaining[0]?.id ?? null;
+      setRows((prev) => {
+        const next = prev.filter((item) => item.id !== row.id);
+        setSelectedId((current) =>
+          current === row.id ? (next[0]?.id ?? null) : current,
+        );
+        return next;
       });
     } catch {
       setDeleteError(t("admin.deleteFail"));
@@ -336,10 +346,7 @@ export function AdminDashboard({
                                 {t("admin.incomplete")}
                               </span>
                             )}
-                            <div
-                              className="relative"
-                              ref={menuOpen ? menuRef : undefined}
-                            >
+                            <div className="relative">
                               <button
                                 type="button"
                                 aria-label={t("admin.rowActions")}
@@ -349,33 +356,22 @@ export function AdminDashboard({
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setSelectedId(row.id);
-                                  setMenuOpenId(menuOpen ? null : row.id);
+                                  if (menuOpen) {
+                                    closeRowMenu();
+                                    return;
+                                  }
+                                  const rect =
+                                    event.currentTarget.getBoundingClientRect();
+                                  setMenuPosition({
+                                    top: rect.bottom + 4,
+                                    left: Math.max(8, rect.right - 168),
+                                  });
+                                  setMenuOpenId(row.id);
                                 }}
                                 className="inline-flex h-7 w-7 items-center justify-center rounded-md text-base leading-none text-slate-500 transition hover:bg-slate-200/80 hover:text-navy-900 disabled:opacity-50"
                               >
                                 {deleting ? "…" : "⋯"}
                               </button>
-                              {menuOpen ? (
-                                <div
-                                  role="menu"
-                                  className="absolute top-full right-0 z-20 mt-1 min-w-[10.5rem] rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
-                                >
-                                  <button
-                                    type="button"
-                                    role="menuitem"
-                                    disabled={deleting}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      void deleteSubmissionRow(row);
-                                    }}
-                                    className="block w-full px-3 py-2 text-left text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50"
-                                  >
-                                    {deleting
-                                      ? t("admin.deleting")
-                                      : t("admin.delete")}
-                                  </button>
-                                </div>
-                              ) : null}
                             </div>
                           </div>
                         </td>
@@ -456,6 +452,16 @@ export function AdminDashboard({
                 >
                   {exporting ? t("admin.preparing") : t("admin.export")}
                 </button>
+                <button
+                  type="button"
+                  onClick={() => void deleteSubmissionRow(selected)}
+                  disabled={deletingId === selected.id || exporting}
+                  className="w-full rounded-lg border border-red-200 bg-white px-4 py-2.5 text-xs font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-60"
+                >
+                  {deletingId === selected.id
+                    ? t("admin.deleting")
+                    : t("admin.delete")}
+                </button>
               </div>
             </div>
           ) : (
@@ -463,6 +469,31 @@ export function AdminDashboard({
           )}
         </aside>
       </section>
+
+      {menuOpenId && menuPosition ? (
+        <div
+          ref={menuRef}
+          role="menu"
+          className="fixed z-50 min-w-[10.5rem] rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+          style={{ top: menuPosition.top, left: menuPosition.left }}
+        >
+          <button
+            type="button"
+            role="menuitem"
+            disabled={deletingId === menuOpenId}
+            onClick={(event) => {
+              event.stopPropagation();
+              const row = rows.find((item) => item.id === menuOpenId);
+              if (row) void deleteSubmissionRow(row);
+            }}
+            className="block w-full px-3 py-2 text-left text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+          >
+            {deletingId === menuOpenId
+              ? t("admin.deleting")
+              : t("admin.delete")}
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
