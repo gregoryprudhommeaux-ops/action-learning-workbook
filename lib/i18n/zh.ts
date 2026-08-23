@@ -154,9 +154,10 @@ export const zh: Record<string, string> = {
   "scope.lead":
     "选择团队将优化的运营倡议。它应需要不同国家站点之间的紧密协作。",
   "scope.category": "A. 主要运营类别",
-  "scope.prepared": "填写人 — 提交必填",
-  "scope.preparedHelp":
+  "scope.yourDetails": "您的信息",
+  "scope.yourDetailsHelp":
     "提交必须填写全名、邮箱、公司和职位。引导员会把它们印在 PDF 上。",
+  "scope.requiredBadge": "提交必填",
   "scope.fullName": "全名",
   "scope.email": "邮箱",
   "scope.company": "公司",

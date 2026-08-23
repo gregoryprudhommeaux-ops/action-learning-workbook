@@ -166,9 +166,10 @@ export const en: Record<string, string> = {
   "scope.lead":
     "Pick the operational initiative your team will optimize. It should require close collaboration between sites in different countries.",
   "scope.category": "A. Primary operational category",
-  "scope.prepared": "Prepared by — required to submit",
-  "scope.preparedHelp":
+  "scope.yourDetails": "Your details",
+  "scope.yourDetailsHelp":
     "Full name, email, company, and position are required to submit. The facilitator prints them on the PDF.",
+  "scope.requiredBadge": "Required to submit",
   "scope.fullName": "Full name",
   "scope.email": "Email",
   "scope.company": "Company",
