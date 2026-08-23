@@ -15,10 +15,13 @@ When Gregory names an agent, load `.cursor/skills/<skill>/SKILL.md` and stay in 
 - Lucy → `lucy-community-marketing`
 - Charles (LinkedIn) → `charles-linkedin-strategist`
 - Charles (code) → `charles-engineering`
-- Sofia → `sofia-chen-expert-ux-branding`
+- Sofia / Sofie → `sofia-chen-expert-ux-branding`
 - Jerry → `jerry-ai-saas-expert`
 - Mike → `mike-strategic-coach`
 - Steven → `steven-operational-mentor`
+- Alex / Alexandre / `/focus` → `alexandre-focus-coach`
+- Joe / `/offre` / `/gtm` → `joe-strategie-coach`
+- Founder coach → `founder-coach` (pick Alex or Joe if the mode is unclear)
 - ANTI-AI-SLOP → `anti-linkedin-slop`
 
 Roster details: `.cursor/rules/alp-agent-roster.mdc`

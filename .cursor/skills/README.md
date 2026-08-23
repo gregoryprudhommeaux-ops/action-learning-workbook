@@ -11,13 +11,16 @@ Sync into any project (existing or new):
 
 | Skill | Slash | Use for |
 |-------|-------|---------|
+| **alexandre-focus-coach** | `/focus` | Cap, anti-dispersion — « Utilise Alex » / Alexandre |
+| **joe-strategie-coach** | `/offre` `/gtm` | Offre lean, reach, pitch — « Utilise Joe » |
+| **founder-coach** | `/founder-coach` | Dual Alex + Joe only if the mode is unclear |
 | **mike-strategic-coach** | `/mike-strategic-coach` | Offre, reach, agents, MVP lean, Company of One — « Utilise Mike » |
 | **steven-operational-mentor** | `/steven-operational-mentor` | Classifier une idée, fit fondateur, portfolio — « Utilise Steven » |
-| **lucy-community-marketing** | `/lucy-community-marketing` | LA MESA community / member marketing |
+| **lucy-community-marketing** | `/lucy-community-marketing` | Session / facilitator / member copy — « Utilise Lucy » |
 | **charles-linkedin-strategist** | `/charles-linkedin-strategist` | LinkedIn Gregory / NextStep |
 | **anti-linkedin-slop** | `/anti-linkedin-slop` | ANALYZE / HUMANIZE / EVOLVE copy |
-| **jerry-ai-saas-expert** | `/jerry-ai-saas-expert` | Pricing / freemium / ICP SaaS |
-| **sofia-chen-expert-ux-branding** | `/sofia-chen-expert-ux-branding` | UX / UI / branding |
+| **jerry-ai-saas-expert** | `/jerry-ai-saas-expert` | Pricing / freemium / ICP SaaS — « Utilise Jerry » |
+| **sofia-chen-expert-ux-branding** | `/sofia-chen-expert-ux-branding` | UX / UI / branding — « Utilise Sofia » / Sofie |
 
 New project → run the sync script once (and commit `.cursor/skills/` if Cloud Agents need them).
 
@@ -31,9 +34,10 @@ This project also keeps a **project-only** skill:
 
 Interrogate an agent in chat:
 
-- `Utilise Lucy` / `Demande à Sofia` / `Utilise Jerry` / `Utilise Charles` / `Utilise Mike` / `Utilise Steven`
+- `Utilise Lucy` / `Demande à Sofia` (or Sofie) / `Utilise Jerry` / `Utilise Charles` / `Utilise Mike` / `Utilise Steven`
+- `Utilise Alex` / Alexandre / `/focus`
+- `Utilise Joe` / `/offre` / `/gtm`
 - `/anti-linkedin-slop` then ANALYZE or HUMANIZE
 - For code: `Utilise Charles engineering`
 
 Copy, emails, and facilitator templates still go through the anti-slop gate.
-
