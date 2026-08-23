@@ -195,10 +195,10 @@ const styles = StyleSheet.create({
     fontFamily: PDF_FONT,
     fontWeight: 700,
   },
-  colPri: { width: "22%" },
-  colCh: { width: "28%" },
-  colSla: { width: "18%" },
-  colExp: { width: "32%" },
+  colPri: { width: "20%" },
+  colCh: { width: "24%" },
+  colSla: { width: "26%" },
+  colExp: { width: "30%" },
   colKpi: { width: "40%" },
   colBase: { width: "30%" },
   colTarg: { width: "30%" },
@@ -264,7 +264,8 @@ const styles = StyleSheet.create({
     borderColor: lineColor,
     backgroundColor: wash,
     borderRadius: 4,
-    padding: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
     marginBottom: 10,
   },
   radarTitle: {
@@ -370,10 +371,10 @@ export function WorkbookPdfDocument({
   );
   const counts = diagnosticCounts(state.diagnostics);
   const radarLabels: [string, string, string, string] = [
-    t("radar.clock"),
-    t("radar.voice"),
-    t("radar.message"),
-    t("radar.power"),
+    t("pdf.radar.clock"),
+    t("pdf.radar.voice"),
+    t("pdf.radar.message"),
+    t("pdf.radar.power"),
   ];
   const axisTitleKey = {
     a: "pdf.a",
@@ -453,7 +454,7 @@ export function WorkbookPdfDocument({
         <View style={styles.radarBox} wrap={false}>
           <Text style={styles.radarTitle}>{t("diag.radar")}</Text>
           <Text style={styles.radarHelp}>{t("diag.radarHelp")}</Text>
-          <PdfFrictionRadar counts={counts} labels={radarLabels} size={190} />
+          <PdfFrictionRadar counts={counts} labels={radarLabels} size={168} />
           <Text style={[styles.radarHelp, { marginTop: 4, marginBottom: 0 }]}>
             {txt(frictionText)}
           </Text>
