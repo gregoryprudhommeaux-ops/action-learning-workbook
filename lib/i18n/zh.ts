@@ -110,7 +110,7 @@ export const zh: Record<string, string> = {
     "在这个规模上，协同延迟、优先级错位，以及对“紧急”或“ownership”的不同解读，会变成绩效瓶颈。这些摩擦很少来自技术能力缺口——它们来自对沟通、层级和反馈的未加审视的假设。",
   "briefing.callout":
     "这个行动学习项目是从理论走向行动。团队不写论文。他们在真实倡议上解决活的摩擦。",
-  "briefing.roadmap": "工作交付路线图",
+  "briefing.roadmap": "下一步工作交付路线图",
   "briefing.r2.step": "第 2 步",
   "briefing.r2.title": "选择倡议",
   "briefing.r2.body": "命名正在进行的跨境项目以及涉及的站点。",
@@ -128,8 +128,8 @@ export const zh: Record<string, string> = {
   "briefing.w1.title": "1. 假设审计：",
   "briefing.w1.body":
     "展示诊断草稿；伙伴团队就跨站点可行性挑战 SLA。",
-  "briefing.w2.title": "2. 到岗指南：",
-  "briefing.w2.body": "为区域外派人员标准化各国具体建议。",
+  "briefing.w2.title": "2. 市场简报：",
+  "briefing.w2.body": "为各站点标准化各国市场背景。",
   "briefing.w3.title": "3. 4–6 周试点：",
   "briefing.w3.body":
     "命名量化 KPI（邮件量、审批速度、会议时长）。",

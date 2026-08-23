@@ -114,7 +114,7 @@ export const en: Record<string, string> = {
     "At this scale, coordination delays, misaligned priorities, and different readings of “urgency” or “ownership” become performance bottlenecks. These friction points rarely come from technical skill gaps — they come from unexamined assumptions about communication, hierarchy, and feedback.",
   "briefing.callout":
     "This Action Learning Project is the shift from theory to action. Teams do not write essays. They solve live friction on a real initiative.",
-  "briefing.roadmap": "Work deliverables roadmap",
+  "briefing.roadmap": "Next work deliverables roadmap",
   "briefing.r2.step": "Step 2",
   "briefing.r2.title": "Select initiative",
   "briefing.r2.body":
@@ -135,9 +135,9 @@ export const en: Record<string, string> = {
   "briefing.w1.title": "1. Assumption auditing:",
   "briefing.w1.body":
     "Present diagnostic drafts; partner teams challenge SLAs for cross-site feasibility.",
-  "briefing.w2.title": "2. Arrival guide:",
+  "briefing.w2.title": "2. Market briefing:",
   "briefing.w2.body":
-    "Standardize country-specific advice for regional assignees.",
+    "Standardize country-specific market context for each site.",
   "briefing.w3.title": "3. 4–6 week pilot:",
   "briefing.w3.body":
     "Name quantitative KPIs (email volume, approval speed, meeting runtime).",
