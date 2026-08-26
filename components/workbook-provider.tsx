@@ -11,7 +11,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { emptyRegion, exampleState } from "@/lib/defaults";
+import { defaultState, emptyRegion, exampleState } from "@/lib/defaults";
 import type { DiagnosticKey, Region, TabId, WorkbookState } from "@/lib/types";
 import { useLocale } from "@/components/locale-provider";
 import {
@@ -68,6 +68,7 @@ type WorkbookContextValue = {
   saveManual: () => void;
   lastSavedAt: number | null;
   loadExample: () => void;
+  resetWorkbook: () => void;
   submitPack: () => Promise<void>;
   exportPdf: () => Promise<void>;
   exportJson: () => void;
@@ -244,6 +245,21 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
     showToast(t("toast.example"));
   }, [showToast, state, t]);
 
+  const resetWorkbook = useCallback(() => {
+    if (
+      workbookHasDraft(state) &&
+      typeof window !== "undefined" &&
+      !window.confirm(t("app.resetConfirm"))
+    ) {
+      return;
+    }
+    setWorkbookState(
+      JSON.parse(JSON.stringify(defaultState)) as WorkbookState,
+    );
+    setTab("briefing");
+    showToast(t("toast.reset"));
+  }, [setTab, showToast, state, t]);
+
   const submitPack = useCallback(async () => {
     if (!identityComplete(state)) {
       showToast(t("toast.identity"), "⚠️");
@@ -383,6 +399,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       saveManual,
       lastSavedAt,
       loadExample,
+      resetWorkbook,
       submitPack,
       exportPdf,
       exportJson,
@@ -414,6 +431,7 @@ export function WorkbookProvider({ children }: { children: ReactNode }) {
       removeRegion,
       roi,
       loadExample,
+      resetWorkbook,
       lastSavedAt,
       saveManual,
       setTab,

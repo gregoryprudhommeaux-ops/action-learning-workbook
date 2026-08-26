@@ -19,6 +19,7 @@ function WorkbookShell() {
     setTab,
     toast,
     saveManual,
+    resetWorkbook,
     lastSavedAt,
     state,
     stepStatusFor,
@@ -77,6 +78,15 @@ function WorkbookShell() {
                     {savedAtLabel}
                   </span>
                 ) : null}
+                <button
+                  type="button"
+                  onClick={resetWorkbook}
+                  title={t("app.resetTitle")}
+                  className="flex items-center rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-300 transition hover:border-red-500/60 hover:bg-slate-700 hover:text-red-200"
+                >
+                  <span className="sm:hidden">{t("app.resetShort")}</span>
+                  <span className="hidden sm:inline">{t("app.reset")}</span>
+                </button>
                 <button
                   type="button"
                   onClick={saveManual}

@@ -13,6 +13,11 @@ export const en: Record<string, string> = {
   "app.save": "Save on this device",
   "app.saveShort": "Save here",
   "app.saveTitle": "Saves in this browser only",
+  "app.reset": "Start over",
+  "app.resetShort": "Reset",
+  "app.resetTitle": "Clear this workbook and start from a blank page",
+  "app.resetConfirm":
+    "Clear everything on this device and start from a blank page? This cannot be undone.",
   "app.savedAt": "Saved on this device · {time}",
   "app.submit": "Submit pack",
   "app.footerStatus":
@@ -151,6 +156,7 @@ export const en: Record<string, string> = {
     "Replace your current draft with the example pack? Any unsaved work on this device will be overwritten.",
   "toast.example":
     "Example pack loaded. Replace it with your own initiative.",
+  "toast.reset": "Workbook cleared. You can start fresh.",
   "toast.saved": "Saved on this device. It does not sync to other browsers.",
   "toast.identity":
     "Add your name, email, company, and position to submit the pack.",

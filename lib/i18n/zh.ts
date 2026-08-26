@@ -13,6 +13,10 @@ export const zh: Record<string, string> = {
   "app.save": "保存在本设备",
   "app.saveShort": "保存在此",
   "app.saveTitle": "仅保存在当前浏览器",
+  "app.reset": "重新开始",
+  "app.resetShort": "重置",
+  "app.resetTitle": "清空工作簿，从空白页重新开始",
+  "app.resetConfirm": "清空本设备上的所有内容并从空白页重新开始？此操作无法撤销。",
   "app.savedAt": "已保存在本设备 · {time}",
   "app.submit": "提交资料包",
   "app.footerStatus":
@@ -141,6 +145,7 @@ export const zh: Record<string, string> = {
   "briefing.exampleConfirm":
     "用示例资料包替换当前草稿？本设备上的未提交内容将被覆盖。",
   "toast.example": "已加载示例资料包。请替换为你自己的倡议。",
+  "toast.reset": "工作簿已清空，可以重新开始。",
   "toast.saved": "已保存在本设备。不会同步到其他浏览器。",
   "toast.identity": "请填写姓名、邮箱、公司和职位后再提交资料包。",
   "toast.submitting": "正在提交资料包…",
