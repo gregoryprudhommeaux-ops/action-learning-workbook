@@ -67,22 +67,21 @@ function WorkbookShell() {
                 </span>
               ) : null}
             </div>
-            <div className="flex items-center space-x-2 text-xs sm:space-x-3">
-              <LocaleSwitcher />
-              <div className="flex flex-col items-end gap-0.5">
-                {savedAtLabel ? (
-                  <span
-                    className="max-w-[9rem] truncate text-[10px] leading-tight text-slate-400 sm:max-w-[11rem]"
-                    title={savedAtLabel}
-                  >
-                    {savedAtLabel}
-                  </span>
-                ) : null}
+            <div className="flex flex-col items-end gap-1 text-xs">
+              {savedAtLabel ? (
+                <span
+                  className="max-w-[12rem] truncate text-[10px] leading-tight text-slate-400 sm:max-w-none"
+                  title={savedAtLabel}
+                >
+                  {savedAtLabel}
+                </span>
+              ) : null}
+              <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={resetWorkbook}
                   title={t("app.resetTitle")}
-                  className="flex items-center rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-300 transition hover:border-red-500/60 hover:bg-slate-700 hover:text-red-200"
+                  className="flex shrink-0 items-center rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-300 transition hover:border-red-500/60 hover:bg-slate-700 hover:text-red-200"
                 >
                   <span className="sm:hidden">{t("app.resetShort")}</span>
                   <span className="hidden sm:inline">{t("app.reset")}</span>
@@ -91,11 +90,12 @@ function WorkbookShell() {
                   type="button"
                   onClick={saveManual}
                   title={t("app.saveTitle")}
-                  className="flex items-center space-x-1 rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
+                  className="flex shrink-0 items-center rounded border border-slate-600 bg-slate-800 px-2.5 py-1.5 text-slate-200 transition hover:bg-slate-700"
                 >
                   <span className="sm:hidden">{t("app.saveShort")}</span>
                   <span className="hidden sm:inline">{t("app.save")}</span>
                 </button>
+                <LocaleSwitcher />
               </div>
             </div>
           </div>
