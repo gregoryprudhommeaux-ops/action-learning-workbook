@@ -26,6 +26,18 @@ export const metadata: Metadata = {
   title: "Action Learning Workbook",
   description:
     "Pre-work for a live Action Learning audit: seven steps, one PDF pack.",
+  applicationName: "ALP",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "ALP",
+    statusBarStyle: "black-translucent",
+  },
+  // Static /apple-touch-icon.png is what iOS “Add to Home Screen” prefers.
+  // app/icon.png + app/apple-icon.png are also picked up by the App Router.
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
